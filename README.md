@@ -1,5 +1,15 @@
 # Conversations
 
+## Getting Up and Running
+
+1. Install the [Yarn Package Manager](https://yarnpkg.com/lang/en/docs/install/)
+2. Configure Android
+   1. Install Android Studio
+   2. create an `ANDROID_HOME` environment variable, pointing at your Android SDK directory (`~/Library/Android/sdk` on a Mac, most likely)
+   3. Within Adroid Studio, `Open an existing Android Studio project` and select the `android` directory within this repository
+   4. Create a [virtual device](https://developer.android.com/studio/run/managing-avds.html)
+
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
