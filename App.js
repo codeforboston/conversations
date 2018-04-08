@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
-import videos from './videos.json';
+import { videos } from './config';
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
@@ -31,11 +31,13 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         {videos.map(video => (
-          <Button
+          <TouchableHighlight
             key={video.youtubeVideoId}
             onPress={() => navigation.navigate('Player', { videoId: video.youtubeVideoId })}
-            title={`View ${video.youtubeVideoId}`}
-          />
+            style={{ padding: 15 }}
+          >
+            <Image source={video.asset} resizeMode="cover" style={{ width: 100, height: 100 }} />
+          </TouchableHighlight>
         ))}
       </View>
     );
@@ -50,8 +52,8 @@ export default StackNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
 });
