@@ -1,15 +1,15 @@
 export const videos = [
   {
-    youtubeVideoId: 'GT7nJW5P_CA', // corresponds to video at https://www.youtube.com/watch?v=GT7nJW5P_CA
-    asset: require('./assets/objects/pepperSpray.png'), // corresponds to image located in this repository
+    youtubeVideoId: 'bXChsVqt4qo', // corresponds to video at https://www.youtube.com/watch?v=bXChsVqt4qo
+    asset: require('./assets/objects/chiliPowder.png'), // corresponds to image located in this repository
   },
   {
-    youtubeVideoId: 'zMPdHIzU-mI',
-    asset: require('./assets/objects/chiliPowder.png'),
+    youtubeVideoId: '2J1BGnyu7Hk',
+    asset: require('./assets/objects/flipFlop.png'),
   },
   {
-    youtubeVideoId: 'KwtMaQufHmU',
-    asset: require('./assets/objects/pepperSpray.png'),
+    youtubeVideoId: '_LroBWpJ4Ps',
+    asset: require('./assets/objects/umbrella.png'),
   },
 ];
 

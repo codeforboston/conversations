@@ -25,11 +25,11 @@ class Player extends React.Component {
   }
 }
 
-class App extends React.Component {
+class ObjectChooser extends React.Component {
   render() {
     const navigation = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <View style={styles.objectChooser}>
         {videos.map(video => (
           <TouchableHighlight
             key={video.youtubeVideoId}
@@ -45,15 +45,15 @@ class App extends React.Component {
 }
 
 export default StackNavigator({
-  Home: { screen: App },
+  Home: { screen: ObjectChooser },
   Player: { screen: Player },
 });
 
 const styles = StyleSheet.create({
-  container: {
+  objectChooser: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#82c9de',
     alignItems: 'flex-start',
   },
 });
