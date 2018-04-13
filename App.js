@@ -30,38 +30,55 @@ class Player extends React.Component {
   }
 }
 
+function renderVideoWithNavigation(navigate, shouldDisableRemnant) {
+  return (video) => {
+    const disabled = video.isRemnant && shouldDisableRemnant;
+    return (
+      <TouchableHighlight
+        key={video.youtubeVideoId}
+        onPress={() => navigate(video)}
+        style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
+        disabled={disabled}
+      >
+        <Image source={video.asset} resizeMode="contain" style={styles.objectImage} />
+      </TouchableHighlight>
+    );
+  }
+}
+
 class ObjectChooser extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { watchedVideos: [] };
+  }
   render() {
     const navigation = this.props.navigation;
+    const shouldDisableRemnant = this.state.watchedVideos.length < 2;
+    const renderVideo = renderVideoWithNavigation((video) => {
+      const watchedVideos = new Set(this.state.watchedVideos);
+      watchedVideos.add(video.youtubeVideoId);
+      this.setState({ watchedVideos: Array.from(watchedVideos) });
+      navigation.navigate('Player', { videoId: video.youtubeVideoId });
+    }, shouldDisableRemnant);
     return (
-    <View style={{flex:1, flexDirection: 'row'}}>
-        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage}/>
+      <View style={{flex:1, flexDirection: 'row'}}>
+        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage} />
 
-      <View style={styles.objectChooser}>
-        {videos.map(video => (
-          <TouchableHighlight
-            key={video.youtubeVideoId}
-            onPress={() => navigation.navigate('Player', { videoId: video.youtubeVideoId })}
-            style={styles.touchableStyle}
-          >
-            <Image source={video.asset} resizeMode="contain" style={styles.objectImage} />
-          </TouchableHighlight>
-        ))}
+        <View style={styles.objectChooser}>{videos.map(renderVideo)}</View>
+
+        <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+          <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
+          <Button image={require('./assets/AboutIcon.png')}
+            style={styles.navIcon}
+            navigation={navigation}
+            route="About"
+          />
+          <Button image={require('./assets/HelpIcon.png')}
+            style={styles.navIcon}
+            navigation={navigation}
+            route="Help" />
+        </View>
       </View>
-       <View style={{flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end',}}>
-       <View style={{backgroundColor: '#aa99ddDD', height: 80, width: 160, position: 'absolute'}}></View>
-
-       <Button image={require('./assets/AboutIcon.png')}
-               style={styles.navIcon}
-               navigation={navigation}
-               route="About"
-       />
-       <Button image={require('./assets/HelpIcon.png')}
-               style={styles.navIcon}
-               navigation={navigation}
-               route="Help"/>
-       </View>
-     </View>
     );
   }
 }
@@ -129,7 +146,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    width: Dimensions.get('window').width,  
+    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
 });

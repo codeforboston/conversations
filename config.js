@@ -18,6 +18,7 @@ export const videos = [
   {
     youtubeVideoId: 'GEmnflI3mu8',
     asset: require('./assets/RemnantsAppearPlate.png'),
+    isRemnant: true,
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
@@ -37,8 +38,5 @@ export const videos = [
   },
 
 ];
-
-
-
 
 export default { videos };
