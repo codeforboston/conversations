@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Image, Dimensions } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
 import { videos } from './config';
@@ -29,31 +29,63 @@ class ObjectChooser extends React.Component {
   render() {
     const navigation = this.props.navigation;
     return (
+    <View style={{flex:1, flexDirection: 'row'}}>
+        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage}/>
+
       <View style={styles.objectChooser}>
         {videos.map(video => (
           <TouchableHighlight
             key={video.youtubeVideoId}
             onPress={() => navigation.navigate('Player', { videoId: video.youtubeVideoId })}
-            style={{ padding: 15 }}
+            style={styles.touchableStyle}
           >
-            <Image source={video.asset} resizeMode="cover" style={{ width: 100, height: 100 }} />
+            <Image source={video.asset} resizeMode="contain" style={styles.objectImage} />
           </TouchableHighlight>
         ))}
       </View>
+       <View style={{flex: 1.5}}></View>
+     </View>
     );
   }
 }
 
 export default StackNavigator({
-  Home: { screen: ObjectChooser },
+  Home: {
+    screen: ObjectChooser,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Player: { screen: Player },
+
 });
 
 const styles = StyleSheet.create({
   objectChooser: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'row',
-    backgroundColor: '#82c9de',
-    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  touchableStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 60,
+    paddingBottom: 0,
+    paddingRight: 60,
+    paddingTop: 0,
+    margin: 10,
+  },
+  objectImage: {
+    height: 100,
+    width: 100,
+    margin: 2,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
