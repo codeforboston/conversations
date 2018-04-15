@@ -43,7 +43,11 @@ class ObjectChooser extends React.Component {
           </TouchableHighlight>
         ))}
       </View>
-       <View style={{flex: 1.5}}></View>
+       <View style={{flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end',}}>
+       <View style={{backgroundColor: '#aa99ddDD', height: 80, width: 160, position: 'absolute'}}></View>
+        <Image source={require('./assets/AboutIcon.png')} style={styles.navIcon} />
+        <Image source={require('./assets/HelpIcon.png')} style={styles.navIcon} />
+       </View>
      </View>
     );
   }
@@ -83,9 +87,14 @@ const styles = StyleSheet.create({
     width: 100,
     margin: 2,
   },
+  navIcon: {
+    height: 100,
+    width: 100,
+    margin: -12,
+  },
   backgroundImage: {
     position: 'absolute',
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width,  
     height: Dimensions.get('window').height,
   },
 });

@@ -1,39 +1,39 @@
 export const videos = [
   {
-    youtubeVideoId: 'bXChsVqt4qo', // corresponds to video at https://www.youtube.com/watch?v=bXChsVqt4qo
-    asset: require('./assets/objects/chiliPowder.png'), // corresponds to image located in this repository
+    youtubeVideoId: '_LroBWpJ4Ps',
+    asset: require('./assets/Object1PepperSpray.png'),
   },
   {
-    youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Object_1_Pepper_Spray_100_X100.png'),
+    youtubeVideoId: 'bXChsVqt4qo', // corresponds to video at https://www.youtube.com/watch?v=bXChsVqt4qo
+    asset: require('./assets/Object2ChilliPowder.png'), // corresponds to image located in this repository
   },
   {
     youtubeVideoId: '2J1BGnyu7Hk',
-    asset: require('./assets/objects/flipFlop.png'),
+    asset: require('./assets/Object3Pigeon.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Object_3_Pigeon_100_X100.png'),
+    asset: require('./assets/Object4SafetyPin.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Remnants_appear_Plate_100_X100.png'),
+    asset: require('./assets/RemnantsAppearPlate.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/objects/umbrella.png'),
+    asset: require('./assets/Object5Elbow.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Object_4_Safety_Pin_100_X100.png'),
+    asset: require('./assets/Object6Hundred.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Object_5_Elbow_100_X100.png'),
+    asset: require('./assets/Object7Umbrella.png'),
   },
   {
     youtubeVideoId: '_LroBWpJ4Ps',
-    asset: require('./assets/Object_6_hundred_100_X100.png'),
+    asset: require('./assets/Object8Slipper.png'),
   },
 
 ];
