@@ -16,7 +16,7 @@ export const videos = [
     asset: require('./assets/Object4SafetyPin.png'),
   },
   {
-    youtubeVideoId: '_LroBWpJ4Ps',
+    youtubeVideoId: 'GEmnflI3mu8',
     asset: require('./assets/RemnantsAppearPlate.png'),
   },
   {
