@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import ObjectChooser from './ObjectChooser';
+import HomeScreen from './HomeScreen';
 
 import AboutPage from "./page/About.js";
 
@@ -31,10 +32,9 @@ class Player extends React.Component {
   }
 }
 
-
 export default StackNavigator({
   Home: {
-    screen: ObjectChooser,
+    screen: HomeScreen,
     navigationOptions: {
       header: null,
     },
