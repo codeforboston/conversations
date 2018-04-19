@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Image, Dimensions } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
 import { videos } from './config';
@@ -33,34 +33,41 @@ class Player extends React.Component {
 class ObjectChooser extends React.Component {
   render() {
     const navigation = this.props.navigation;
-      return (
-          <View style={styles.pageContainer}>
-              <View style={styles.objectChooser}>
-                  {videos.map(video => (
-                      <TouchableHighlight
-                          key={video.youtubeVideoId}
-                          onPress={() => navigation.navigate('Player', { videoId: video.youtubeVideoId })}
-                          style={styles.iconButtonStyle}
-                          underlayColor="rgba(255, 255, 255, 0.5)"
-                          >
-                          <Image source={video.asset} resizeMode="contain" style={styles.iconImageStyle} />
-                      </TouchableHighlight>
-                  ))}
-              </View>
-              <View style={styles.buttonContainer}>
-                  <TextButton navigation={navigation} route="About">About</TextButton>
-              </View>
-          </View>
+    return (
+    <View style={{flex:1, flexDirection: 'row'}}>
+        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage}/>
+
+      <View style={styles.objectChooser}>
+        {videos.map(video => (
+          <TouchableHighlight
+            key={video.youtubeVideoId}
+            onPress={() => navigation.navigate('Player', { videoId: video.youtubeVideoId })}
+            style={styles.touchableStyle}
+          >
+            <Image source={video.asset} resizeMode="contain" style={styles.objectImage} />
+          </TouchableHighlight>
+        ))}
+      </View>
+       <View style={{flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end',}}>
+       <View style={{backgroundColor: '#aa99ddDD', height: 80, width: 160, position: 'absolute'}}></View>
+        <Image source={require('./assets/AboutIcon.png')} style={styles.navIcon} />
+        <Image source={require('./assets/HelpIcon.png')} style={styles.navIcon} />
+       </View>
+     </View>
     );
   }
 }
 
 export default StackNavigator({
-  Home: { screen: ObjectChooser },
+  Home: {
+    screen: ObjectChooser,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Player: { screen: Player },
   About: AboutPage.navConfig
 }, {
-
     headerMode: "none"
 });
 
@@ -86,11 +93,35 @@ const styles = StyleSheet.create({
     },
 
   objectChooser: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-    backgroundColor: '#82c9de',
-    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  touchableStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 60,
+    paddingBottom: 0,
+    paddingRight: 60,
+    paddingTop: 0,
+    margin: 10,
+  },
+  objectImage: {
+    height: 100,
+    width: 100,
+    margin: 2,
+  },
+  navIcon: {
+    height: 100,
+    width: 100,
+    margin: -12,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,  
+    height: Dimensions.get('window').height,
   },
 });
