@@ -9,6 +9,7 @@ import AboutPage from "./page/About.js";
 import {Button} from "./component/Button.js";
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+console.disableYellowBox = true;
 
 class Player extends React.Component {
   render() {
