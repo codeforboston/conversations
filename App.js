@@ -6,8 +6,7 @@ import { videos } from './config';
 
 import AboutPage from "./page/About.js";
 
-import TextButton from "./component/TextButton.js";
-
+import {Button} from "./component/Button.js";
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
@@ -50,8 +49,16 @@ class ObjectChooser extends React.Component {
       </View>
        <View style={{flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end',}}>
        <View style={{backgroundColor: '#aa99ddDD', height: 80, width: 160, position: 'absolute'}}></View>
-        <Image source={require('./assets/AboutIcon.png')} style={styles.navIcon} />
-        <Image source={require('./assets/HelpIcon.png')} style={styles.navIcon} />
+
+       <Button image={require('./assets/AboutIcon.png')}
+               style={styles.navIcon}
+               navigation={navigation}
+               route="About"
+       />
+       <Button image={require('./assets/HelpIcon.png')}
+               style={styles.navIcon}
+               navigation={navigation}
+               route="Help"/>
        </View>
      </View>
     );
