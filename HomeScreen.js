@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight, Image , Dimensions, Text} from 'react-native';
-import { homeScreenImage } from './config';
+import { StyleSheet, ImageBackground, View, TouchableHighlight, Image , Dimensions, Text} from 'react-native';
+import { homeScreenImage, ENGLISH, HINDI } from './config';
 
 
 class HomeScreen extends React.Component {
@@ -10,23 +10,91 @@ class HomeScreen extends React.Component {
     const window = Dimensions.get('window');
     this.state = {
       imgwidth: window.width,
-      imgheight: window.height
+      imgheight: window.height,
+      language: ENGLISH
     }
   }
 
+  // could be abstracted to a single function accepting lang prop
+  // but this works for only two cases
+  handlePressEnglish = () => {
+    this.setState({ language: ENGLISH })
+  }
+  handlePressHindi = () => {
+    this.setState({ language: HINDI })
+  }
+
   render () {
-    let homeScreenImage = require('./assets/objects/AppLandingPage.png');
+    let homeScreenImage = require('./assets/BackgroundForAppLanding.png');
+    let titleImage = require('./assets/Aashiyaan.png');
+    let languageImageEnglish = require('./assets/AppLandingEnglish.png');
+    let languageImageHindi = require('./assets/AppLandingHindi.png');
     const window = Dimensions.get('window');
-    console.debug(this.state.imgwidth);
-    console.debug(this.state.imgheight);
-      return (
-          <View>
-            <Image source={homeScreenImage} resizeMode="cover" style={{width:this.state.imgwidth, height:this.state.imgheight}}/>
-            <View >
-                <Text style={styles.previewText}>{"This is text"}</Text>
-          </View>
-          </View>
-      );
+    let titleWidth = 0.51 * this.state.imgwidth;
+    let titleHeight = 0.6 * titleWidth;
+
+
+  return (
+    <ImageBackground
+      source={ homeScreenImage }
+      imageStyle={{resizeMode: 'cover'}}
+      style={{width:this.state.imgwidth, height:this.state.imgheight}}
+    >
+      <View>
+        <Text>Language is {this.state.language}</Text>
+      </View>
+
+      <ImageBackground 
+        source={ titleImage }
+        resizeMode='contain'
+        style={{
+            width: titleWidth,
+            height: titleHeight,
+            position: 'absolute',
+            left: '43%',
+            bottom: '15%',
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'stretch'
+        }}
+      >
+        <TouchableHighlight
+          onPress={this.handlePressEnglish}
+          style={{
+            padding: 0.1 * titleWidth,
+            position:'relative'
+          }}
+        >
+          <Image source={languageImageEnglish}
+            style={{
+              width: 0.2 * titleWidth,
+              height: 0.2 * titleWidth,
+              position:'relative',
+              top:'40%'
+            }}
+          />
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={this.handlePressHindi}
+          style={{
+            padding: 0.1 * titleWidth,
+            position:'relative'
+          }}
+        >
+          <Image source={languageImageHindi} style={{
+            width: 0.2 * titleWidth,
+            height: 0.2 * titleWidth,
+            position:'relative',
+            top:'80%'
+          }} />
+        </TouchableHighlight>
+      
+      </ImageBackground>
+
+    </ImageBackground>
+   )
+
   }
 
 }
@@ -41,6 +109,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0
+
   }
 });

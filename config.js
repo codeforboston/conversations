@@ -39,4 +39,7 @@ export const videos = [
 
 ];
 
+export const ENGLISH = 'English';
+export const HINDI = 'Hindi';
+
 export default { videos };
