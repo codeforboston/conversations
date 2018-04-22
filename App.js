@@ -4,7 +4,12 @@ import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
 import { videos } from './config';
 
+import AboutPage from "./page/About.js";
+
+import {Button} from "./component/Button.js";
+
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+console.disableYellowBox = true;
 
 class Player extends React.Component {
   render() {
@@ -45,8 +50,16 @@ class ObjectChooser extends React.Component {
       </View>
        <View style={{flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end',}}>
        <View style={{backgroundColor: '#aa99ddDD', height: 80, width: 160, position: 'absolute'}}></View>
-        <Image source={require('./assets/AboutIcon.png')} style={styles.navIcon} />
-        <Image source={require('./assets/HelpIcon.png')} style={styles.navIcon} />
+
+       <Button image={require('./assets/AboutIcon.png')}
+               style={styles.navIcon}
+               navigation={navigation}
+               route="About"
+       />
+       <Button image={require('./assets/HelpIcon.png')}
+               style={styles.navIcon}
+               navigation={navigation}
+               route="Help"/>
        </View>
      </View>
     );
@@ -61,10 +74,32 @@ export default StackNavigator({
     },
   },
   Player: { screen: Player },
-
+  About: AboutPage.navConfig
+}, {
+    headerMode: "none"
 });
 
 const styles = StyleSheet.create({
+    iconButtonStyle: {
+        padding: 15
+    },
+
+    iconImageStyle: {
+        width: 100,
+        height: 100
+    },
+
+    pageContainer: {
+        flex: 1,
+        flexDirection: "column"
+    },
+
+    buttonContainer: {
+        height: 40,
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+
   objectChooser: {
     flex: 3,
     flexDirection: 'row',
