@@ -34,14 +34,14 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant) {
   return (video) => {
     const disabled = video.isRemnant && shouldDisableRemnant;
     return (
-      <TouchableHighlight
-        key={video.youtubeVideoId}
-        onPress={() => navigate(video)}
-        style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
-        disabled={disabled}
-      >
-        <Image source={video.asset} resizeMode="contain" style={styles.objectImage} />
-      </TouchableHighlight>
+        <Button key={video.youtubeVideoId}
+                onPress={() => navigate(video)}
+                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
+                disabled={disabled}
+                image={video.asset}
+                pressAnimation="spring"
+                resizeMode="contain"
+                imageStyle={styles.objectImage}/>
     );
   }
 }
@@ -69,11 +69,13 @@ class ObjectChooser extends React.Component {
         <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
           <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
           <Button image={require('./assets/AboutIcon.png')}
+            pressAnimation="spring"
             style={styles.navIcon}
             navigation={navigation}
             route="About"
           />
           <Button image={require('./assets/HelpIcon.png')}
+            pressAnimation="spring"
             style={styles.navIcon}
             navigation={navigation}
             route="Help" />
