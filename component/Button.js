@@ -12,7 +12,10 @@ import {
 
 function makePressHandler({navigation, route, navParams, onPress}) {
     if (navigation && route)
-        return () => navigation.navigate(route, navParams);
+        return (...args) => {
+            navigation.navigate(route, navParams);
+            if (onPress) onPress(...args);
+        }
 
     return onPress;
 }
@@ -43,6 +46,7 @@ export class Button extends Component {
         if (image) {
             return [
                 (<Animated.Image
+                    resizeMode={this.props.resizeMode}
                     source={active && activeImage ? activeImage : image}
                     style={[{transform}, styles.buttonIcon, imageStyle]}
                         key="image"/>),
@@ -81,12 +85,13 @@ export class Button extends Component {
     }
 
     render() {
-        let {activeOpacity, style, ...props} = this.props,
+        let {activeOpacity, disabled, style, onPress, ...props} = this.props,
             {active} = this.state;
 
         return (
             <TouchableOpacity
                 activeOpacity={activeOpacity}
+                disabled={disabled}
                 onPressIn={() => this.setState({ active: true })}
                 onPressOut={() => this.setState({ active: false })}
                 onPress={this.makePressHandler()}
@@ -100,7 +105,9 @@ export class Button extends Component {
 }
 
 Button.defaultProps = {
-    activeOpacity: 0.5
+    activeOpacity: 0.5,
+    disabled: false,
+    navParams: {}
 };
 
 
