@@ -44,7 +44,7 @@ class HomeScreenWrapped extends React.Component {
       <ImageBackground
           source={ homeScreenImage }
           imageStyle={{resizeMode: 'cover'}}
-          style={{width: width, height: height}}
+          style={{flex: 1, width: width, height: height}}
       >
 
           <ImageBackground
