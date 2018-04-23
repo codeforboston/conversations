@@ -39,17 +39,20 @@ export class Button extends Component {
     }
 
     renderContents = () => {
-        let {activeImage, image, imageStyle, children, textStyles, activeTextStyles, style} = this.props,
-            {active, scale} = this.state,
-            transform = [{scale: scale}];
+        let {activeImage, disabled, image, imageStyle, children,
+             textStyles, activeTextStyles, style} = this.props,
+            {scale} = this.state,
+            transform = [{scale: scale}],
+            active = !disabled && this.state.active;
 
         if (image) {
             return [
                 (<Animated.Image
                     resizeMode={this.props.resizeMode}
                     source={active && activeImage ? activeImage : image}
-                    style={[{transform}, styles.buttonIcon, imageStyle]}
-                        key="image"/>),
+                    style={[{transform}, styles.buttonIcon, disabled && styles.disabledButton,
+                            imageStyle]}
+                    key="image"/>),
                 children && (<Text key="text" style={styles.iconButtonText}>
                     {children}
                 </Text>)
@@ -57,7 +60,8 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[style, styles.button, textStyles, active && activeTextStyles]}>
+            <Text style={[style, styles.button, textStyles, active && activeTextStyles,
+                          disabled && styles.disabledButton]}>
                 {children}
             </Text>
         );
@@ -114,6 +118,7 @@ Button.defaultProps = {
 const styles = StyleSheet.create({
     textButton: {
         alignItems: "center",
+        borderRadius: 5,
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
@@ -134,6 +139,10 @@ const styles = StyleSheet.create({
 
     buttonIcon: {
         resizeMode: "cover"
+    },
+
+    disabledButton: {
+        opacity: 0.5
     },
 
     iconButtonText: {
