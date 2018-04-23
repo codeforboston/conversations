@@ -1,4 +1,5 @@
 import React from 'react';
+import { StackNavigator } from 'react-navigation';
 import { StyleSheet, ImageBackground, View, TouchableHighlight, Image , Dimensions, Text} from 'react-native';
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 
@@ -25,6 +26,7 @@ class HomeScreen extends React.Component {
   }
 
   render () {
+    const navigation = this.props.navigation;
     let homeScreenImage = require('./assets/BackgroundForAppLanding.png');
     let titleImage = require('./assets/Aashiyaan.png');
     let languageImageEnglish = require('./assets/AppLandingEnglish.png');
@@ -40,9 +42,6 @@ class HomeScreen extends React.Component {
       imageStyle={{resizeMode: 'cover'}}
       style={{width:this.state.imgwidth, height:this.state.imgheight}}
     >
-      <View>
-        <Text>Language is {this.state.language}</Text>
-      </View>
 
       <ImageBackground 
         source={ titleImage }
@@ -60,7 +59,7 @@ class HomeScreen extends React.Component {
         }}
       >
         <TouchableHighlight
-          onPress={this.handlePressEnglish}
+          onPress={() => navigation.navigate('Player', { language: ENGLISH })}
           style={{
             padding: 0.1 * titleWidth,
             position:'relative'
@@ -76,7 +75,7 @@ class HomeScreen extends React.Component {
           />
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={this.handlePressHindi}
+          onPress={() => navigation.navigate('Player', { language: HINDI })}
           style={{
             padding: 0.1 * titleWidth,
             position:'relative'
