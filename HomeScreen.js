@@ -1,17 +1,15 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { StyleSheet, ImageBackground, View, TouchableHighlight, Image , Dimensions, Text} from 'react-native';
+import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} from 'react-native';
 import { homeScreenImage, ENGLISH, HINDI } from './config';
+import { withDimensions } from "./component/responsive.js";
 
 
-class HomeScreen extends React.Component {
+class HomeScreenWrapped extends React.Component {
 
   constructor(props) {
     super(props);
-    const window = Dimensions.get('window');
     this.state = {
-      imgwidth: window.width,
-      imgheight: window.height,
       language: ENGLISH
     }
   }
@@ -38,15 +36,15 @@ class HomeScreen extends React.Component {
           pressing === HINDI ?
           require('./assets/AppLandingHindiSelected.png') :
           require('./assets/AppLandingHindi.png');
-    const window = Dimensions.get('window');
-    let titleWidth = 0.51 * this.state.imgwidth;
+    let {width, height} = this.props.windowDimensions;
+    let titleWidth = 0.51 * width;
     let titleHeight = 0.6 * titleWidth;
 
   return (
       <ImageBackground
           source={ homeScreenImage }
           imageStyle={{resizeMode: 'cover'}}
-          style={{width:this.state.imgwidth, height:this.state.imgheight}}
+          style={{width: width, height: height}}
       >
 
           <ImageBackground
@@ -109,6 +107,8 @@ class HomeScreen extends React.Component {
   }
 
 }
+
+const HomeScreen = withDimensions(HomeScreenWrapped);
 
 
 export default HomeScreen;
