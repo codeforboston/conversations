@@ -29,70 +29,82 @@ class HomeScreen extends React.Component {
     const navigation = this.props.navigation;
     let homeScreenImage = require('./assets/BackgroundForAppLanding.png');
     let titleImage = require('./assets/Aashiyaan.png');
-    let languageImageEnglish = require('./assets/AppLandingEnglish.png');
-    let languageImageHindi = require('./assets/AppLandingHindi.png');
+    let {pressing} = this.state;
+      let languageImageEnglish =
+          pressing === ENGLISH ?
+          require('./assets/AppLandingEnglishSelected.png') :
+          require('./assets/AppLandingEnglish.png');
+      let languageImageHindi =
+          pressing === HINDI ?
+          require('./assets/AppLandingHindiSelected.png') :
+          require('./assets/AppLandingHindi.png');
     const window = Dimensions.get('window');
     let titleWidth = 0.51 * this.state.imgwidth;
     let titleHeight = 0.6 * titleWidth;
 
-
   return (
-    <ImageBackground
-      source={ homeScreenImage }
-      imageStyle={{resizeMode: 'cover'}}
-      style={{width:this.state.imgwidth, height:this.state.imgheight}}
-    >
-
-      <ImageBackground 
-        source={ titleImage }
-        resizeMode='contain'
-        style={{
-            width: titleWidth,
-            height: titleHeight,
-            position: 'absolute',
-            left: '43%',
-            bottom: '15%',
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'stretch'
-        }}
+      <ImageBackground
+          source={ homeScreenImage }
+          imageStyle={{resizeMode: 'cover'}}
+          style={{width:this.state.imgwidth, height:this.state.imgheight}}
       >
-        <TouchableHighlight
-          onPress={() => navigation.navigate('Chooser', { language: ENGLISH })}
-          style={{
-            padding: 0.1 * titleWidth,
-            position:'relative'
-          }}
-        >
-          <Image source={languageImageEnglish}
-            style={{
-              width: 0.2 * titleWidth,
-              height: 0.2 * titleWidth,
-              position:'relative',
-              top:'40%'
-            }}
-          />
-        </TouchableHighlight>
-        <TouchableHighlight
-          onPress={() => navigation.navigate('Chooser', { language: HINDI })}
-          style={{
-            padding: 0.1 * titleWidth,
-            position:'relative'
-          }}
-        >
-          <Image source={languageImageHindi} style={{
-            width: 0.2 * titleWidth,
-            height: 0.2 * titleWidth,
-            position:'relative',
-            top:'80%'
-          }} />
-        </TouchableHighlight>
-      
-      </ImageBackground>
 
-    </ImageBackground>
-   )
+          <ImageBackground
+              source={ titleImage }
+              resizeMode='contain'
+              style={{
+                  width: titleWidth,
+                  height: titleHeight,
+                  position: 'absolute',
+                  left: '43%',
+                  bottom: '15%',
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  alignItems: 'stretch'
+              }}
+          >
+              <TouchableHighlight
+                  onPress={() => navigation.navigate('Chooser', { language: ENGLISH })}
+                  onPressIn={() => { this.setState({ pressing: ENGLISH }); }}
+                  onPressOut={() => { this.setState({ pressing: null }); }}
+                  underlayColor="transparent"
+                  style={{
+                      padding: 0.1 * titleWidth,
+                      position:'relative'
+                  }}
+              >
+                  <Image source={languageImageEnglish}
+                         style={{
+                             width: 0.2 * titleWidth,
+                             height: 0.2 * titleWidth,
+                             position:'relative',
+                             top:'40%'
+                         }}
+                  />
+              </TouchableHighlight>
+              <TouchableHighlight
+                  onPress={() => navigation.navigate('Chooser', { language: HINDI })}
+                  onPressIn={() => { this.setState({ pressing: HINDI }); }}
+                  onPressOut={() => { this.setState({ pressing: null }); }}
+                  underlayColor="transparent"
+                  style={{
+                      padding: 0.1 * titleWidth,
+                      position:'relative'
+                  }}
+              >
+                  <Image source={languageImageHindi} style={{
+                      width: 0.2 * titleWidth,
+                      height: 0.2 * titleWidth,
+                      position:'relative',
+                      top:'80%'
+                  }} />
+              </TouchableHighlight>
+              
+          </ImageBackground>
+
+      </ImageBackground>
+  )
 
   }
 
