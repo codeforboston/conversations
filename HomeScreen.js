@@ -59,7 +59,7 @@ class HomeScreen extends React.Component {
         }}
       >
         <TouchableHighlight
-          onPress={() => navigation.navigate('Player', { language: ENGLISH })}
+          onPress={() => navigation.navigate('Chooser', { language: ENGLISH })}
           style={{
             padding: 0.1 * titleWidth,
             position:'relative'
@@ -75,7 +75,7 @@ class HomeScreen extends React.Component {
           />
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => navigation.navigate('Player', { language: HINDI })}
+          onPress={() => navigation.navigate('Chooser', { language: HINDI })}
           style={{
             padding: 0.1 * titleWidth,
             position:'relative'

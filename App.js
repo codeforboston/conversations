@@ -8,7 +8,6 @@ import HomeScreen from './HomeScreen';
 
 import AboutPage from "./page/About.js";
 
-import {Button} from "./component/Button.js";
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 console.disableYellowBox = true;
@@ -39,30 +38,11 @@ export default StackNavigator({
       header: null,
     },
   },
+    Chooser: {
+        screen: ObjectChooser,
+    },
   Player: { screen: Player },
   About: AboutPage.navConfig
 }, {
     headerMode: "none"
-});
-
-const styles = StyleSheet.create({
-    iconButtonStyle: {
-        padding: 15
-    },
-
-    iconImageStyle: {
-        width: 100,
-        height: 100
-    },
-
-    pageContainer: {
-        flex: 1,
-        flexDirection: "column"
-    },
-
-    buttonContainer: {
-        height: 40,
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
 });

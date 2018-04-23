@@ -3,6 +3,9 @@ import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-n
 import { StackNavigator } from 'react-navigation';
 import { videos } from './config';
 
+import { Button } from "./component/Button.js";
+
+
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
   return (video) => {
     const disabled = video.isRemnant && shouldDisableRemnant;
