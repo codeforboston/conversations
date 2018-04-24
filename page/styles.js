@@ -32,11 +32,22 @@ export const Em = ({children}) => (
 );
 
 export const Bull = ({children}) => (
-    <Text style={[styles.bodyText, styles.liText]}>
-        {'‣'} {children}
+    <Text style={[styles.bodyText, styles.liText, styles.center]}>
+        {children}
     </Text>
 );
 
+export const BullHeader = ({children}) => (
+    <Text style={[styles.bullHeader, styles.bodyText, styles.liText, styles.bold, styles.center]}>
+        {children}
+    </Text>
+);
+
+export const BullHeaderMain = ({children}) => (
+    <Text style={[styles.bullHeaderMain , styles.liText, styles.bold, styles.center]}>
+        {children}
+    </Text>
+);
 
 const styles = StyleSheet.create({
     header: {
@@ -70,6 +81,24 @@ const styles = StyleSheet.create({
     link: {
         color: "#4682b4",
         textDecorationLine: "underline"
+    },
+
+    center: {
+        textAlign: 'center'
+    }, 
+
+    bullHeader: {
+        fontSize: 15,
+        lineHeight: 20,
+        padding: 15,
+        textAlign: "justify"
+    },
+
+    bullHeaderMain: {
+        fontSize: 16,
+        lineHeight: 20,
+        paddingTop: 19,
+        textAlign: "justify"
     }
 });
 
