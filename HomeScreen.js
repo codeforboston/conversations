@@ -4,9 +4,7 @@ import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} fro
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";
 
-
 class HomeScreenWrapped extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -102,10 +100,8 @@ class HomeScreenWrapped extends React.Component {
           </ImageBackground>
 
       </ImageBackground>
-  )
-
+    )
   }
-
 }
 
 const HomeScreen = withDimensions(HomeScreenWrapped);

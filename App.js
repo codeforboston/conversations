@@ -9,7 +9,9 @@ import HomeScreen from './HomeScreen';
 import AboutPage from "./page/About.js";
 
 
-const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+// const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU";
+
 console.disableYellowBox = true;
 
 class Player extends React.Component {

@@ -9,6 +9,10 @@ import { Button } from "./component/Button.js";
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
   return (video) => {
     const disabled = video.isRemnant && shouldDisableRemnant;
+
+    //Videos that have 'activate' turned to 'false' are not played. 
+    //This is special code just for the 4/24 demo and will be removed.  
+    if (video.activate) {
     return (
         <Button key={video.youtubeVideoId}
                 onPress={() => navigate(video)}
@@ -18,7 +22,19 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
                 pressAnimation="spring"
                 resizeMode="contain"
                 imageStyle={styles.objectImage}/>
-    );
+              );
+       } else {
+        return (
+          <Button key={video.youtubeVideoId}
+                  onPress={() => console.log("TEST")}
+                  style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
+                  disabled={disabled}
+                  image={video.asset}
+                  pressAnimation="spring"
+                  resizeMode="contain"
+                  imageStyle={styles.objectImage}/>
+                );
+       }
   }
 }
 
