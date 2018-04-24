@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {
+    Animated,
+    Easing,
     Image,
     StyleSheet,
     Text,
@@ -10,7 +12,10 @@ import {
 
 function makePressHandler({navigation, route, navParams, onPress}) {
     if (navigation && route)
-        return () => navigation.navigate(route, navParams);
+        return (...args) => {
+            navigation.navigate(route, navParams);
+            if (onPress) onPress(...args);
+        }
 
     return onPress;
 }
@@ -27,18 +32,27 @@ export const TextButton = ({navigation, route, navParams, onPress, children, sty
 export class Button extends Component {
     constructor(props) {
         super(props);
-        this.state = { active: false };
+        this.state = {
+            active: false,
+            scale: new Animated.Value(1)
+        };
     }
 
     renderContents = () => {
-        let {activeImage, image, imageStyle, children, textStyles, activeTextStyles, style} = this.props,
-            {active} = this.state;
+        let {activeImage, disabled, image, imageStyle, children,
+             textStyles, activeTextStyles, style} = this.props,
+            {scale} = this.state,
+            transform = [{scale: scale}],
+            active = !disabled && this.state.active;
 
         if (image) {
             return [
-                (<Image source={active && activeImage ? activeImage : image}
-                        style={[styles.buttonIcon, imageStyle]}
-                        key="image"/>),
+                (<Animated.Image
+                    resizeMode={this.props.resizeMode}
+                    source={active && activeImage ? activeImage : image}
+                    style={[{transform}, styles.buttonIcon, disabled && styles.disabledButton,
+                            imageStyle]}
+                    key="image"/>),
                 children && (<Text key="text" style={styles.iconButtonText}>
                     {children}
                 </Text>)
@@ -46,22 +60,45 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[style, styles.button, textStyles, active && activeTextStyles]}>
+            <Text style={[style, styles.button, textStyles, active && activeTextStyles,
+                          disabled && styles.disabledButton]}>
                 {children}
             </Text>
         );
     }
 
+    makePressHandler() {
+        let {pressAnimation} = this.props,
+            handler = makePressHandler(this.props);
+
+        if (pressAnimation === "spring") {
+            // Run the animation before running the handler
+            return ((...args) => {
+                let {scale} = this.state;
+
+                Animated.sequence([
+                    Animated.timing(scale, {toValue: 0.7, duration: 100, easing: Easing.linear()}),
+                    Animated.timing(scale, {toValue: 1.2, duration: 200, easing: Easing.linear()}),
+                    Animated.timing(scale, {toValue: 1, duration: 100, easing: Easing.linear()})
+                ]).start(() => handler(...args));
+            })
+        } else {
+            // Run right away:
+            return handler;
+        }
+    }
+
     render() {
-        let {activeOpacity, style, ...props} = this.props,
+        let {activeOpacity, disabled, style, onPress, ...props} = this.props,
             {active} = this.state;
 
         return (
             <TouchableOpacity
                 activeOpacity={activeOpacity}
+                disabled={disabled}
                 onPressIn={() => this.setState({ active: true })}
                 onPressOut={() => this.setState({ active: false })}
-                onPress={makePressHandler(props)}
+                onPress={this.makePressHandler()}
                 style={style}
                 {...props}
             >
@@ -72,13 +109,16 @@ export class Button extends Component {
 }
 
 Button.defaultProps = {
-    activeOpacity: 0.5
+    activeOpacity: 0.5,
+    disabled: false,
+    navParams: {}
 };
 
 
 const styles = StyleSheet.create({
     textButton: {
         alignItems: "center",
+        borderRadius: 5,
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
@@ -99,6 +139,10 @@ const styles = StyleSheet.create({
 
     buttonIcon: {
         resizeMode: "cover"
+    },
+
+    disabledButton: {
+        opacity: 0.5
     },
 
     iconButtonText: {
