@@ -23,7 +23,7 @@ class HomeScreenWrapped extends React.Component {
 
   render () {
     const navigation = this.props.navigation;
-    let homeScreenImage = require('./assets/BackgroundForAppLanding.png');
+    let homeScreenImage = require('./assets/SmallerBackgroundforAppLanding.png');
     let titleImage = require('./assets/Aashiyaan.png');
     let {pressing} = this.state;
       let languageImageEnglish =
@@ -44,7 +44,6 @@ class HomeScreenWrapped extends React.Component {
           imageStyle={{resizeMode: 'cover'}}
           style={{flex: 1, width: width, height: height}}
       >
-
           <ImageBackground
               source={ titleImage }
               resizeMode='contain'

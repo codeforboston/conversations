@@ -11,12 +11,13 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
     const disabled = video.isRemnant && shouldDisableRemnant;
 
     //Videos that have 'activate' turned to 'false' are not played. 
-    //This is special code just for the 4/24 demo and will be removed.  
+    //This is special code just for the 4/24 demo and the 
+    // 5/3 user demo and will be removed.  
     if (video.activate) {
     return (
         <Button key={video.youtubeVideoId}
                 onPress={() => navigate(video)}
-                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
+                style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
                 disabled={disabled}
                 image={video.asset}
                 pressAnimation="spring"
@@ -26,7 +27,7 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
        } else {
         return (
           <Button key={video.youtubeVideoId}
-                  onPress={() => console.log("TEST")}
+                  onPress={() => console.log("")}
                   style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
                   disabled={disabled}
                   image={video.asset}
@@ -73,7 +74,7 @@ class ObjectChooser extends React.Component {
           {videos.map(renderVideo)}
         </View>
 
-        <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+        <View style={{ flex: 1.1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
           <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
           <Button image={require('./assets/AboutIcon.png')}
                   pressAnimation="spring"
