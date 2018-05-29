@@ -7,6 +7,7 @@ import ObjectChooser from './ObjectChooser';
 import HomeScreen from './HomeScreen';
 
 import AboutPage from "./page/About.js";
+import UploadPage from "./page/Credentials.js";
 
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
@@ -42,7 +43,8 @@ export default StackNavigator({
         screen: ObjectChooser,
     },
   Player: { screen: Player },
-  About: AboutPage.navConfig
+    About: AboutPage.navConfig,
+    Upload: UploadPage.navConfig
 }, {
     headerMode: "none"
 });
