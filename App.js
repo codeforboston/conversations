@@ -7,7 +7,7 @@ import ObjectChooser from './ObjectChooser';
 import HomeScreen from './HomeScreen';
 
 import AboutPage from "./page/About.js";
-import UploadPage from "./page/Credentials.js";
+import UploadPage from "./page/Upload.js";
 
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;

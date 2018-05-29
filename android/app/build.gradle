@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-youtube')
+    compile project(':react-native-image-picker')
+    compile(project(':react-native-firebase')) {
+        transitive = false
+    }
     implementation project(':react-native-firebase')
     implementation project(':react-native-youtube')
     implementation fileTree(dir: "libs", include: ["*.jar"])
