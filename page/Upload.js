@@ -34,12 +34,23 @@ export default class UploadPage extends Component {
 
     selectVideo = () => {
         ImagePicker.showImagePicker({
-            title: "Select a Video to Upload",
+            title: "Video Picker",
+            takePhotoButtonTitle: 'Take Video...',
             mediaType: "video",
             durationLimit: 5*60,
         }, (response) => {
-            if (response.path)
+            if (response.didCancel) {
+                console.log('User cancelled video picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else if (response.path) {
                 this.setState({video: response});
+            }
         });
     }
 
@@ -55,8 +66,15 @@ export default class UploadPage extends Component {
 
                         let refpath = `${creds.user.uid}/${this.videoName()}`;
                         let ref = firebase.storage().ref(refpath);
+                        
+                        var metadata = {
+                            contentType: 'video/mp4',
+                            customMetadata: {
+                              'userAuthId': this.state.user.uid
+                            }
+                          };
 
-                        let unsubscribe = ref.putFile(video.path).on(
+                        let unsubscribe = ref.putFile(video.path, metadata).on(
                             firebase.storage.TaskEvent.STATE_CHANGED,
                             (event) => {
                                 let {state, bytesTransferred, totalBytes} = event;
