@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     TouchableHighlight,
-    View
+    View,
+    CheckBox
 } from "react-native";
 
 import ImagePicker from "react-native-image-picker";
@@ -28,7 +29,8 @@ export default class UploadPage extends Component {
         this.state = {
             user: null,
             video: null,
-            state: CHOOSER
+            state: CHOOSER,
+            checked: false,
         };
     }
 
@@ -56,6 +58,11 @@ export default class UploadPage extends Component {
 
     upload = () => {
         let {video} = this.state;
+
+        if(this.state.checked) {
+            // TODO - instanceID - get and save as meta-data
+
+        }
 
         if (video) {
             firebase.auth().signInAnonymouslyAndRetrieveData()
@@ -128,15 +135,28 @@ export default class UploadPage extends Component {
 
     renderChooser() {
         return (
-            <View>
-                <Button onPress={this.selectVideo}>
-                    Select a Video
-                </Button>
+            <View style={{ flexDirection: 'column' }}>
+                {/* <View style={{ flexDirection: 'row' }}> */}
+                    <Button onPress={this.selectVideo}>
+                        Select a Video
+                    </Button>
+                {/* </View> */}
 
-                <Button onPress={this.upload}
-                        disabled={!this.state.video}>
-                    Upload {this.videoName()}
-                </Button>
+                {/* <View style={{ flexDirection: 'row' }}> */}
+                    <Button onPress={this.upload}
+                            disabled={!this.state.video}>
+                        Upload {this.videoName()}
+                    </Button>
+                {/* </View> */}
+                
+                <View style={{ flexDirection: 'row' }}>
+                    <CheckBox 
+                        checked={this.state.checked}
+                        onPress={() => this.setState({checked: !this.state.checked})}
+                        disabled={!this.state.video}
+                    />
+                    <Text style={{marginTop: 5}}> Notify me if my video is uploaded to YouTube</Text>
+                </View>
             </View>
         );
     }
@@ -162,7 +182,7 @@ export default class UploadPage extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <H2>Upload Video</H2>
                 {this.renderContent()}
             </View>
@@ -172,7 +192,10 @@ export default class UploadPage extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#0048ed',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 

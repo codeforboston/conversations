@@ -28,11 +28,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeYouTube(),
-            new ImagePickerPackage(),
+          new ReactNativeYouTube(),
+          new ImagePickerPackage(),
           new RNFirebasePackage(),
           new RNFirebaseAuthPackage(),
-          new RNFirebaseStoragePackage()
+          new RNFirebaseStoragePackage(),
+          new RNFirebaseInstanceIdPackage() 
       );
     }
 
