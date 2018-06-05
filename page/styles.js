@@ -13,8 +13,8 @@ export const P = ({children}) => (
     </Text>
 );
 
-export const A = ({children, href}) => (
-    <Text style={styles.link} onPress={() => Linking.openURL(href)}>
+export const A = ({children, href, onPress}) => (
+    <Text style={styles.link} onPress={onPress || (() => Linking.openURL(href))}>
         { children }
     </Text>
 );
@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    em: {
+        fontStyle: "italic"
+    },
+
     link: {
         color: "#4682b4",
         textDecorationLine: "underline"
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
 
     center: {
         textAlign: 'center'
-    }, 
+    },
 
     bullHeader: {
         fontSize: 15,
