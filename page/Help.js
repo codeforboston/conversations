@@ -4,35 +4,97 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableHighlight,
     View
 } from 'react-native';
 
-import { ENGLISH, HINDI } from "../config";
+import Sound from "react-native-sound";
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
-import pageStyles, { A, H2, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
+import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
+import { Button } from "../component/Button.js";
+
+
+const HelpIcons = {
+    home: require("../assets/help/home-24px_default.png"),
+    share: require("../assets/help/submit_video-24px_default.png"),
+    remnants: require("../assets/help/remnants-24px_default.png")
+}
+
+const HelpAudio = {
+    home: require("../assets/audio/sound.mp3")
+}
+
+const ListenIcon = require("../assets/help/audio_help-24px_default.png");
+
+function withSound(name) {
+    return new Promise(function(resolve, reject) {
+        let sound = new Sound(name, (error) => {
+            if (error) {
+                reject(sound, error);
+            } else {
+                resolve(sound);
+            }
+        })
+    });
+}
 
 
 export class SectionedScroller extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageHeight: 500
+            pageHeight: 500,
+            soundName: null,
+            soundPlaying: null,
+            soundLoading: null,
+            playTransform: null
         };
     }
+
     _scrollTo(name, animated=false) {
         let child = this.refs[name];
 
         if (child) {
             let nodeHandle = ReactNative.findNodeHandle(this._scroller);
             child.measureLayout(nodeHandle, (_x, y) => {
-                this._scroller.scrollTo({x: 0, y: y-20, animated: animated});
+                this._scroller.scrollTo({x: 0, y: y-30, animated: animated});
             }, (error) => {
                 console.log(error);
             })
         }
+    }
+
+    stopSound() {
+
+    }
+
+    onPlayingComplete(success, name, sound) {
+        if (this.state.soundName === name) {
+            this.setState({
+                soundName: null,
+                soundPlaying: null
+            });
+        }
+    }
+
+    playSound(name) {
+        let {state} = this;
+
+        if (state.soundPlaying)
+            this.stopSound();
+
+        this.setState({ soundName: name, soundLoading: true });
+        withSound(HelpAudio.home)
+            .then((sound) => {
+                sound.play((success) => {
+                    this.onPlayingComplete(success, name, sound)
+                });
+                this.setState({ soundPlaying: sound })
+            })
+            .finally(() => {
+                this.setState({ soundLoading: false });
+            })
     }
 
     onLayout = (e) => {
@@ -57,13 +119,21 @@ export class SectionedScroller extends Component {
                         onLayout={ this.onLayout }
                         stickyHeaderIndices={children.map((_, i) => i*2)}>
                 {React.Children.map(children, (section) => {
-                     let {title, icon} = section.props,
+                     let {title} = section.props,
+                         icon = HelpIcons[section.key],
                          iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>);
+
                      return [
-                         (<View>
-                             <Text style={styles.sectionTitle}>
+                         (<View style={styles.sectionHead}>
+                             {iconComponent}
+                             <H3 style={styles.sectionTitle}>
                                  { section.props.title }
-                             </Text>
+                             </H3>
+                             <Button image={ListenIcon}
+                                     style={styles.listenButton}
+                                     imageStyle={styles.listenButtonImageStyle}
+                                     onPress={() => this.playSound(section.key)}
+                             />
                          </View>),
                          (<View ref={section.key} style={[styles.section, {minHeight: pageHeight}]}>
                              { section.props.children }
@@ -160,16 +230,39 @@ const styles = StyleSheet.create({
     },
 
     section: {
+        paddingLeft: 40
     },
 
-    sectionTitle: {
+    sectionHead: {
         backgroundColor: "white",
         borderTopColor: "#aaa",
         borderTopWidth: 1,
+        flex: 1,
+        flexDirection: "row",
+    },
+
+    sectionIcon: {
+        height: 40,
+        width: 40,
+        position: "absolute",
+        left: 0,
+        top: 10
+    },
+
+    sectionTitle: {
         fontWeight: "bold",
-        fontSize: 16,
-        height: 25,
-        paddingLeft: 10
+        paddingLeft: 50
+    },
+
+    listenButton: {
+        position: "absolute",
+        right: 10,
+        top: 10
+    },
+
+    listenButtonImageStyle: {
+        height: 50,
+        width: 50
     }
 })
 
@@ -178,6 +271,7 @@ HelpPage.navConfig = {
 
     navigationOptions: ({navigation}) => ({
         headerStyle: pageStyles.header,
-        headerTitle: "How to Use"
+        headerTitle: "How to Use",
+        initialRouteParams: { section: "home" }
     })
 }
