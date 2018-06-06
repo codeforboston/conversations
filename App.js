@@ -5,11 +5,14 @@ import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import ObjectChooser from './ObjectChooser';
 import HomeScreen from './HomeScreen';
-
+import RemnantChooser from './RemnantChooser';
+import RemnantDisplay from './Remnant';
 import AboutPage from "./page/About.js";
+import { Sound } from 'react-native-sound';
 
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+
 console.disableYellowBox = true;
 
 class Player extends React.Component {
@@ -32,17 +35,13 @@ class Player extends React.Component {
 }
 
 export default StackNavigator({
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-    Chooser: {
-        screen: ObjectChooser,
-    },
+  Home: { screen: HomeScreen },
+  Chooser: { screen: ObjectChooser },
   Player: { screen: Player },
-  About: AboutPage.navConfig
+  RemnantChooser: {  screen: RemnantChooser },
+  RemnantDisplay: { screen: RemnantDisplay },
+  About: AboutPage.navConfig,
 }, {
-    headerMode: "none"
-});
+  headerMode: 'none',
+}, 
+);
