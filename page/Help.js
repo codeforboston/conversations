@@ -6,7 +6,6 @@ import ReactNative, {
     Text,
     View
 } from 'react-native';
-
 import Sound from "react-native-sound";
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
@@ -25,6 +24,7 @@ const HelpAudio = {
     home: require("../assets/audio/sound.mp3")
 }
 
+const PlayingIcon = require("../assets/help/record_voice_over_playing-24px_default.png");
 const ListenIcon = require("../assets/help/audio_help-24px_default.png");
 
 function withSound(name) {
@@ -45,10 +45,9 @@ export class SectionedScroller extends Component {
         super(props);
         this.state = {
             pageHeight: 500,
-            soundName: null,
+            soundKey: null,
             soundPlaying: null,
-            soundLoading: null,
-            playTransform: null
+            soundLoading: null
         };
     }
 
@@ -66,34 +65,51 @@ export class SectionedScroller extends Component {
     }
 
     stopSound() {
+        let {soundPlaying} = this.state;
 
+        if (!soundPlaying) return;
+
+        soundPlaying.stop();
+        this.setState({
+            soundKey: null,
+            soundPlaying: null
+        });
     }
 
     onPlayingComplete(success, name, sound) {
-        if (this.state.soundName === name) {
+        if (this.state.soundKey === name) {
             this.setState({
-                soundName: null,
+                soundKey: null,
                 soundPlaying: null
             });
         }
     }
 
-    playSound(name) {
+    playSound(key) {
         let {state} = this;
 
-        if (state.soundPlaying)
+        if (state.soundPlaying) {
             this.stopSound();
 
-        this.setState({ soundName: name, soundLoading: true });
+            if (state.soundKey === key)
+                return;
+        }
+
+        this.setState({ soundKey: key, soundLoading: true });
         withSound(HelpAudio.home)
             .then((sound) => {
+                if (this.state.soundKey !== key) return;
+
                 sound.play((success) => {
-                    this.onPlayingComplete(success, name, sound)
+                    this.onPlayingComplete(success, key, sound)
                 });
-                this.setState({ soundPlaying: sound })
+                this.setState({
+                    soundPlaying: sound
+                })
             })
             .finally(() => {
-                this.setState({ soundLoading: false });
+                if (this.state.soundKey === key)
+                    this.setState({ soundLoading: false });
             })
     }
 
@@ -109,9 +125,13 @@ export class SectionedScroller extends Component {
             this._scrollTo(this.props.selected, true);
     }
 
+    componentWillUnmount() {
+        this.stopSound();
+    }
+
     render() {
         let {children, style} = this.props,
-            {pageHeight} = this.state;
+            {pageHeight, soundKey, soundLoading, soundPlaying} = this.state;
 
         return (
             <ScrollView ref={scroller => { this._scroller = scroller; }}
@@ -121,21 +141,25 @@ export class SectionedScroller extends Component {
                 {React.Children.map(children, (section) => {
                      let {title} = section.props,
                          icon = HelpIcons[section.key],
-                         iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>);
+                         iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>),
+                         active = soundKey === section.key;
 
                      return [
-                         (<View style={styles.sectionHead}>
+                         (<View style={styles.sectionHead} key={`${section.key}-head`}>
                              {iconComponent}
                              <H3 style={styles.sectionTitle}>
                                  { section.props.title }
                              </H3>
-                             <Button image={ListenIcon}
+                             <Button image={active && soundPlaying ? PlayingIcon : ListenIcon}
                                      style={styles.listenButton}
-                                     imageStyle={styles.listenButtonImageStyle}
+                                     imageStyle={[styles.listenButtonImageStyle,
+                                                  active && soundLoading && styles.listenButtonImageLoadingStyle]}
                                      onPress={() => this.playSound(section.key)}
                              />
                          </View>),
-                         (<View ref={section.key} style={[styles.section, {minHeight: pageHeight}]}>
+                         (<View ref={section.key}
+                                style={[styles.section, {minHeight: pageHeight}]}
+                                key={`${section.key}-body`}>
                              { section.props.children }
                          </View>)
                      ];
@@ -202,22 +226,44 @@ export default class HelpPage extends Component {
                 </Section>
                 <Section title="Remnants" key="remnants">
                     <P>
-                        <Strong>Objects:</Strong> To play a video clip, select one of the Objects at the top of the page. Each video will feature the women in the photograph, and will relate in some way to the Object you selected.
+                        <Strong>Objects:</Strong> To play a video clip, select
+                        one of the Objects at the top of the page. Each video will feature
+                        the women in the photograph, and will relate in some way to the
+                        Object you selected.
                     </P>
                     <P>
-                        <Strong>More Objects:</Strong> You can see more stories by tapping the arrows or swiping to the left or right.
+                        <Strong>More Objects:</Strong> You can see more stories
+                        by tapping the arrows or swiping to the left or right. 
                     </P>
                     <P>
-                        <Strong>Remnants:</Strong> After viewing 2 videos a new choice becomes available in the navigation bar at the bottom of the screen. (See Remnants section).
+                        <Strong>Remnants:</Strong> After viewing 2 videos a new
+                        choice becomes available in the navigation bar at the bottom of the
+                        screen. (See Remnants section). 
                     </P>
                 </Section>
                 <Section title="Resources">
                     <P><Em>I’m interested in knowing more</Em></P>
-                    <P>Visit <A href="http://www.aashiyaan.org">www.aashiyaan.org</A> to learn more about the co-creators, their stories and experiences of the city of Delhi.</P>
+                    <P>
+                        Visit <A href="http://www.aashiyaan.org">www.aashiyaan.org</A> to learn more
+                        about the co-creators, their stories and experiences of the city of Delhi.
+                    </P>
+
                     <P><Em>How Can I Help?</Em></P>
-                    <P>Share your favourite stories (especially strategies!) with #AashiyaanStories on social media so others can also watch, learn, contribute and reclaim the city.</P>
-                    <P>Organize a living room or porch conversation with homemakers and domestic workers about their city experiences and strategies. Contact us for ideas and to share post discussion photos and videos on our <A href="http://www.aashiyaan.org">website</A>.</P>
-                    <P>Go to our <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">YouTube channel</A> and add a translation in your local language. Let’s keep the conversation going!</P>
+                    <P>
+                        Share your favourite stories (especially strategies!)
+                        with #AashiyaanStories on social media so others can also
+                        watch, learn, contribute and reclaim the city.
+                    </P>
+                    <P>
+                        Organize a living room or porch conversation with
+                        homemakers and domestic workers about their city experiences
+                        and strategies. Contact us for ideas and to share post
+                        discussion photos and videos on our <A href="http://www.aashiyaan.org">website</A>.
+                    </P>
+                    <P>
+                        Go to our <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">YouTube
+                    channel</A> and add a translation in your local language. Let’s keep the conversation going!
+                    </P>
                 </Section>
             </SectionedScroller>
         );
@@ -263,6 +309,10 @@ const styles = StyleSheet.create({
     listenButtonImageStyle: {
         height: 50,
         width: 50
+    },
+
+    listenButtonImageLoadingStyle: {
+        opacity: 0.5
     }
 })
 
