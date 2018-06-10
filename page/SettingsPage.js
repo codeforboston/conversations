@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions} from 'react-native';
+import { Text, View , StyleSheet, Dimensions, PixelRatio} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
+const pr = PixelRatio.get();
 
 var radio_props = [
   {label: 'English', value: 0 },
-  {label: 'Hindi', value: 1 }
+  {label: 'Hindi (हिन्दी)', value: 1 }
 ];
 
 const radioToLanguageMap = {
@@ -33,20 +34,26 @@ export default class SettingsPage extends Component {
   render() {
     return (
       <View style={styles.BackGroundStyle} >
-        <View style={{
+         <View style={{
             flex: 1,
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-          }} >
-          <Text>
+          }} > 
+          <Text style={styles.languageChooser}>
             Choose a Language:
           </Text> 
-          <RadioForm
-            radio_props={radio_props}
-            initial={languageToRadioMap[global.LANG]}
-            onPress={(value) => {this.handleSettingsChanged(value)}}
-          />
+       
+            <RadioForm style={styles.radioForm}
+              radio_props={radio_props}
+              buttonColor={'rgb(43,35,103)'}
+              selectedButtonColor={'rgb(43,35,103)'}            
+              initial={languageToRadioMap[global.LANG]}
+              labelStyle={{fontSize: 7.5*pr}}
+              buttonStyle={{lineHeight: 10, alignSelf: 'flex-start'}}
+              labelStyle={{fontSize: 10*pr, lineHeight: 12*pr, width: 150}}
+              onPress={(value) => {this.handleSettingsChanged(value)}}
+            />
         </View>
       </View>
     );
@@ -56,10 +63,15 @@ export default class SettingsPage extends Component {
 
 const styles = StyleSheet.create({
   BackGroundStyle: {
-     backgroundColor: 'rgba(43, 35, 103, 0.7)',
+     backgroundColor: 'rgb(255, 255, 255)',
      position: 'absolute',
      width: Dimensions.get('window').width,
      height: Dimensions.get('window').height,
+  },
+  languageChooser: {
+    fontSize: 13 * pr,
+    color: 'rgb(43, 35, 103)',
+    marginBottom: 10*pr
   }
 });
 
