@@ -17,10 +17,7 @@ import Sound from 'react-native-sound';
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-
-
 export default class RemnantDisplay extends Component {
-
 	constructor(props) {
 		super(props); 
 		this.state = {};
@@ -30,7 +27,7 @@ export default class RemnantDisplay extends Component {
 	render() {
 		const navigation = this.props.navigation; 
 		const image = navigation.getParam('picture', "require('./assets/RemnantsAppearPlate.png')");
-		const audio = navigation.getParam('audio', 'audiotest0.mp3');
+		const audio = navigation.getParam('audio', 'audiotest3.mp3');
 		
 		const sound = new Sound(audio); 
 		const myDuration = sound.getDuration; 

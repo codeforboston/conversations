@@ -43,19 +43,19 @@ export const remnants = [
 { 
   id: 1, 
   picture: require('./assets/remnant1v1v1v1.png'),
-  audio: 'audiotest0.mp3', 
+  audio: 'audiotest3.mp3', 
   flex: 2,
 }, 
 { 
   id: 2,
   picture: require('./assets/remnant2v1v1v1.png'),
-  audio: 'audiotest1.mp3', 
+  audio: 'audiotest3.mp3', 
   flex: 1,
 }, 
 {
   id: 3,
   picture: require('./assets/remnant3v1v1v1.png'),
-  audio: 'audiotest2.mp3', 
+  audio: 'audiotest3.mp3', 
   flex: 1,
 }, 
 {
@@ -67,13 +67,13 @@ export const remnants = [
 {
   id: 5,
   picture: require('./assets/remnant5v1v1v1.png'),
-  audio: 'audiotest4.mp3', 
+  audio: 'audiotest3.mp3', 
   flex: 1,
 }, 
 {
   id: 6,
   picture: require('./assets/remnant6v1v1v1.png'),
-  audio: 'audiotest1.mp3', 
+  audio: 'audiotest3.mp3', 
   flex: 2,
 },
 ];
