@@ -5,6 +5,7 @@ import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";
 
 
+
 class HomeScreenWrapped extends React.Component {
 
   constructor(props) {

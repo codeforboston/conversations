@@ -26,6 +26,7 @@ class ObjectChooser extends React.Component {
 
   constructor(props) {
     super(props);
+    console.debug(global.LANG);
     const window = Dimensions.get('window');
     this.state = {
       imgwidth: window.width,
@@ -56,9 +57,13 @@ class ObjectChooser extends React.Component {
         <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
           {videos.map(renderVideo)}
         </View>
-
-        <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-          <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
+        <View style={{ flex: 1.5, flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+          <View style={{backgroundColor: '#aa99dd', height: 240, width: 100, position: 'absolute'}}></View>
+          <Button image={require('./assets/SettingsIconEnhanced.png')}
+                  pressAnimation="spring"
+                  style={styles.navIcon}
+                  navigation={navigation}
+                  route="SettingsPage" /> 
           <Button image={require('./assets/AboutIcon.png')}
                   pressAnimation="spring"
                   style={styles.navIcon}
@@ -70,7 +75,9 @@ class ObjectChooser extends React.Component {
                   style={styles.navIcon}
                   navigation={navigation}
                   route="Help" />
+                      
         </View>
+
       </View>
     );
   }
