@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
-import { videos, objectPages } from './config';
+import { objectPages } from './config';
 
 import { Button } from "./component/Button.js";
 

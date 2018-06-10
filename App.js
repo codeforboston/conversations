@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image, Dimensions } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import YouTube from 'react-native-youtube';
-import { videos } from './config';
 import ObjectChooser from './ObjectChooser';
 import HomeScreen from './HomeScreen';
 
