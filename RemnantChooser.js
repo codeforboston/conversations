@@ -9,7 +9,8 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet, 
-  Button
+  Button,
+  Animated
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { remnants } from './config';
@@ -20,19 +21,24 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
 
+function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
+  return (index) => {
+    const myOpacity = watchedRemnants[index];
+    const disabled = !watchedRemnants[index];
 
-function imageTileWithNavigation(navigation) {
-  return (remnant) => {
     return (
        <TouchableWithoutFeedback 
-        onPress={() => navigation.navigate('RemnantDisplay', {
-          picture: remnant.picture, 
-          audio: remnant.audio
-        })}
+        onPress={() => {
+          watchedRemnants[index] = 0; 
+          navigation.navigate('RemnantDisplay', {
+          picture: remnant[index].picture, 
+          audio: remnant[index].audio
+          });}}
+        disabled={disabled}
        > 
         <Image
-          style={[styles.remnantTile, {flex: remnant.flex}]}
-          source={remnant.picture}
+          style={[styles.remnantTile, {flex: remnant[index].flex, opacity: myOpacity}]}
+          source={remnant[index].picture}
           resizeMode="cover"
         />
     </TouchableWithoutFeedback>
@@ -42,56 +48,59 @@ function imageTileWithNavigation(navigation) {
 }
 
 
+
+
 export default class RemnantChooser extends Component {
   constructor(props) {
       super(props); 
       this.state = {
-        remnants: remnants
-      }
-    }
+        remnants: remnants, 
+        watchedRemnants: Array(6).fill(1), 
 
-    findSmallerDimension = (image) => {
-      let imageWidth = Dimensions.get( image ).width; 
-      let imageHeight = Dimensions.get( image ).height; 
-
-      return imageWidth > imageHeight ? imageHeight : imageWidth ;  
     }
+  }
+
 
   render() {
 
+  
     const navigation = this.props.navigation;
-    const imageTile = imageTileWithNavigation(navigation); 
+    const watchedRemnants = this.state.watchedRemnants; 
+    const imageTile = imageTileWithNavigation(navigation, remnants, watchedRemnants); 
+  
 
 
     return(
       <View style={styles.container}>
-          <View style={styles.remnantFrame}>
+        <Image 
+        style={styles.backgroundImage}
+        source={require("./assets/CityBlueDarkSunrise-3.png")}
+        resizeMode="contain"
+        />
 
-            {imageTile(remnants[0])}
+                <View style={styles.remnantFrame}>
+                    {imageTile(0)}
+                    <View style={{flex:1}}/>
+                </View>
 
-          <View style={{flex:1}}
-          />
+                <View style={styles.remnantFrame}>
+                    {imageTile(1)}
+                    {imageTile(2)}
+                </View>
 
+                <View style={styles.remnantFrame}>
+                    {imageTile(3)}
+                    {imageTile(4)}
+                </View>
+
+                <View style={styles.remnantFrame}>
+                    <View style={{flex: 1}} />
+                    {imageTile(5)}
+                </View>        
+        
+               
+      
       </View>
-
-        <View style={styles.remnantFrame}>
-            {imageTile(remnants[1])}
-            {imageTile(remnants[2])}
-        </View>
-
-        <View style={styles.remnantFrame}>
-            {imageTile(remnants[3])}
-            {imageTile(remnants[4])}
-
-        </View>
-
-        <View style={styles.remnantFrame}>
-          <View style={ [ styles.remnantTile, {flex: 1} ] } />
-            {imageTile(remnants[5])}
-        </View>        
-
-      </View>
-
     )
   }
 };
@@ -102,29 +111,34 @@ const styles = StyleSheet.create({
     height: height,
     width: width,
     flexDirection: 'row',
-
+  
   }, 
+  backgroundImage: {
+    position: 'absolute', 
+    transform: [
+      {translateY: -height*1.8}, 
+      {scale: 0.75}, 
+      {translateX: -width*0.4}, 
+      ], 
+  },
   remnantFrame: {
     flex: 1,
     flexDirection: 'column',
- 
+  
   },
 
   remnantTile: {
     height: '100%', 
     width: '100%',
-    borderWidth: 3, 
+    borderWidth: 2,
     borderColor: 'white',
+  
+  
   },
 
 
 
 });
-
-
-
-
-
 
 
 

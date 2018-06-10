@@ -1,7 +1,4 @@
 {
-  "expo": {
-    "sdkVersion": "26.0.0"
-  },
   "name": "conversations",
-  "displayName": "Conversations"
+  "displayName": "conversations"
 }
