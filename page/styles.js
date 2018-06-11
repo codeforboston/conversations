@@ -37,12 +37,14 @@ export const Bull = ({children}) => (
     </Text>
 );
 
+//header for bullets
 export const BullHeader = ({children}) => (
     <Text style={[styles.bullHeader, styles.bodyText, styles.liText, styles.bold, styles.center]}>
         {children}
     </Text>
 );
 
+//an larger bullet header with slightly more spacing
 export const BullHeaderMain = ({children}) => (
     <Text style={[styles.bullHeaderMain , styles.liText, styles.bold, styles.center]}>
         {children}

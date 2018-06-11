@@ -8,17 +8,18 @@ import { Button } from "./component/Button.js";
 
 
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
-  return (video) => {
-    const disabled = video.isRemnant && shouldDisableRemnant;
-    return (
-        <Button key={video.youtubeVideoId}
-                onPress={() => navigate(video)}
-                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
-                disabled={disabled}
-                image={video.asset}
-                pressAnimation="spring"/>
-    );
-  }
+    return (video) => {
+        const disabled = video.isRemnant && shouldDisableRemnant;
+
+        return (
+            <Button key={video.youtubeVideoId}
+                    onPress={() => navigate(video)}
+                    style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
+                    disabled={disabled}
+                    image={video.asset}
+                    pressAnimation="spring"/>
+        );
+    }
 }
 
 class ObjectChooser extends React.Component {
