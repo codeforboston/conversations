@@ -6,6 +6,7 @@ import ObjectChooser from './ObjectChooser';
 import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import { Button } from "./component/Button.js";
+import HelpPage from "./page/Help.js";
 
 // const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU";
@@ -47,6 +48,14 @@ class tempSettings extends React.Component{
   }
 }
 
+const TabIcons = {
+    Help: require('./assets/help/help-24px_default.png')
+};
+
+const SelectedTabIcons = {
+    Help: require('./assets/help/help-24px_selected.png')
+};
+
 export default createBottomTabNavigator({
   HomeScreen: {screen: HomeScreen,
     navigationOptions: {
@@ -62,7 +71,8 @@ export default createBottomTabNavigator({
       tabBarIcon: null,
     }, },
   tempSettings: { screen: tempSettings },
-  About: { screen: AboutPage },
+    About: AboutPage.navConfig,
+    Help: HelpPage.navConfig
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
@@ -93,7 +103,9 @@ export default createBottomTabNavigator({
         if (focused) {
             finishedIcon = require('./assets/help/audio_help-24px_selected.png')
         }
-      } 
+      } else {
+          finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
+      }
 
       if (navigation.state.params) {
         console.log(params);

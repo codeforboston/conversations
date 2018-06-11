@@ -24,7 +24,7 @@
   "dependencies": {
     "react": "16.3.1",
     "react-native": "0.55.1",
-    "react-native-vector-icons": "^4.6.0",
+    "react-native-sound": "^0.10.9",
     "react-native-youtube": "^1.1.0",
     "react-navigation": "2.0.4",
     "rn-viewpager": "^1.2.9"

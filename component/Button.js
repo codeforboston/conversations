@@ -67,25 +67,65 @@ export class Button extends Component {
         );
     }
 
-    makePressHandler() {
-        let {pressAnimation} = this.props,
-            handler = makePressHandler(this.props);
+    _queue = []
+
+    _queueAnimation = (...animations) => {
+        this._queue.push(...animations);
+        if (!this._animation) {
+            this._nextAnimation();
+        }
+    }
+
+    _clearQueue = (_) => {
+        if (this._animation)
+            this._animation.stopAnimation();
+        this._queue = [];
+    }
+
+    _nextAnimation = () => {
+        if (this._queue && this._queue.length) {
+            var next = this._queue.shift();
+
+            if (typeof next === "function") {
+                next();
+                this._nextAnimation();
+            } else {
+                this._animation = next;
+                next.start(this._nextAnimation);
+            }
+        } else {
+            this._animation = null;
+        }
+    }
+
+    onPressIn = (e) => {
+        let {pressAnimation} = this.props;
 
         if (pressAnimation === "spring") {
-            // Run the animation before running the handler
-            return ((...args) => {
-                let {scale} = this.state;
+            this._queueAnimation(
+                Animated.timing(this.state.scale, {toValue: 0.7,
+                                                   duration: 75,
+                                                   easing: Easing.linear()}));
+        }
+    }
 
+    onPressOut = (e) => {
+        let {scale} = this.state;
+        let {pressAnimation} = this.props;
+
+        if (pressAnimation === "spring") {
+            this._queueAnimation(
                 Animated.sequence([
-                    Animated.timing(scale, {toValue: 0.7, duration: 100, easing: Easing.linear()}),
                     Animated.timing(scale, {toValue: 1.2, duration: 200, easing: Easing.linear()}),
                     Animated.timing(scale, {toValue: 1, duration: 100, easing: Easing.linear()})
-                ]).start(() => handler(...args));
-            })
-        } else {
-            // Run right away:
-            return handler;
+                ]));
         }
+    }
+
+    onPress = (...args) => {
+        let handler = makePressHandler(this.props);
+
+        this._queueAnimation(() => handler(...args));
     }
 
     render() {
@@ -96,9 +136,9 @@ export class Button extends Component {
             <TouchableOpacity
                 activeOpacity={activeOpacity}
                 disabled={disabled}
-                onPressIn={() => this.setState({ active: true })}
-                onPressOut={() => this.setState({ active: false })}
-                onPress={this.makePressHandler()}
+                onPressIn={this.onPressIn}
+                onPressOut={this.onPressOut}
+                onPress={this.onPress}
                 style={style}
                 {...props}
             >
