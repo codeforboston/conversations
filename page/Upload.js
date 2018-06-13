@@ -6,7 +6,8 @@ import {
     Text,
     TouchableHighlight,
     View,
-    CheckBox
+    CheckBox,
+    AsyncStorage
 } from "react-native";
 
 import ImagePicker from "react-native-image-picker";
@@ -31,6 +32,7 @@ export default class UploadPage extends Component {
             video: null,
             state: CHOOSER,
             checked: false,
+            myKey: null
         };
     }
 
@@ -45,14 +47,14 @@ export default class UploadPage extends Component {
           console.log("user doesn't have a device token yet; fcmtoken = ", fcmToken);
         } 
       }).catch(function(err) {
-        console.log('An error occurred while retrieving token. ', err);
+        console.error('An error occurred while retrieving token. ', err);
       });
       
     this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
         // Process your token as required
         console.log("Process your token as required; refreshed token = ", fcmToken);
       }).catch(function(err) {
-        console.log('Unable to retrieve refreshed token ', err);
+        console.error('Unable to retrieve refreshed token ', err);
       });
   }
 
@@ -80,6 +82,33 @@ export default class UploadPage extends Component {
                 this.setState({video: response});
             }
         });
+    }
+
+    async getKey() {
+      try {
+        const value = await AsyncStorage.getItem('@MySuperStore:key');
+        this.setState({myKey: value});
+      } catch (error) {
+        console.error("Error retrieving data" + error);
+      }
+    }
+  
+    async saveKey(value) {
+      try {
+        await AsyncStorage.setItem('@MySuperStore:key', value);
+      } catch (error) {
+        console.error("Error saving data" + error);
+      }
+    }
+  
+    async resetKey() {
+      try {
+        await AsyncStorage.removeItem('@MySuperStore:key');
+        const value = await AsyncStorage.getItem('@MySuperStore:key');
+        this.setState({myKey: value});
+      } catch (error) {
+        console.error("Error resetting data" + error);
+      }
     }
 
     upload = () => {
