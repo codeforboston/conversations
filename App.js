@@ -8,8 +8,7 @@ import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import { Button } from "./component/Button.js";
 
-// const youtubeApiKey = process.env.YOUTUBE_API_KEY;
-const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU";
+const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
 console.disableYellowBox = true;
 
@@ -25,7 +24,6 @@ class Player extends React.Component {
           fullscreen={true}
           showFullscreenButton={false}
           onChangeFullscreen={e => e.isFullscreen || navigation.goBack()}
-          style={{ width: 0, height: 0 }}
         />
       </View>
     );
@@ -57,13 +55,13 @@ export default createBottomTabNavigator({
   },
   Chooser: {screen: ObjectChooser},
   tempCamera: { screen: tempCamera },
+  tempSettings: { screen: tempSettings },
+  About: { screen: AboutPage },
   Player: { screen: Player,
     navigationOptions: {
       tabBarVisible: false,
       tabBarIcon: null,
     }, },
-  tempSettings: { screen: tempSettings },
-  About: { screen: AboutPage },
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
@@ -95,13 +93,7 @@ export default createBottomTabNavigator({
             finishedIcon = require('./assets/AudioHelpOn.png')
         }
       } 
-
-      if (navigation.state.params) {
-        console.log(params);
-        finishedIcon = require('./assets/TapHoldOff.png');
-      }
-      
-      return <Button image={finishedIcon} />;
+      return <Image source={finishedIcon} />;
     },
   }),
   tabBarOptions: {
@@ -110,6 +102,7 @@ export default createBottomTabNavigator({
       backgroundColor: 'blue', 
     }
   }, 
-  animationEnabled: true,
+  animationEnabled: false,
 }
 );
+
