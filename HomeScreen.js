@@ -14,13 +14,11 @@ class HomeScreenWrapped extends React.Component {
 
   // could be abstracted to a single function accepting lang prop
   // but this works for only two cases
-  handlePressEnglish = () => {
-    this.setState({ language: ENGLISH })
+  handlePress= (lang) => {
+      global.LANG = lang;
+      this.props.navigation.navigate("Chooser");
   }
-  handlePressHindi = () => {
-    this.setState({ language: HINDI })
-  }
-
+    
   render () {
     const navigation = this.props.navigation;
     let homeScreenImage = require('./assets/SmallerBackgroundforAppLanding.png');
@@ -60,7 +58,7 @@ class HomeScreenWrapped extends React.Component {
               }}
           >
               <TouchableHighlight
-                  onPress={() => navigation.navigate('Chooser', { language: ENGLISH })}
+                  onPress={() => this.handlePress(ENGLISH)}
                   onPressIn={() => { this.setState({ pressing: ENGLISH }); }}
                   onPressOut={() => { this.setState({ pressing: null }); }}
                   underlayColor="transparent"
@@ -79,7 +77,7 @@ class HomeScreenWrapped extends React.Component {
                   />
               </TouchableHighlight>
               <TouchableHighlight
-                  onPress={() => navigation.navigate('Chooser', { language: HINDI })}
+                  onPress={() => this.handlePress(HINDI)}
                   onPressIn={() => { this.setState({ pressing: HINDI }); }}
                   onPressOut={() => { this.setState({ pressing: null }); }}
                   underlayColor="transparent"

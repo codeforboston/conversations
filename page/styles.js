@@ -1,20 +1,28 @@
-import React from 'react';
-import { Linking, StyleSheet, Text } from 'react-native';
+import React, { Component } from 'react';
+import { Linking, PixelRatio, StyleSheet, Text } from 'react-native';
 
-export const H2 = ({children}) => (
-    <Text style={[styles.bodyText, styles.h2]}>
+
+export const H2 = ({style, children}) => (
+    <Text style={[styles.bodyText, styles.h2, style]}>
         {children}
     </Text>
 );
 
-export const P = ({children}) => (
-    <Text style={styles.bodyText}>
-        { children}
+export const H3 = ({style, children}) => (
+    <Text style={[styles.bodyText, styles.h3, style]}>
+        {children}
     </Text>
 );
 
-export const A = ({children, href}) => (
-    <Text style={styles.link} onPress={() => Linking.openURL(href)}>
+export const P = ({children}) => {
+    return (
+        <Text style={styles.bodyText}>
+            { children }
+        </Text>
+    )};
+
+export const A = ({children, href, onPress, style, ...props}) => (
+    <Text style={[styles.link, style]} onPress={onPress || (() => Linking.openURL(href))}>
         { children }
     </Text>
 );
@@ -51,6 +59,8 @@ export const BullHeaderMain = ({children}) => (
     </Text>
 );
 
+let fr = PixelRatio.get();
+
 const styles = StyleSheet.create({
     header: {
         color: "red",
@@ -58,15 +68,17 @@ const styles = StyleSheet.create({
     },
 
     h2: {
-        fontSize: 18,
-        lineHeight: 25,
-        /* textDecorationColor: "#ddd",
-         * textDecorationLine: "underline" */
+        fontSize: 16 * fr,
+        lineHeight: 22 * fr,
+    },
+
+    h3: {
+        fontSize: 12 * fr
     },
 
     bodyText: {
-        fontSize: 12,
-        lineHeight: 20,
+        fontSize: 10 * fr,
+        lineHeight: 14 * fr,
         padding: 15,
         textAlign: "justify"
     },
@@ -80,6 +92,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
 
+    em: {
+        fontStyle: "italic"
+    },
+
     link: {
         color: "#4682b4",
         textDecorationLine: "underline"
@@ -87,18 +103,18 @@ const styles = StyleSheet.create({
 
     center: {
         textAlign: 'center'
-    }, 
+    },
 
     bullHeader: {
-        fontSize: 15,
-        lineHeight: 20,
+        fontSize: 15 * fr,
+        lineHeight: 20 * fr,
         padding: 15,
         textAlign: "justify"
     },
 
     bullHeaderMain: {
-        fontSize: 16,
-        lineHeight: 20,
+        fontSize: 16 * fr,
+        lineHeight: 20 * fr,
         paddingTop: 19,
         textAlign: "justify"
     }

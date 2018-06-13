@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image, Dimensions, Text  } from 'react-native';
 import { createBottomTabNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import YouTube from 'react-native-youtube';
-import { videos } from './config';
 import ObjectChooser from './ObjectChooser';
 import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import { Button } from "./component/Button.js";
+import HelpPage from "./page/Help.js";
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
@@ -46,6 +46,14 @@ class tempSettings extends React.Component{
   }
 }
 
+const TabIcons = {
+    Help: require('./assets/help/help-24px_default.png')
+};
+
+const SelectedTabIcons = {
+    Help: require('./assets/help/help-24px_selected.png')
+};
+
 export default createBottomTabNavigator({
   HomeScreen: {screen: HomeScreen,
     navigationOptions: {
@@ -62,6 +70,12 @@ export default createBottomTabNavigator({
       tabBarVisible: false,
       tabBarIcon: null,
     }, },
+<<<<<<< HEAD
+=======
+  tempSettings: { screen: tempSettings },
+    About: AboutPage.navConfig,
+    Help: HelpPage.navConfig
+>>>>>>> aashiyaan/GlobalNavBar
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
@@ -70,29 +84,41 @@ export default createBottomTabNavigator({
       let finishedIcon;
 
       if (routeName == 'Chooser' ) {
-        finishedIcon = require('./assets/TapHoldOff.png');
+        finishedIcon = require('./assets/help/tap_and_hold-24px_default.png');
         if (focused) {
-            finishedIcon = require('./assets/TapHoldOn.png')
+            finishedIcon = require('./assets/help/tap_and_hold-24px_selected.png')
         }
       }
       else if (routeName == 'tempCamera' ) {
-        finishedIcon = require('./assets/SubmitVideoOff.png');
+        finishedIcon = require('./assets/help/submit_video-24px_default.png');
         if (focused) {
-            finishedIcon = require('./assets/SubmitVideoOn.png')
+            finishedIcon = require('./assets/help/submit_video-24px_selected.png')
         }
       }
       else if (routeName == 'tempSettings' ) {
-        finishedIcon = require('./assets/SettingsOff.png');
+        finishedIcon = require('./assets/help/settings-24px_default.png');
         if (focused) {
-            finishedIcon = require('./assets/SettingsOn.png')
+            finishedIcon = require('./assets/help/settings-24px_selected.png')
         }
       }
       else if (routeName == 'About' ) {
-        finishedIcon = require('./assets/AudioHelpOff.png');
+        finishedIcon = require('./assets/help/audio_help-24px_default.png');
         if (focused) {
-            finishedIcon = require('./assets/AudioHelpOn.png')
+            finishedIcon = require('./assets/help/audio_help-24px_selected.png')
         }
+<<<<<<< HEAD
       } 
+=======
+      } else {
+          finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
+      }
+
+      if (navigation.state.params) {
+        console.log(params);
+        finishedIcon = require('./assets/help/tap_and_hold-24px_default.png');
+      }
+      
+>>>>>>> aashiyaan/GlobalNavBar
       return <Image source={finishedIcon} />;
     },
   }),
