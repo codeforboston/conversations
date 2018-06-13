@@ -34,6 +34,32 @@ export default class UploadPage extends Component {
         };
     }
 
+  componentDidMount() {
+    firebase.messaging().getToken()
+      .then(fcmToken => {
+        if (fcmToken) {
+          // user has a device token
+          console.log("user has a device token; fcmtoken = ", fcmToken);
+        } else {
+          // user doesn't have a device token yet
+          console.log("user doesn't have a device token yet; fcmtoken = ", fcmToken);
+        } 
+      }).catch(function(err) {
+        console.log('An error occurred while retrieving token. ', err);
+      });
+      
+    this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+        // Process your token as required
+        console.log("Process your token as required; refreshed token = ", fcmToken);
+      }).catch(function(err) {
+        console.log('Unable to retrieve refreshed token ', err);
+      });
+  }
+
+  componentWillUnmount() {
+      this.onTokenRefreshListener();
+  }
+
     selectVideo = () => {
         ImagePicker.showImagePicker({
             title: "Video Picker",
