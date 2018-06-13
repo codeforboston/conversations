@@ -27,9 +27,10 @@ export default class RemnantDisplay extends Component {
 	render() {
 		const navigation = this.props.navigation; 
 		const image = navigation.getParam('picture', "require('./assets/RemnantsAppearPlate.png')");
-		const audio = navigation.getParam('audio', 'audiotest3.mp3');
+		const audio = navigation.getParam('audio', 'remnant_1.mp3');
 		
-		const sound = new Sound(audio); 
+		const sound = new Sound(audio);
+		sound.setVolume(2);
 		const myDuration = sound.getDuration; 
 		const duration = myDuration.bind(sound); 
 
