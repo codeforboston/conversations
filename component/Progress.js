@@ -9,14 +9,14 @@ import {
 
 export default class Progress extends Component {
     render() {
-        let {current, total, text, style, progressStyle, ...props} = this.props,
+        let {current, total, text, style, progressStyle, textStyle, ...props} = this.props,
             percent = total === 0 ? 0 : current/total*100;
 
 
         return (
             <View style={[styles.progressBar, style]} {...props}>
-                <View style={[{backgroundColor: "steelblue", width: `${percent}%`, height: 20}, progressStyle]} />
-                <Text style={styles.textStyle}>{text}</Text>
+                <View style={[{backgroundColor: "steelblue", width: `${percent}%`, height: "100%"}, progressStyle]} />
+                <Text style={[styles.textStyle, textStyle]}>{text}</Text>
             </View>
         );
     }
