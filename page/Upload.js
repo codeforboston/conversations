@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Text,
     TouchableHighlight,
+    TouchableWithoutFeedback,
     View,
     CheckBox,
     AsyncStorage
@@ -53,8 +54,6 @@ export default class UploadPage extends Component {
     this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
         // Process your token as required
         console.log("Process your token as required; refreshed token = ", fcmToken);
-      }).catch(function(err) {
-        console.error('Unable to retrieve refreshed token ', err);
       });
   }
 
@@ -203,15 +202,15 @@ export default class UploadPage extends Component {
                         Upload {this.videoName()}
                     </Button>
                 {/* </View> */}
-                
-                <View style={{ flexDirection: 'row' }}>
-                    <CheckBox 
-                        checked={this.state.checked}
-                        onPress={() => this.setState({checked: !this.state.checked})}
-                        disabled={!this.state.video}
-                    />
-                    <Text style={{marginTop: 5}}> Notify me if my video is uploaded to YouTube</Text>
-                </View>
+                    <TouchableWithoutFeedback onPress={() => this.setState({checked: !this.state.checked})}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <CheckBox
+                                value={this.state.checked}
+                                disabled={!this.state.video}
+                            />
+                            <Text style={{marginTop: 5}}> Notify me if my video is uploaded to YouTube</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
             </View>
         );
     }
@@ -248,7 +247,6 @@ export default class UploadPage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0048ed',
         alignItems: 'center',
         justifyContent: 'center'
     }
