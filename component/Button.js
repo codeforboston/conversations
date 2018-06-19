@@ -40,7 +40,7 @@ export class Button extends Component {
 
     renderContents = () => {
         let {activeImage, disabled, image, imageStyle, children,
-             textStyles, activeTextStyles, style} = this.props,
+             buttonStyle, activeTextStyles, style} = this.props,
             {scale} = this.state,
             transform = [{scale: scale}],
             active = !disabled && this.state.active;
@@ -60,7 +60,7 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[style, styles.button, textStyles, active && activeTextStyles,
+            <Text style={[styles.button, buttonStyle, active && activeTextStyles,
                           disabled && styles.disabledButton]}>
                 {children}
             </Text>

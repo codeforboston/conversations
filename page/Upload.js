@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+    FlatList,
     Image,
     ScrollView,
     StyleSheet,
@@ -17,7 +18,7 @@ import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
 
-import { H2, P } from "./styles.js";
+import { H2, P, Strong } from "./styles.js";
 
 
 const CHOOSER = 1
@@ -30,6 +31,35 @@ function formatSize(bytes) {
     return `${(bytes/1024/1024).toFixed(1)} MB`;
 }
 
+function formatDate(when) {
+    if (!when) return "????/??/??";
+
+    if (typeof when === "string" || typeof when === "number")
+        when = new Date(when);
+
+    return [when.getFullYear(), when.getMonth(), when.getDate()].join("/");
+}
+
+const UploadsList = ({videos}) => (
+    <FlatList
+        style={styles.uploads}
+        contentContainerStyle={{justifyContent: "center"}}
+        data={videos}
+        renderItem={({item, index}) => (
+            <View style={styles.uploadedItem} key={item.date}>
+                <Text>
+                    <Strong>{item.name}</Strong>{"\n"}
+                    Uploaded {formatDate(item.date)}
+                </Text>
+                <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
+                        style={{alignSelf: "flex-end"}}>
+                    Delete
+                </Button>
+            </View>
+        )}
+    />
+);
+
 export default class UploadPage extends Component {
     constructor(props) {
         super(props);
@@ -38,11 +68,15 @@ export default class UploadPage extends Component {
             video: null,
             state: CHOOSER,
             checked: false,
-            myKey: null
+            myKey: null,
+            uploaded: []
         };
     }
 
   componentDidMount() {
+      this.getUploadedVideos().then((videos) => this.setState({uploaded: videos}),
+                                    err => console.error(err));
+
     firebase.messaging().getToken()
       .then(fcmToken => {
         if (fcmToken) {
@@ -55,7 +89,6 @@ export default class UploadPage extends Component {
       }).catch(function(err) {
         console.error('An error occurred while retrieving token. ', err);
       });
-      
     this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
         // Process your token as required
         console.log("Process your token as required; refreshed token = ", fcmToken);
@@ -115,6 +148,26 @@ export default class UploadPage extends Component {
       }
     }
 
+    saveVideoInfo(video) {
+        let date = video.date || new Date();
+        return AsyncStorage.mergeItem("Aashiyaan:uploaded",
+                                      JSON.stringify({
+                                          [date.toISOString()]: video
+                                      }))
+                           .then(() => this.getUploadedVideos());
+    }
+
+    async getUploadedVideos() {
+        var videos = await AsyncStorage.getItem("Aashiyaan:uploaded");
+
+        if (videos) {
+            videos = JSON.parse(videos);
+            return Object.keys(videos).map(k => videos[k]);
+        } else {
+            return [];
+        }
+    }
+
     dummyUpload = () => {
         var transferred = 0, total = 100000000;
         this.setState({ state: UPLOADING, upload: { transferred: 0, total: total} });
@@ -143,7 +196,7 @@ export default class UploadPage extends Component {
                             user: creds.user.toJSON()
                         });
 
-                        let refpath = `${creds.user.uid}/${this.videoName()}`;
+                        let refpath = `${creds.user.uid}/${this.videoName(video)}`;
                         let ref = firebase.storage().ref(refpath);
 
                         var metadata = {
@@ -169,6 +222,10 @@ export default class UploadPage extends Component {
                                     this.setState({
                                         state: UPLOADED
                                     });
+                                    video.name = this.videoName(video);
+                                    video.size = totalBytes;
+                                    video.date = new Date();
+                                    this.saveVideoInfo(video).then(videos => this.setState({ uploaded: videos }));
                                     unsubscribe();
                                 }
                             },
@@ -185,10 +242,20 @@ export default class UploadPage extends Component {
         }
     }
 
-    videoName = () => {
-        let {video} = this.state;
+    videoName = (video) => {
+        if (!video) video = this.state.video;
 
         return video ? video.path.split("/").slice(-1)[0] : "";
+    }
+
+    renderUploaded = () => {
+        return (
+            <View style={styles.contentWrapper}>
+                <H2>Uploaded</H2>
+                <P>Your video was successfully uploaded!</P>
+                <UploadsList videos={this.state.uploaded}/>
+            </View>
+        );
     }
 
     renderUploader = () => {
@@ -207,24 +274,31 @@ export default class UploadPage extends Component {
     }
 
     renderChooser() {
+        let {checked, video, upload, uploaded} = this.state;
         return (
             <View style={styles.contentWrapper}>
                 <P>
                     INSERT EXPLANATORY TEXT HERE
                 </P>
+
+                {uploaded.length > 0 && (
+                     <P>
+                         You have uploaded {uploaded.length} videos
+                     </P>)}
+
                 <Button onPress={this.selectVideo}>
                     Select a Video
                 </Button>
 
                 <Button onPress={this.upload}
-                        disabled={!this.state.video} >
+                        disabled={!video} >
                     Upload {this.videoName()}
                 </Button>
-                    <TouchableWithoutFeedback onPress={() => this.setState({checked: !this.state.checked})}>
+                    <TouchableWithoutFeedback onPress={() => this.setState({checked: !checked})}>
                         <View style={{ flexDirection: 'row' }}>
                             <CheckBox
-                                value={this.state.checked}
-                                disabled={!this.state.video}
+                                value={checked}
+                                disabled={!video}
                             />
                             <Text style={{marginTop: 5}}> Notify me if my video is uploaded to YouTube</Text>
                         </View>
@@ -239,13 +313,7 @@ export default class UploadPage extends Component {
                 return this.renderUploader();
 
             case UPLOADED:
-                return (
-                    <View>
-                        <Text>
-                            Video uploaded!
-                        </Text>
-                    </View>
-                );
+                return this.renderUploaded();
 
             default:
                 return this.renderChooser();
@@ -275,6 +343,17 @@ const styles = StyleSheet.create({
     progressBar: {
         backgroundColor: "#333",
         width: 500
+    },
+
+    uploads: {
+
+    },
+
+    uploadedItem: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "80%"
     }
 });
 
