@@ -17,13 +17,18 @@ import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
 
-import { H2 } from "./styles.js";
+import { H2, P } from "./styles.js";
 
 
 const CHOOSER = 1
 const LOGGING_IN = 2
 const UPLOADING = 3
 const UPLOADED = 4
+
+
+function formatSize(bytes) {
+    return `${(bytes/1024/1024).toFixed(1)} MB`;
+}
 
 export default class UploadPage extends Component {
     constructor(props) {
@@ -110,6 +115,19 @@ export default class UploadPage extends Component {
       }
     }
 
+    dummyUpload = () => {
+        var transferred = 0, total = 100000000;
+        this.setState({ state: UPLOADING, upload: { transferred: 0, total: total} });
+        setInterval(() => {
+            this.setState({
+                upload: {
+                    transferred: (transferred += 1000000),
+                    total: total
+                }
+            })
+        }, 500);
+    }
+
     upload = () => {
         let {video} = this.state;
 
@@ -127,7 +145,7 @@ export default class UploadPage extends Component {
 
                         let refpath = `${creds.user.uid}/${this.videoName()}`;
                         let ref = firebase.storage().ref(refpath);
-                        
+
                         var metadata = {
                             contentType: 'video/mp4',
                             customMetadata: {
@@ -174,14 +192,15 @@ export default class UploadPage extends Component {
     }
 
     renderUploader = () => {
-        let {upload} = this.state;
+        let {total, transferred} = this.state.upload;
 
         return (
-            <View>
-                <Text>Uploading</Text>
-                <Progress current={upload.transferred}
-                          total={upload.total}
-                          text={`${upload.transferred}/${upload.total} bytes uploaded`}
+            <View style={styles.contentWrapper}>
+                <H2>Uploading {this.videoName()}</H2>
+                <Progress current={transferred}
+                          total={total}
+                          text={`${formatSize(transferred)}/${formatSize(total)} bytes uploaded`}
+                          style={styles.progressBar}
                 />
             </View>
         );
@@ -189,19 +208,18 @@ export default class UploadPage extends Component {
 
     renderChooser() {
         return (
-            <View style={{ flexDirection: 'column' }}>
-                {/* <View style={{ flexDirection: 'row' }}> */}
-                    <Button onPress={this.selectVideo}>
-                        Select a Video
-                    </Button>
-                {/* </View> */}
+            <View style={styles.contentWrapper}>
+                <P>
+                    INSERT EXPLANATORY TEXT HERE
+                </P>
+                <Button onPress={this.selectVideo}>
+                    Select a Video
+                </Button>
 
-                {/* <View style={{ flexDirection: 'row' }}> */}
-                    <Button onPress={this.upload}
-                            disabled={!this.state.video}>
-                        Upload {this.videoName()}
-                    </Button>
-                {/* </View> */}
+                <Button onPress={this.upload}
+                        disabled={!this.state.video} >
+                    Upload {this.videoName()}
+                </Button>
                     <TouchableWithoutFeedback onPress={() => this.setState({checked: !this.state.checked})}>
                         <View style={{ flexDirection: 'row' }}>
                             <CheckBox
@@ -249,6 +267,14 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    contentWrapper: {
+        flexDirection: 'column',
+        flex: 1
+    },
+    progressBar: {
+        backgroundColor: "#333",
+        width: 500
     }
 });
 
