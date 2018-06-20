@@ -48,14 +48,14 @@ export default class RemnantDisplay extends Component {
 
 
 
-
 class RemnantInteraction extends Component {
 	constructor({props}){
 		super(props); 
 		this.state = {
 			pressFade: new Animated.Value(1),
+			pressHint: new Animated.Value(1)
 		};
-	};
+	}
 
 		fade = ( ) => {			
 			console.log("fade duration " + this.props.duration()); 
@@ -67,7 +67,6 @@ class RemnantInteraction extends Component {
 				}).start();
 			this.props.sound.play(); 
 		}
-
 
 		stopFade = ( ) => {
 			Animated.timing(this.state.pressFade, {
@@ -85,20 +84,43 @@ class RemnantInteraction extends Component {
 		}		
 
 
+		pressHinter = () => {
+			Animated.sequence([
+				Animated.timing(this.state.pressHint, {
+					toValue: 0.8,  
+					duration:1000,
+					easing: Easing.out(Easing.cubic)
+				}),
+				Animated.spring(this.state.pressHint, {
+					toValue: 1.1, 
+					friction: 4
+				})
+			]).start( () => setTimeout(this.pressHinter, 3000) )
+		}
+
+
+		componentDidMount = () => { setTimeout(this.pressHinter, 3000) }
+
+
 	render() {
 		let { image } = this.props; 
-		let { pressFade } = this.state;
+		let { pressFade, pressHint } = this.state;
 
 	return (
-		<Animated.View >
-			<TouchableWithoutFeedback 
-				onPressIn={this.fade} 
-				onPressOut={this.stopFade}>
-				<Animated.Image 
-					source={image}
-					style={[styles.remnantImage, {opacity: pressFade}]} />
-			</TouchableWithoutFeedback>
-		</Animated.View>
+			<View>
+			<Animated.View >
+				<TouchableWithoutFeedback 
+					onPressIn={this.fade} 
+					onPressOut={this.stopFade}>
+					<Animated.Image 
+						source={ image }
+						style={[ styles.remnantImage, {opacity: pressFade} ]} />
+				</TouchableWithoutFeedback>
+				<PressAndHold 
+					transform={ [{scale: pressHint}] } 
+				/>
+			</Animated.View>
+		</View>
 
 		);
 	}
@@ -106,11 +128,53 @@ class RemnantInteraction extends Component {
 
 
 
+
+
+class PressAndHold extends Component {
+	constructor({props}){
+		super(props); 
+		this.state = {}
+	}
+
+
+	render(){
+
+		let { transform } = this.props; 
+
+		return (
+			<Animated.View style={styles.pressHold}>
+			<Animated.Image 
+				source={require("./assets/pointandtouchlarge.png")}
+				style={[styles.pointer, {transform: transform } ]}
+				resizeMode="contain"
+			/>	
+			</Animated.View>
+		)
+	}
+}
+
+
+//have icon appear at 2s, move at 3s
+//incorporate mike's changes
+
 const styles = StyleSheet.create({
 	remnantImage: {
 		resizeMode: "cover",
 		height: height,
 		width: width,
 	},
-
+	pressHold: {	
+		flex: 1, 
+		position: 'absolute', 
+		flexDirection: 'column', 	
+		alignItems: 'flex-end',
+		justifyContent: 'flex-end',
+		height: height, 
+		width: width,
+	},
+	pointer: {
+		height: height/3,
+		width: width/3,
+		marginBottom: '10%',
+	},
 })
