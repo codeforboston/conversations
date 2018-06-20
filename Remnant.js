@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
 	View,
-	Text, 
+	Text,
 	Image,
 	Animated,
 	Dimensions,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { remnants } from './config';
-import Sound from 'react-native-sound'; 
+import Sound from 'react-native-sound';
 
 
 const height = Dimensions.get('window').height;
@@ -19,28 +19,28 @@ const width = Dimensions.get('window').width;
 
 export default class RemnantDisplay extends Component {
 	constructor(props) {
-		super(props); 
+		super(props);
 		this.state = {};
-	
+
 	};
 
 	render() {
-		const navigation = this.props.navigation; 
+		const navigation = this.props.navigation;
 		const image = navigation.getParam('picture', "require('./assets/RemnantsAppearPlate.png')");
-		const audio = navigation.getParam('audio', 'audiotest3.mp3');
-		
-		const sound = new Sound(audio); 
-		const myDuration = sound.getDuration; 
-		const duration = myDuration.bind(sound); 
+		const audio = navigation.getParam('audio', 'remnant_1.mp3');
 
+		const sound = new Sound(audio);
+		const myDuration = sound.getDuration;
+		const duration = myDuration.bind(sound);
 
 
 		return(
-			<RemnantInteraction  
+			<RemnantInteraction
 				image={image}
 				audio={audio}
 				sound={sound}
 				duration={duration}
+				navigation={navigation}
 			/>
 		)
 	}
@@ -50,39 +50,40 @@ export default class RemnantDisplay extends Component {
 
 class RemnantInteraction extends Component {
 	constructor({props}){
-		super(props); 
+		super(props);
 		this.state = {
 			pressFade: new Animated.Value(1),
 			pressHint: new Animated.Value(1)
 		};
 	}
 
-		fade = ( ) => {			
-			console.log("fade duration " + this.props.duration()); 
+		fade = ( ) => {
+			console.log("fade duration " + this.props.duration());
 
 			Animated.timing(this.state.pressFade, {
 				toValue: 0,
 				duration: this.props.duration() * 1000,
 				easing: Easing.out(Easing.cubic)
 				}).start();
-			this.props.sound.play(); 
+			this.props.sound.play((success) => {
+                this.props.navigation.navigate("RemnantChooser");
+   			});
 		}
 
 		stopFade = ( ) => {
 			Animated.timing(this.state.pressFade, {
 				toValue: 0,
 				duration: this.props.duration()  * 1000,
-			}).stop();	
-			
-			this.props.sound.pause(); 
-			
+			}).stop();
+
+			this.props.sound.pause();
+
 
 			this.props.sound.getCurrentTime((seconds) => {
 				let remaining =  this.props.duration() - seconds;
 				console.log( "elapsed " + seconds + "\nremaining " + remaining );
 			})
-		}		
-
+		}
 
 		pressHinter = () => {
 			Animated.sequence([
