@@ -48,12 +48,16 @@ export default class RemnantDisplay extends Component {
 
 
 
+
+
+
 class RemnantInteraction extends Component {
 	constructor({props}){
 		super(props); 
 		this.state = {
 			pressFade: new Animated.Value(1),
-			pressHint: new Animated.Value(1)
+			pressHint: new Animated.Value(1),
+			delayAppearance: new Animated.Value(0),
 		};
 	}
 
@@ -86,6 +90,11 @@ class RemnantInteraction extends Component {
 
 		pressHinter = () => {
 			Animated.sequence([
+				Animated.timing(this.state.delayAppearance, {
+					toValue: 1, 
+					duration: 500,
+					delay: 2000,	
+				}),
 				Animated.timing(this.state.pressHint, {
 					toValue: 0.8,  
 					duration:1000,
@@ -95,16 +104,15 @@ class RemnantInteraction extends Component {
 					toValue: 1.1, 
 					friction: 4
 				})
-			]).start( () => setTimeout(this.pressHinter, 3000) )
+			]).start( () => setTimeout(this.pressHinter, 1000) )
 		}
 
-
-		componentDidMount = () => { setTimeout(this.pressHinter, 3000) }
+		componentDidMount = () => { this.pressHinter }
 
 
 	render() {
 		let { image } = this.props; 
-		let { pressFade, pressHint } = this.state;
+		let { pressFade, pressHint, delayAppearance } = this.state;
 
 	return (
 			<View>
@@ -117,7 +125,8 @@ class RemnantInteraction extends Component {
 						style={[ styles.remnantImage, {opacity: pressFade} ]} />
 				</TouchableWithoutFeedback>
 				<PressAndHold 
-					transform={ [{scale: pressHint}] } 
+					transform={ [{scale: pressHint}] }
+					opacity={delayAppearance} 
 				/>
 			</Animated.View>
 		</View>
@@ -139,13 +148,13 @@ class PressAndHold extends Component {
 
 	render(){
 
-		let { transform } = this.props; 
+		let { transform, delayAppearance } = this.props; 
 
 		return (
 			<Animated.View style={styles.pressHold}>
 			<Animated.Image 
 				source={require("./assets/pointandtouchlarge.png")}
-				style={[styles.pointer, {transform: transform } ]}
+				style={[styles.pointer, {transform: transform }, {opacity: delayAppearance} ]}
 				resizeMode="contain"
 			/>	
 			</Animated.View>
