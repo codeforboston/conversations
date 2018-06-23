@@ -11,7 +11,6 @@ import {
 import { ENGLISH, HINDI } from "../config";
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
-
 import pageStyles, { A, H2, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
 
 
@@ -172,6 +171,13 @@ const ProjectCredits = () => (
 );
 
 export default class AboutPage extends Component {
+    static navigationOptions = ({screenProps}) =>({
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log(screenProps.previousTabScreen)
+          console.log("FROM ABOUT")
+        }
+    })
+
     render() {
         let Description = ProjectDescription[global.LANG || HINDI];
 
@@ -195,11 +201,3 @@ const styles = StyleSheet.create({
     }
 })
 
-AboutPage.navConfig = {
-    screen: AboutPage,
-
-    navigationOptions: ({navigation}) => ({
-        headerStyle: pageStyles.header,
-        headerTitle: "About this Project"
-    })
-}

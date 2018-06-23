@@ -7,8 +7,10 @@ import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import { Button } from "./component/Button.js";
 import HelpPage from "./page/Help.js";
+import pageStyles from "./page/styles.js";
 
-const youtubeApiKey = process.env.YOUTUBE_API_KEY;
+
+const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU"; 
 
 console.disableYellowBox = true;
 
@@ -31,12 +33,12 @@ class Player extends React.Component {
 }
 
 class tempCamera extends React.Component{
-  render(){
-    return(
-      <Text> {this.props.navigation.getParam('videoId',"")} </Text>
-    )
-  }
-}
+  static navigationOptions = ({screenProps}) =>({
+    tabBarOnPress: (scene, jumpToIndex) => {
+      console.log(screenProps.previousTabScreen);
+    }
+});
+};
 
 class tempSettings extends React.Component{
   render(){
@@ -54,7 +56,46 @@ const SelectedTabIcons = {
     Help: require('./assets/help/help-24px_selected.png')
 };
 
-export default createBottomTabNavigator({
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {previousTabScreen: 'ObjectChooserXXX'};
+  }
+
+  getCurrentRouteName = navigationState => {
+    if (!navigationState) {
+      return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+
+    if (route.routes) {
+      return getActiveRouteName(route);
+    }
+    return route.routeName;
+  }
+
+  render(){
+      return(
+          <TabNav
+              onNavigationStateChange={(prevState, currentState) => {
+                  const currentTabScreen = this.getCurrentRouteName(currentState);
+                  const previousTabScreen = this.getCurrentRouteName(prevState);
+                  if (currentTabScreen !== previousTabScreen) {
+                      this.setState({
+                          previousTabScreen: currentTabScreen,
+                      });
+                  }
+              }}
+              screenProps={{
+                  previousTabScreen: this.state.previousTabScreen,
+              }}
+          />
+      )
+  }
+}
+
+const TabNav = createBottomTabNavigator({
   HomeScreen: {screen: HomeScreen,
     navigationOptions: {
       tabBarVisible: false,
@@ -62,20 +103,19 @@ export default createBottomTabNavigator({
     },
   },
   Chooser: {screen: ObjectChooser},
-  tempCamera: { screen: tempCamera },
   tempSettings: { screen: tempSettings },
-  About: { screen: AboutPage },
   Player: { screen: Player,
-    navigationOptions: {
+  navigationOptions: {
       tabBarVisible: false,
       tabBarIcon: null,
-    }, },
-<<<<<<< HEAD
-=======
-  tempSettings: { screen: tempSettings },
-    About: AboutPage.navConfig,
+    }},
+    tempSettings: { screen: tempSettings },
+    About: { screen: AboutPage,
+    navigationOptions: {
+        headerStyle: pageStyles.header,
+        headerTitle: "About this Project"
+    }},
     Help: HelpPage.navConfig
->>>>>>> aashiyaan/GlobalNavBar
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
@@ -106,20 +146,11 @@ export default createBottomTabNavigator({
         if (focused) {
             finishedIcon = require('./assets/help/audio_help-24px_selected.png')
         }
-<<<<<<< HEAD
       } 
-=======
-      } else {
-          finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
-      }
-
-      if (navigation.state.params) {
-        console.log(params);
-        finishedIcon = require('./assets/help/tap_and_hold-24px_default.png');
-      }
-      
->>>>>>> aashiyaan/GlobalNavBar
       return <Image source={finishedIcon} />;
+    },
+    tabBarOnPress: (screen) => {
+      screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
     },
   }),
   tabBarOptions: {
