@@ -179,12 +179,18 @@ const Section = (props) => (<Text/>);
 
 
 export default class HelpPage extends Component {
+    static navigationOptions = ({screenProps}) => ({
+        tabBarOnPress: (scene, jumpToIndex) => {
+            console.log('coming to help page from', screenProps.previousTabScreen)
+            scene.navigation.navigate('Help',{previousTabScreen: screenProps.previousTabScreen})
+        }
+    })
+
     render() {
         let {navigation} = this.props,
-            {params} = navigation.state,
-            section = params && params.section,
+            section = navigation.getParam('previousTabScreen', 'Home'),
             gotoSection = (section) => { navigation.setParams({ section: section })};
-
+            
         let SLink = ({children, s}) => (
             <A onPress={() => navigation.setParams({ section: s })}>{children}</A>);
 
