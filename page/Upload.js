@@ -73,31 +73,29 @@ export default class UploadPage extends Component {
         };
     }
 
-  componentDidMount() {
-      this.getUploadedVideos().then((videos) => this.setState({uploaded: videos}),
-                                    err => console.error(err));
+    componentDidMount() {
+        this.getUploadedVideos().then((videos) => this.setState({uploaded: videos}),
+                                        err => console.error(err));
 
-    firebase.messaging().getToken()
-      .then(fcmToken => {
-        if (fcmToken) {
-          // user has a device token
-          console.log("user has a device token; fcmtoken = ", fcmToken);
-        } else {
-          // user doesn't have a device token yet
-          console.log("user doesn't have a device token yet; fcmtoken = ", fcmToken);
-        } 
-      }).catch(function(err) {
-        console.error('An error occurred while retrieving token. ', err);
-      });
-    this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-        // Process your token as required
-        console.log("Process your token as required; refreshed token = ", fcmToken);
-      });
-  }
+        firebase.messaging().getToken()
+        .then(fcmToken => {
+            if (fcmToken) {
+            // user has a device token
+            console.log("user has a device token; fcmtoken = ", fcmToken);
+            } else {
+            // user doesn't have a device token yet
+            console.log("user doesn't have a device token yet; fcmtoken = ", fcmToken);
+            } 
+        }).catch(function(err) {
+            console.error('An error occurred while retrieving token. ', err);
+        });
+        this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+            // Process your token as required
+            console.log("Process your token as required; refreshed token = ", fcmToken);
+        });
 
-  componentWillUnmount() {
-      this.onTokenRefreshListener();
-  }
+        this.onTokenRefreshListener();
+    }
 
     selectVideo = () => {
         ImagePicker.showImagePicker({
@@ -184,11 +182,6 @@ export default class UploadPage extends Component {
     upload = () => {
         let {video} = this.state;
 
-        if(this.state.checked) {
-            // TODO - instanceID - get and save as meta-data
-
-        }
-
         if (video) {
             firebase.auth().signInAnonymouslyAndRetrieveData()
                     .then(creds => {
@@ -205,6 +198,11 @@ export default class UploadPage extends Component {
                               'userAuthId': this.state.user.uid
                             }
                           };
+
+                        if(this.state.checked) {
+                            // TODO - instanceID - get and save as meta-data
+
+                        }
 
                         let unsubscribe = ref.putFile(video.path, metadata).on(
                             firebase.storage.TaskEvent.STATE_CHANGED,

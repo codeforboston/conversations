@@ -1,6 +1,7 @@
 package org.aashiyaan;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
@@ -9,6 +10,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -17,7 +19,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -34,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebasePackage(),
           new RNFirebaseAuthPackage(),
           new RNFirebaseStoragePackage(),
-          new RNFirebaseMessagingPackage() 
+          new RNFirebaseMessagingPackage(),
+          new RNFirebaseFirestorePackage() 
       );
     }
 

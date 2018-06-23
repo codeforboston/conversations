@@ -8,7 +8,7 @@ import HomeScreen from './HomeScreen';
 
 import AboutPage from "./page/About.js";
 import UploadPage from "./page/Upload.js";
-
+import ContactPage from "./page/Contact.js";
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 console.disableYellowBox = true;
@@ -34,17 +34,18 @@ class Player extends React.Component {
 
 export default StackNavigator({
   Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      header: null,
-    },
+          screen: HomeScreen,
+          navigationOptions: {
+            header: null,
+          },
+        },
+  Chooser: {
+      screen: ObjectChooser,
   },
-    Chooser: {
-        screen: ObjectChooser,
-    },
   Player: { screen: Player },
-    About: AboutPage.navConfig,
-    Upload: UploadPage.navConfig
+  About: AboutPage.navConfig,
+  // Upload: UploadPage.navConfig
+  Upload: ContactPage.navConfig
 }, {
     headerMode: "none"
 });
