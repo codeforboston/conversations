@@ -49,6 +49,8 @@ class ObjectChooser extends React.Component {
       this.setState({ watchedVideos: Array.from(watchedVideos) });
       navigation.navigate('Player', { videoId: video.youtubeVideoId });
     }, shouldDisableRemnant, this.state.imgwidth / 3);
+    
+
     return (
       <View style={{flex:1, flexDirection: 'row'}}>
         <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage} />
@@ -69,7 +71,8 @@ class ObjectChooser extends React.Component {
                   pressAnimation="spring"
                   style={styles.navIcon}
                   navigation={navigation}
-                  route="Upload" />
+                  // route="Upload" />
+                  route="RemnantChooser" />
         </View>
       </View>
     );

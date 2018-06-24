@@ -11,6 +11,7 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -37,7 +38,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           new RNFirebaseAuthPackage(),
           new RNFirebaseStoragePackage(),
           new RNFirebaseMessagingPackage(),
-          new RNFirebaseFirestorePackage() 
+          new RNFirebaseFirestorePackage(),
+          new RNSoundPackage()
       );
     }
 
