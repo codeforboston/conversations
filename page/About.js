@@ -175,6 +175,7 @@ export default class AboutPage extends Component {
         tabBarOnPress: (scene, jumpToIndex) => {
           console.log(screenProps.previousTabScreen)
           console.log("FROM ABOUT")
+          scene.navigation.navigate('About')
         }
     })
 
