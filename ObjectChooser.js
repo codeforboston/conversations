@@ -71,7 +71,7 @@ class ObjectChooser extends React.Component {
                   pressAnimation="spring"
                   style={styles.navIcon}
                   navigation={navigation}
-                  // route="Upload" />
+                  // route="Upload" /> // TODO
                   route="RemnantChooser" />
         </View>
       </View>

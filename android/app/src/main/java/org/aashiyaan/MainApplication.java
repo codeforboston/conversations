@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import com.facebook.react.ReactApplication;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.imagepicker.ImagePickerPackage;
+import in.sriraman.sharedpreferences.RNSharedPreferencesReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
@@ -39,7 +40,8 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
           new RNFirebaseStoragePackage(),
           new RNFirebaseMessagingPackage(),
           new RNFirebaseFirestorePackage(),
-          new RNSoundPackage()
+          new RNSoundPackage(),
+          new RNSharedPreferencesReactPackage()
       );
     }
 
