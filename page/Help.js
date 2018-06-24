@@ -54,7 +54,7 @@ export class SectionedScroller extends Component {
     _scrollTo(name, animated=false) {
         let child = this.refs[name];
 
-        if (child) {
+        if (child != null) {
             let nodeHandle = ReactNative.findNodeHandle(this._scroller);
             child.measureLayout(nodeHandle, (_x, y) => {
                 this._scroller.scrollTo({x: 0, y: y-30, animated: animated});
@@ -124,7 +124,9 @@ export class SectionedScroller extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.selected && prevProps.selected !== this.props.selected)
+        console.log('updated props, navigated from ' + this.props.selected)
+        // never evaluates to true?
+        // if (this.props.selected && prevProps.selected !== this.props.selected)
             this._scrollTo(this.props.selected, true);
     }
 
@@ -181,10 +183,14 @@ const Section = (props) => (<Text/>);
 export default class HelpPage extends Component {
     static navigationOptions = ({screenProps}) => ({
         tabBarOnPress: (scene, jumpToIndex) => {
-            console.log('coming to help page from', screenProps.previousTabScreen)
+            console.log('arriving at help page from', screenProps.previousTabScreen)
             scene.navigation.navigate('Help',{previousTabScreen: screenProps.previousTabScreen})
         }
     })
+
+    componentDidUpdate(prevProps) {
+        this.props.selected = this.props.navigation.getParam('previousTabScreen')
+    }
 
     render() {
         let {navigation} = this.props,
@@ -197,7 +203,7 @@ export default class HelpPage extends Component {
         return (
             <SectionedScroller selected={section}
                                style={{backgroundColor: "white"}}>
-                <Section title="Home" key="home">
+                <Section title="Home" key="Chooser">
                     <P>
                         <Strong>Objects:</Strong> To play a video clip, select
                         one of the Objects at the top of the page. Each video will feature
@@ -214,7 +220,7 @@ export default class HelpPage extends Component {
                         screen. (See <SLink s="remnants">Remnants</SLink> section).
                     </P>
                 </Section>
-                <Section title="Share Your Video Story" key="share">
+                <Section title="Share Your Video Story" key="Player">
                     <P>
                         Share your own story. By sharing more strategies you will
                         help other women arm themselves and reclaim the city.
@@ -234,7 +240,7 @@ export default class HelpPage extends Component {
                         video has been deleted?)
                     </P>
                 </Section>
-                <Section title="Remnants" key="remnants">
+                <Section title="Remnants" key="RemnantChooser">
                     <P>
                         <Strong>Objects:</Strong> To play a video clip, select
                         one of the Objects at the top of the page. Each video will feature
@@ -251,7 +257,7 @@ export default class HelpPage extends Component {
                         screen. (See Remnants section). 
                     </P>
                 </Section>
-                <Section title="Resources">
+                <Section title="Resources" key="About">
                     <P><Em>I’m interested in knowing more</Em></P>
                     <P>
                         Visit <A href="http://www.aashiyaan.org">www.aashiyaan.org</A> to learn more
