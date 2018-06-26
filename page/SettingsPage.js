@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions, PixelRatio} from 'react-native';
+import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import styles , {P,H2,HR} from "././styles.js";
+import {getLocalizedString} from ".././Languages/LanguageChooser";
+import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
+import {saveSetting, getSetting} from ".././StorageUtils";
+
 
 const pr = PixelRatio.get();
-
-var radio_props = [
-  {label: 'English', value: 0 },
-  {label: 'Hindi (हिन्दी)', value: 1 }
-];
-
 const radioToLanguageMap = {
   0: 'English',
   1 : 'Hindi'
@@ -16,62 +15,102 @@ const radioToLanguageMap = {
 
 const languageToRadioMap = {
   'English': 0,
-   'Hindi': 1
+  'Hindi': 1
 };
 
+const englishLocalization = getLocalizedString(radioToLanguageMap[0]);
+const hindiLocalization = getLocalizedString(radioToLanguageMap[1]);
+
+var radio_props = [
+  {label: englishLocalization["languageName"], value: 0 },
+  {label: hindiLocalization["languageName"], value: 1 }
+];
 
 export default class SettingsPage extends Component {
   constructor(props) {
     super(props);
     this.handleSettingsChanged = this.handleSettingsChanged.bind(this);
+    this.state = {language: global.LANG};
   }
 
   handleSettingsChanged(value) {
-    global.LANG = radioToLanguageMap[value];
+      global.LANG = radioToLanguageMap[value];
+      this.setState({language: global.LANG});
+      saveSetting({name: "languagePreference", value: global.LANG});
   } 
 
 
   render() {
+    const width = Dimensions.get('window').width;
+    const height = Dimensions.get('window').height;
+    let homeScreenImage = require('.././assets/BackgroundForAppLanding.png');
+
+    let localizedStrMap = getLocalizedString(global.LANG);
+    let AboutDescription = ProjectDescription[global.LANG];
+
     return (
-      <View style={styles.BackGroundStyle} >
-         <View style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }} > 
-          <Text style={styles.languageChooser}>
-            Choose a Language:
-          </Text> 
-       
-            <RadioForm style={styles.radioForm}
-              radio_props={radio_props}
-              buttonColor={'rgb(43,35,103)'}
-              selectedButtonColor={'rgb(43,35,103)'}            
-              initial={languageToRadioMap[global.LANG]}
-              labelStyle={{fontSize: 7.5*pr}}
-              buttonStyle={{lineHeight: 10, alignSelf: 'flex-start'}}
-              labelStyle={{fontSize: 10*pr, lineHeight: 12*pr, width: 150}}
-              onPress={(value) => {this.handleSettingsChanged(value)}}
-            />
-        </View>
-      </View>
+      <ImageBackground
+          source={ homeScreenImage }
+          imageStyle={{resizeMode: 'cover'}}
+          style={{width: width, height: height}}
+      >
+        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05}}>
+           <View style={mystyles.BackGroundStyle} >
+              <View style={mystyles.SettingsTitle}>
+                    <H2>{localizedStrMap["settingsTitle"]}</H2>
+              </View>
+              <View style={mystyles.languageChooser}> 
+                  <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
+              </View>
+              <RadioForm style={styles.radioForm}
+                  radio_props={radio_props}
+                  buttonColor={'rgb(43,35,103)'}
+                  selectedButtonColor={'rgb(43,35,103)'}            
+                  initial={languageToRadioMap[global.LANG]}
+                  buttonStyle={styles.settingsRadioButton}
+                  labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
+                  onPress={(value) => {this.handleSettingsChanged(value)}}
+                />
+                <HR />
+                <View style={mystyles.SettingsTitle}>
+                  <H2>{localizedStrMap["aboutTheProjectTitle"]}</H2>
+                </View>
+                <View style={mystyles.AboutDesc}>
+                    <AboutDescription />
+                </View>
+                <HR />
+                <View style={mystyles.SettingsTitle}>
+                    <H2>
+                        {localizedStrMap["acknowledgementsTitle"]}
+                    </H2>
+                </View>
+                <View>
+                    <ProjectCredits>{localizedStrMap}</ProjectCredits>
+                </View>
+                <View style={{marginBottom: 10*pr}}></View>
+           </View>
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }
 
-
-const styles = StyleSheet.create({
+const mystyles = StyleSheet.create({
   BackGroundStyle: {
-     backgroundColor: 'rgb(255, 255, 255)',
-     position: 'absolute',
-     width: Dimensions.get('window').width,
-     height: Dimensions.get('window').height,
+     flex: 1,
+     flexDirection: 'column'
+  },
+  SettingsTitle: {
+     paddingTop: 10*pr,
+     paddingLeft: 15*pr,
   },
   languageChooser: {
-    fontSize: 13 * pr,
-    color: 'rgb(43, 35, 103)',
-    marginBottom: 10*pr
+      paddingLeft: 20*pr
+  },
+  AboutDesc: {
+     paddingLeft: 10*pr,
+     paddingRight: 10*pr,
+     marginBottom: 10*pr
   }
 });
 

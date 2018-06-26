@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { Linking, PixelRatio, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import { Linking, StyleSheet, Text, PixelRatio, View} from 'react-native';
+
+const pr = PixelRatio.get();
 
 
 export const H2 = ({style, children}) => (
@@ -64,7 +66,9 @@ export const BullHeaderMain = ({children}) => (
     </Text>
 );
 
-let fr = PixelRatio.get();
+export const HR = () => (
+    <View style={styles.horizontalLine}></View>
+);
 
 const styles = StyleSheet.create({
     header: {
@@ -72,21 +76,24 @@ const styles = StyleSheet.create({
         fontWeight: "100"
     },
 
-    h2: {
-        fontSize: 14 * fr,
-        lineHeight: 22 * fr,
-        padding: 3 * fr
+    horizontalLine: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        marginTop: 3*pr
     },
 
-    h3: {
-        fontSize: 12 * fr,
-        padding: 3 * fr
+    h2: {
+        fontSize: 14 * pr,
+        lineHeight: 22 * pr,
+        color: 'rgb(43, 35, 103)'
+        /* textDecorationColor: "#ddd",
+         * textDecorationLine: "underline" */
     },
 
     bodyText: {
-        fontSize: 6 * fr,
-        lineHeight: 12 * fr,
-        padding: 2 * fr,
+        fontSize: 6*pr,
+        lineHeight: 20,
+        padding: 15,
         textAlign: "justify"
     },
 
@@ -119,17 +126,30 @@ const styles = StyleSheet.create({
     },
 
     bullHeader: {
-        fontSize: 15 * fr,
-        lineHeight: 20 * fr,
+        fontSize: 15 * pr,
+        lineHeight: 20 * pr,
         padding: 15,
         textAlign: "justify"
     },
 
     bullHeaderMain: {
-        fontSize: 16 * fr,
-        lineHeight: 20 * fr,
+        fontSize: 16 * pr,
+        lineHeight: 20 * pr,
         paddingTop: 19,
         textAlign: "justify"
+    },
+
+    // These are the Settings Page Styles . Merge in for the about page from here
+    settingsRadioFormLabel: {
+        lineHeight: 12*pr,
+        width: 150
+    },
+    fontSize10: {
+        fontSize: 7*pr
+    },
+    settingsRadioButton: {
+        lineHeight: 10, 
+        alignSelf: 'flex-start'
     }
 });
 
