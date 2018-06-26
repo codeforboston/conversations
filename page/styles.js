@@ -66,18 +66,20 @@ const styles = StyleSheet.create({
     },
 
     h2: {
-        fontSize: 16 * fr,
+        fontSize: 14 * fr,
         lineHeight: 22 * fr,
+        padding: 3 * fr
     },
 
     h3: {
-        fontSize: 12 * fr
+        fontSize: 12 * fr,
+        padding: 3 * fr
     },
 
     bodyText: {
-        fontSize: 10 * fr,
-        lineHeight: 14 * fr,
-        padding: 15,
+        fontSize: 6 * fr,
+        lineHeight: 12 * fr,
+        padding: 2 * fr,
         textAlign: "justify"
     },
 

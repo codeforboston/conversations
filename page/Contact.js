@@ -62,7 +62,8 @@ export default class ContactPage extends Component {
                     onChangeText={(email) => this.setState({email})}
                 />
                 <TextInput
-                    style={styles.textContainer}
+                    style={[styles.textContainer, styles.textarea]}
+                    underlineColorAndroid="transparent"
                     multiline={true}
                     numberOfLines={4}
                     placeholder={'Type your message here'}
@@ -84,8 +85,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textContainer : {
+        borderColor: "#aaa",
+        borderWidth: 1,
+        padding: 5,
+        margin: 5,
         width: 250,
         height: 40
+    },
+    textarea: {
+        height: 80,
+        textAlignVertical: "top"
     }
 });
 
