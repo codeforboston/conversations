@@ -6,6 +6,8 @@ import ObjectChooser from './ObjectChooser';
 import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import { Button } from "./component/Button.js";
+import UploadPage from "./page/Upload.js";
+import ContactPage from "./page/Contact.js";
 import HelpPage from "./page/Help.js";
 import pageStyles from "./page/styles.js";
 
@@ -32,15 +34,7 @@ class Player extends React.Component {
   }
 }
 
-class tempCamera extends React.Component{
-  static navigationOptions = ({screenProps}) =>({
-    tabBarOnPress: (scene, jumpToIndex) => {
-      console.log(screenProps.previousTabScreen);
-    }
-});
-};
-
-class tempSettings extends React.Component{
+class SettingsPage extends React.Component{
   render(){
     return(
       <Text> Settings </Text>
@@ -103,18 +97,20 @@ const TabNav = createBottomTabNavigator({
     },
   },
   Chooser: {screen: ObjectChooser},
-  tempSettings: { screen: tempSettings },
+  Settings: { screen: SettingsPage },
   Player: { screen: Player,
   navigationOptions: {
       tabBarVisible: false,
       tabBarIcon: null,
     }},
-    tempSettings: { screen: tempSettings },
+    Settings: { screen: SettingsPage },
     About: { screen: AboutPage,
     navigationOptions: {
         headerStyle: pageStyles.header,
         headerTitle: "About this Project"
     }},
+    Contact: ContactPage.navConfig,
+    Upload: UploadPage.navConfig,
     Help: HelpPage.navConfig
 }, {
   navigationOptions: ({ navigation }) => ({
@@ -129,13 +125,13 @@ const TabNav = createBottomTabNavigator({
             finishedIcon = require('./assets/help/tap_and_hold-24px_selected.png')
         }
       }
-      else if (routeName == 'tempCamera' ) {
+      else if (routeName == 'Upload' ) {
         finishedIcon = require('./assets/help/submit_video-24px_default.png');
         if (focused) {
             finishedIcon = require('./assets/help/submit_video-24px_selected.png')
         }
       }
-      else if (routeName == 'tempSettings' ) {
+      else if (routeName == 'Settings' ) {
         finishedIcon = require('./assets/help/settings-24px_default.png');
         if (focused) {
             finishedIcon = require('./assets/help/settings-24px_selected.png')

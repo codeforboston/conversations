@@ -10,37 +10,42 @@ import {
 } from "react-native";
 
 
+function debounceFn(fn, period) {
+    var lastCalled;
+    return (...args) => {
+        if (!lastCalled || new Date().getTime() - lastCalled >= period) {
+            lastCalled = new Date().getTime();
+            return fn(...args);
+        }
+    }
+}
+
 function makePressHandler({navigation, route, navParams, onPress}) {
-    if (navigation && route)
+    if (navigation && route) {
         return (...args) => {
             navigation.navigate(route, navParams);
             if (onPress) onPress(...args);
         }
+    }
 
     return onPress;
 }
 
-export const TextButton = ({navigation, route, navParams, onPress, children, style, ...props}) => (
-    <TouchableHighlight onPress={makePressHandler({navigation, route, navParams, onPress})}
-                        underlayColor="rgba(255, 255, 255, 0.5)">
-        <Text style={[styles.textButton, style]} {...props}>
-            {children}
-        </Text>
-    </TouchableHighlight>
-);
-
 export class Button extends Component {
     constructor(props) {
         super(props);
+
+        let handler = makePressHandler(this.props);
         this.state = {
             active: false,
-            scale: new Animated.Value(1)
+            scale: new Animated.Value(1),
+            pressHandler: props.debounce ? debounceFn(handler, props.debounce) : handler
         };
     }
 
     renderContents = () => {
         let {activeImage, disabled, image, imageStyle, children,
-             textStyles, activeTextStyles, style} = this.props,
+             buttonStyle, activeTextStyles, style} = this.props,
             {scale} = this.state,
             transform = [{scale: scale}],
             active = !disabled && this.state.active;
@@ -60,7 +65,7 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[style, styles.button, textStyles, active && activeTextStyles,
+            <Text style={[styles.button, buttonStyle, active && activeTextStyles,
                           disabled && styles.disabledButton]}>
                 {children}
             </Text>
@@ -68,11 +73,20 @@ export class Button extends Component {
     }
 
     _queue = []
+    _blockQueue = false
 
-    _queueAnimation = (...animations) => {
-        this._queue.push(...animations);
-        if (!this._animation) {
-            this._nextAnimation();
+    _queueAnimation = (animation, block=false) => {
+        if (!this._blockQueue) {
+            this._queue.push(animation);
+
+            if (block) {
+                this._blockQueue = true;
+                this._queue.push(() => this._blockQueue = false);
+            }
+
+            if (!this._animation) {
+                this._nextAnimation();
+            }
         }
     }
 
@@ -123,14 +137,14 @@ export class Button extends Component {
     }
 
     onPress = (...args) => {
-        let handler = makePressHandler(this.props);
+        let {pressAnimation} = this.props,
+            {pressHandler} = this.state;
 
-        this._queueAnimation(() => handler(...args));
+        this._queueAnimation(() => pressHandler(...args), true);
     }
 
     render() {
-        let {activeOpacity, disabled, style, onPress, ...props} = this.props,
-            {active} = this.state;
+        let {activeOpacity, debounce, disabled, style, onPress, ...props} = this.props;
 
         return (
             <TouchableOpacity
@@ -150,6 +164,7 @@ export class Button extends Component {
 
 Button.defaultProps = {
     activeOpacity: 0.5,
+    debounce: 500,
     disabled: false,
     navParams: {}
 };

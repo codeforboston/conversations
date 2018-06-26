@@ -203,3 +203,5 @@ xcuserdata/
 MISC/
 
 # End of https://www.gitignore.io/api/reactnative
+
+google-services.json
