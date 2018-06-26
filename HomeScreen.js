@@ -3,8 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} from 'react-native';
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";
-
-
+import {saveSetting, getSetting} from "./StorageUtils";
 
 class HomeScreenWrapped extends React.Component {
 
@@ -19,6 +18,8 @@ class HomeScreenWrapped extends React.Component {
   // but this works for only two cases
   handlePress= (lang) => {
       global.LANG = lang;
+      console.debug("Saving setting");
+      saveSetting({name: "languagePreference", value: global.LANG});
       this.props.navigation.navigate("Chooser");
   }
     
