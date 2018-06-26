@@ -9,6 +9,8 @@ import HomeScreen from './HomeScreen';
 import AboutPage from "./page/About.js";
 import UploadPage from "./page/Upload.js";
 import ContactPage from "./page/Contact.js";
+import HelpPage from "./page/Help.js";
+
 
 const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 console.disableYellowBox = true;
@@ -45,7 +47,8 @@ export default StackNavigator({
   Player: { screen: Player },
   About: AboutPage.navConfig,
   // Upload: UploadPage.navConfig
-  Upload: ContactPage.navConfig
+  Upload: ContactPage.navConfig,
+    Help: HelpPage.navConfig
 }, {
     headerMode: "none"
 });
