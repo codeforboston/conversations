@@ -14,12 +14,17 @@ export const H3 = ({style, children}) => (
     </Text>
 );
 
-export const P = ({children}) => {
-    return (
-        <Text style={styles.bodyText}>
-            { children }
-        </Text>
-    )};
+export const ErrorBox = ({style, children}) => (
+    <Text style={[styles.bodyText, styles.errorText, style]}>
+        {children}
+    </Text>
+);
+
+export const P = ({children, style}) => (
+    <Text style={[styles.bodyText, style]}>
+        { children }
+    </Text>
+);
 
 export const A = ({children, href, onPress, style, ...props}) => (
     <Text style={[styles.link, style]} onPress={onPress || (() => Linking.openURL(href))}>
@@ -81,6 +86,12 @@ const styles = StyleSheet.create({
         lineHeight: 12 * fr,
         padding: 2 * fr,
         textAlign: "justify"
+    },
+
+    errorText: {
+        borderWidth: 1,
+        borderColor: "maroon",
+        padding: 10
     },
 
     liText: {
