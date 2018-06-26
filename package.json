@@ -28,6 +28,7 @@
     "react-native-firebase": "^4.2.0",
     "react-native-image-picker": "^0.26.10",
     "react-native-sound": "^0.10.9",
+    "react-native-simple-radio-button": "^2.7.1",
     "react-native-youtube": "^1.1.0",
     "react-navigation": "2.0.4",
     "rn-viewpager": "^1.2.9"

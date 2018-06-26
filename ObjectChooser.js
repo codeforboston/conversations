@@ -26,6 +26,7 @@ class ObjectChooser extends React.Component {
 
   constructor(props) {
     super(props);
+    console.debug(global.LANG);
     const window = Dimensions.get('window');
     this.state = {
       imgwidth: window.width,

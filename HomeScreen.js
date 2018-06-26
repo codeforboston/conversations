@@ -4,6 +4,7 @@ import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} fro
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";
 
+
 class HomeScreenWrapped extends React.Component {
   constructor(props) {
     super(props);
