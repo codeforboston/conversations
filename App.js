@@ -46,8 +46,8 @@ export default StackNavigator({
   },
   Player: { screen: Player },
   About: AboutPage.navConfig,
-  // Upload: UploadPage.navConfig
-  Upload: ContactPage.navConfig,
+    Upload: UploadPage.navConfig,
+  Contact: ContactPage.navConfig,
     Help: HelpPage.navConfig
 }, {
     headerMode: "none"
