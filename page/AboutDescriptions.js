@@ -76,14 +76,6 @@ export const ProjectCreditsList = ({languageMap}) => (
         
         <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
 
-        <Bull> Abhishek </Bull> 
-        <Bull> Alisha </Bull>
-        <Bull> Aoun </Bull>
-        <Bull> Nagma </Bull>
-        <Bull> Saugata </Bull>
-        <Bull> Subhash </Bull>
-        <Bull> Umang </Bull>
-
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
         <Bull> Abhishek Yadav </Bull> 
@@ -128,6 +120,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Kristine Auwers </Bull>
         <Bull> Lizao Wang </Bull>
         <Bull> Mel Choyce </Bull>
+        <Bull> Mike Yavorsky </Bull>
 
         <BullHeader> {languageMap.children["illustrators"]} </BullHeader>
         <Bull> Nika Vaks </Bull>
@@ -195,11 +188,24 @@ export const ProjectCreditsList = ({languageMap}) => (
         <BullHeader> {languageMap.children["projectAdvisors"]} </BullHeader>
 
         <Bull> Aanchal Kapur </Bull>
-        <Bull> Alisa Lebow </Bull>
         <Bull> Tony Dowmunt </Bull>
-        <Bull> Sarah Wolozin </Bull>
 
         <BullHeader> {languageMap.children["specialThanks"]} </BullHeader>
+        <Bull> Afsana Aapa </Bull>
+        <Bull> Alisa Lebow </Bull>
+        <Bull> Carles Sora </Bull>
+        <Bull> Danny Goldfield </Bull>
+        <Bull> Dinesh Kapur </Bull>
+        <Bull> Josefina Buschmann </Bull>
+        <Bull> Mandy Rose </Bull>
+        <Bull> Niharika Arora </Bull>
+        <Bull> Isabelle Raynauld </Bull>
+        <Bull> Rambatti ji </Bull>
+        <Bull> Rashin Fahandej </Bull>
+        <Bull> Sarah Wolozin </Bull>
+        <Bull> Shirin Anlen </Bull>
+        <Bull> Soha Aapa </Bull>
+        <Bull> The Batras </Bull>
 
 
         <BullHeader>Curator/Creator | क्यूरेटर/ रचनाकार </BullHeader>
@@ -207,10 +213,6 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Anandana Kapur </Bull>
 
         <BullHeader> © GPL2 2018</BullHeader>
-
-        
-        <BullHeader>  Access code: <A href="https://github.com/codeforboston/conversations">here</A> </BullHeader>
-
 
     </View>
 );

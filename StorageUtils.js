@@ -7,8 +7,11 @@ export const saveSetting = (settingObj)=> {
     });
 };
 
-export const getSetting = (name)=> {
-    AsyncStorage.getItem(name, (err, result) => {
-        return result;
-    });
+export const getSetting = async (name)=> {
+    let prefVal = await AsyncStorage.getItem(name);
+    console.debug(prefVal);
+    return prefVal;
+    // AsyncStorage.getItem(name, (err, result) => {
+    //     return result;
+    // });
 };
