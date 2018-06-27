@@ -1,16 +1,8 @@
 import React, { Component } from "react";
 import {
-    FlatList,
-    Image,
-    ScrollView,
     StyleSheet,
-    Text,
     TextInput,
-    TouchableHighlight,
-    TouchableWithoutFeedback,
-    View,
-    CheckBox,
-    AsyncStorage
+    View
 } from "react-native";
 
 import firebase from "react-native-firebase";
