@@ -1,25 +1,25 @@
 import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { videos } from './config';
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
+import { objectPages } from './config';
 
 import { Button } from "./component/Button.js";
 
 
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
-  return (video) => {
-    const disabled = video.isRemnant && shouldDisableRemnant;
-    return (
-        <Button key={video.youtubeVideoId}
-                onPress={() => navigate(video)}
-                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
-                disabled={disabled}
-                image={video.asset}
-                pressAnimation="spring"
-                resizeMode="contain"
-                imageStyle={styles.objectImage}/>
-    );
-  }
+    return (video) => {
+        const disabled = video.isRemnant && shouldDisableRemnant;
+
+        return (
+            <Button key={video.youtubeVideoId}
+                    onPress={() => navigate(video)}
+                    style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
+                    disabled={disabled}
+                    image={video.asset}
+                    pressAnimation="spring"/>
+        );
+    }
 }
 
 class ObjectChooser extends React.Component {
@@ -40,6 +40,10 @@ class ObjectChooser extends React.Component {
       })
   }
 
+  renderPagerDotIndicator = () => {
+      return <PagerDotIndicator pageCount={objectPages.length}/>
+  }
+
   render() {
     const navigation = this.props.navigation;
     const shouldDisableRemnant = this.state.watchedVideos.length < 2;
@@ -52,6 +56,7 @@ class ObjectChooser extends React.Component {
     
 
     return (
+<<<<<<< HEAD
       <View style={{flex:1, flexDirection: 'row'}}>
         <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage} />
 
@@ -74,38 +79,52 @@ class ObjectChooser extends React.Component {
                   // route="Upload" /> // TODO
                   route="RemnantChooser" />
         </View>
+=======
+      <View style={{flex:1, flexDirection: 'column'}}>
+          <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
+              {objectPages.map(page => {
+                return <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                    <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
+                    <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
+                      {page.objects.map(renderVideo)}
+                    </View>
+                    <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
+                </View>})}
+          </IndicatorViewPager>
+>>>>>>> origin/GlobalNavBar
       </View>
     );
   }
 }
+
+
 export default ObjectChooser
 
 const styles = StyleSheet.create({
   objectChooser: {
-    flex: 3,
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between'
   },
   touchableStyle: {
-    flex: 1,
+    flex: .5,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft: 60,
-    paddingBottom: 0,
-    paddingRight: 60,
-    paddingTop: 0,
-    margin: 10,
   },
   navIcon: {
     height: 100,
     width: 100,
     margin: -12,
   },
+  objectPageImage: {
+    flex: 3
+  },
   backgroundImage: {
     position: 'absolute',
+    paddingTop: 10,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height
   },
 });

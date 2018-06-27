@@ -40,7 +40,7 @@ function formatDate(when) {
     return [when.getFullYear(), when.getMonth(), when.getDate()].join("/");
 }
 
-const UploadsList = ({videos}) => (
+const UploadsList = ({videos, onDelete}) => (
     <FlatList
         style={styles.uploads}
         contentContainerStyle={{justifyContent: "center"}}
@@ -52,13 +52,16 @@ const UploadsList = ({videos}) => (
                     Uploaded {formatDate(item.date)}
                 </Text>
                 <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
-                        style={{alignSelf: "flex-end"}}>
-                    Delete
+                        style={{alignSelf: "flex-end"}}
+                        onPress={() => onDelete(item)}
+                        disabled={item.deletionRequested} >
+                {item.deletionRequested ? "Deletion Requested" : "Delete"}
                 </Button>
             </View>
         )}
     />
 );
+
 
 export default class UploadPage extends Component {
     constructor(props) {
@@ -119,38 +122,15 @@ export default class UploadPage extends Component {
         });
     }
 
-    async getKey() {
-      try {
-        const value = await AsyncStorage.getItem('@MySuperStore:key');
-        this.setState({myKey: value});
-      } catch (error) {
-        console.error("Error retrieving data" + error);
-      }
-    }
-  
-    async saveKey(value) {
-      try {
-        await AsyncStorage.setItem('@MySuperStore:key', value);
-      } catch (error) {
-        console.error("Error saving data" + error);
-      }
-    }
-  
-    async resetKey() {
-      try {
-        await AsyncStorage.removeItem('@MySuperStore:key');
-        const value = await AsyncStorage.getItem('@MySuperStore:key');
-        this.setState({myKey: value});
-      } catch (error) {
-        console.error("Error resetting data" + error);
-      }
-    }
-
     saveVideoInfo(video) {
-        let date = video.date || new Date();
+        var date = video.date || new Date().toISOString();
+
+        if (typeof date !== "string")
+            date = date.toISOString();
+
         return AsyncStorage.mergeItem("Aashiyaan:uploaded",
                                       JSON.stringify({
-                                          [date.toISOString()]: video
+                                          [date]: video
                                       }))
                            .then(() => this.getUploadedVideos());
     }
@@ -195,14 +175,10 @@ export default class UploadPage extends Component {
                         var metadata = {
                             contentType: 'video/mp4',
                             customMetadata: {
-                              'userAuthId': this.state.user.uid
+                                'userAuthId': this.state.user.uid,
+                                "notifyIfPublished": this.state.checked
                             }
                           };
-
-                        if(this.state.checked) {
-                            // TODO - instanceID - get and save as meta-data
-
-                        }
 
                         let unsubscribe = ref.putFile(video.path, metadata).on(
                             firebase.storage.TaskEvent.STATE_CHANGED,
@@ -218,12 +194,14 @@ export default class UploadPage extends Component {
 
                                 if (state === firebase.storage.TaskState.SUCCESS) {
                                     this.setState({
-                                        state: UPLOADED
+                                        state: UPLOADED,
+                                        successMessage: "Your video was successfully uploaded."
                                     });
                                     video.name = this.videoName(video);
                                     video.size = totalBytes;
                                     video.date = new Date();
-                                    this.saveVideoInfo(video).then(videos => this.setState({ uploaded: videos }));
+                                    this.saveVideoInfo(video).then(videos => this.setState({ uploaded: videos }),
+                                                                   error => console.log(error));
                                     unsubscribe();
                                 }
                             },
@@ -240,6 +218,17 @@ export default class UploadPage extends Component {
         }
     }
 
+    onDelete = (video) => {
+        let {name, date} = video;
+        firebase.firestore().collection("deletionRequests").add({
+            videoName: name,
+            videoDate: date
+        }).then(_ => {
+            video.deletionRequested = true;
+            return this.saveVideoInfo(video);
+        }).then(videos => this.setState({ videos: videos }));
+    }
+
     videoName = (video) => {
         if (!video) video = this.state.video;
 
@@ -247,11 +236,11 @@ export default class UploadPage extends Component {
     }
 
     renderUploaded = () => {
+        let {successMessage} = this.state;
         return (
             <View style={styles.contentWrapper}>
-                <H2>Uploaded</H2>
-                <P>Your video was successfully uploaded!</P>
-                <UploadsList videos={this.state.uploaded}/>
+                {successMessage ? <P>{successMessage}</P> : null}
+                <UploadsList videos={this.state.uploaded} onDelete={this.onDelete}/>
             </View>
         );
     }
@@ -261,7 +250,7 @@ export default class UploadPage extends Component {
 
         return (
             <View style={styles.contentWrapper}>
-                <H2>Uploading {this.videoName()}</H2>
+                <P>Uploading {this.videoName()}</P>
                 <Progress current={transferred}
                           total={total}
                           text={`${formatSize(transferred)}/${formatSize(total)} bytes uploaded`}
@@ -284,14 +273,19 @@ export default class UploadPage extends Component {
                          You have uploaded {uploaded.length} videos
                      </P>)}
 
-                <Button onPress={this.selectVideo}>
-                    Select a Video
-                </Button>
+                <View style={styles.buttonRow}>
+                    <Button onPress={this.selectVideo}>
+                        Select a Video
+                    </Button>
 
-                <Button onPress={this.upload}
-                        disabled={!video} >
-                    Upload {this.videoName()}
-                </Button>
+                    <Button onPress={this.upload}
+                            disabled={!video} >
+                        Upload {this.videoName()}
+                    </Button>
+                    <Button onPress={() => this.setState({ state: UPLOADED })} disabled={!uploaded.length}>
+                        View Previous Uploads
+                    </Button>
+                </View>
                     <TouchableWithoutFeedback onPress={() => this.setState({checked: !checked})}>
                         <View style={{ flexDirection: 'row' }}>
                             <CheckBox
@@ -337,6 +331,9 @@ const styles = StyleSheet.create({
     contentWrapper: {
         flexDirection: 'column',
         flex: 1
+    },
+    buttonRow: {
+        flexDirection: "row"
     },
     progressBar: {
         backgroundColor: "#333",
