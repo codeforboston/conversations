@@ -120,6 +120,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Kristine Auwers </Bull>
         <Bull> Lizao Wang </Bull>
         <Bull> Mel Choyce </Bull>
+        <Bull> Mike Yavorsky </Bull>
 
         <BullHeader> {languageMap.children["illustrators"]} </BullHeader>
         <Bull> Nika Vaks </Bull>
