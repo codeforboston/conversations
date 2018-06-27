@@ -5,7 +5,6 @@ import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import { Sound } from 'react-native-sound';
 
-import HomeScreen from './HomeScreen';
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';

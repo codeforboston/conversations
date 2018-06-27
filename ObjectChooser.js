@@ -56,30 +56,6 @@ class ObjectChooser extends React.Component {
     
 
     return (
-<<<<<<< HEAD
-      <View style={{flex:1, flexDirection: 'row'}}>
-        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage} />
-
-        <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
-          {videos.map(renderVideo)}
-        </View>
-
-        <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-          <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
-          <Button image={require('./assets/AboutIcon.png')}
-                  pressAnimation="spring"
-                  style={styles.navIcon}
-                  navigation={navigation}
-                  route="About"
-          />
-          <Button image={require('./assets/HelpIcon.png')}
-                  pressAnimation="spring"
-                  style={styles.navIcon}
-                  navigation={navigation}
-                  // route="Upload" /> // TODO
-                  route="RemnantChooser" />
-        </View>
-=======
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
               {objectPages.map(page => {
@@ -91,7 +67,6 @@ class ObjectChooser extends React.Component {
                     <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
                 </View>})}
           </IndicatorViewPager>
->>>>>>> origin/GlobalNavBar
       </View>
     );
   }
