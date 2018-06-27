@@ -105,11 +105,6 @@ const TabNav = createBottomTabNavigator({
       tabBarIcon: null,
     }},
     Settings: SettingsPage.navConfig,
-    About: { screen: AboutPage,
-    navigationOptions: {
-        headerStyle: pageStyles.header,
-        headerTitle: "About this Project"
-    }},
     Contact: ContactPage.navConfig,
     Upload: UploadPage.navConfig,
     Help: HelpPage.navConfig
