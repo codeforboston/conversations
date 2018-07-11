@@ -11,7 +11,6 @@ import {
 import { ENGLISH, HINDI } from "../config";
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
-
 import pageStyles, { A, H2, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
 
 
@@ -53,7 +52,6 @@ const ProjectCredits = () => (
     <ScrollView>
 
         <BullHeader> Co-creators | सह-रचनाकार </BullHeader> 
-
         <Bull> Deepa </Bull>
         <Bull> Gurvinder </Bull>
         <Bull> Jaskeerat </Bull>
@@ -62,6 +60,7 @@ const ProjectCredits = () => (
         <Bull> Reeta </Bull>
         <Bull> Sangeeta </Bull>
         <Bull> Shahina  </Bull>
+
 
         <BullHeader> Co-creator Allies |  सह-रचनाकार सहायक </BullHeader>
         <Bull> Aryan </Bull>
@@ -81,9 +80,9 @@ const ProjectCredits = () => (
         <Bull> Subhash </Bull>
         <Bull> Umang </Bull>
 
+
         <BullHeaderMain> Team Boston | टीम बोस्टन </BullHeaderMain>
         <BullHeader> Developers | डेवलपर </BullHeader>
-
         <Bull> Andrew  </Bull>
         <Bull> Brian  </Bull>
         <Bull> Byron  </Bull>
@@ -95,8 +94,8 @@ const ProjectCredits = () => (
         <Bull> Sasha  </Bull>
         <Bull> Steve  </Bull>
 
-        <BullHeader> UI/UX | यू. आई./ यू. एक्स </BullHeader>
 
+        <BullHeader> UI/UX | यू. आई./ यू. एक्स </BullHeader>
         <Bull> David </Bull>
         <Bull> Kristine </Bull>
         <Bull> Lizao </Bull>
@@ -105,11 +104,13 @@ const ProjectCredits = () => (
         <BullHeader> Illustrator | चित्रकार </BullHeader>
         <Bull> Nika </Bull>
 
+
         <BullHeader> Editing | संपादन </BullHeader>
         <Bull> Ellie  </Bull>
         <Bull> Mike </Bull>
         <Bull> Sasha </Bull>
         <Bull> (Chief Editor) </Bull>
+
 
         <BullHeader> Translators | अनुवादक </BullHeader>
         <Bull> Ankit </Bull>
@@ -133,8 +134,10 @@ const ProjectCredits = () => (
         <Bull> Tatheer</Bull> 
         <Bull> Vidya </Bull>
 
+
         <BullHeader> Institutional Partner | संस्थागत सहयोगी </BullHeader>
         <Bull> Code for Boston </Bull>
+
 
         <BullHeader> Institutional Support | संस्थागत समर्थन </BullHeader>
         <Bull> Open Documentary Lab, MIT </Bull>
@@ -146,32 +149,36 @@ const ProjectCredits = () => (
 
 
         <BullHeader> Principal Academic Advisors | प्राथमिक शैक्षिक सलाहकार </BullHeader>
-
         <Bull> Krisna Sankar Kusuma (India) </Bull>
         <Bull> William Uricchio (USA) </Bull>
 
 
         <BullHeader> Project Advisors | प्रोजैक्ट सलाहकार </BullHeader>
-
         <Bull> Aanchal Kapur </Bull>
         <Bull> Alisa Lebow </Bull>
         <Bull> Tony Dowmunt </Bull>
         <Bull> Sarah Wolozin </Bull>
 
+
         <BullHeader>Curator/Creator | क्यूरेटर/ रचनाकार </BullHeader>
-        
         <Bull> Anandana Kapur </Bull>
 
+
         <BullHeader> © GPL2 2018</BullHeader>
-
-        
         <BullHeader>  Access code: <A href="https://github.com/codeforboston/conversations">here</A> </BullHeader>
-
 
     </ScrollView>
 );
 
 export default class AboutPage extends Component {
+    static navigationOptions = ({screenProps}) =>({
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log(screenProps.previousTabScreen)
+          console.log("FROM ABOUT")
+          scene.navigation.navigate('About')
+        }
+    })
+
     render() {
         let Description = ProjectDescription[global.LANG || HINDI];
 
@@ -195,11 +202,3 @@ const styles = StyleSheet.create({
     }
 })
 
-AboutPage.navConfig = {
-    screen: AboutPage,
-
-    navigationOptions: ({navigation}) => ({
-        headerStyle: pageStyles.header,
-        headerTitle: "About this Project"
-    })
-}
