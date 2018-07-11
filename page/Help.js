@@ -398,7 +398,7 @@ export class SectionedScroller extends Component {
                              />
                          </View>),
                          (<View ref={section.key}
-                            style={[styles.section, {minHeight: pageHeight}]}
+                            style={[styles.section, {minHeight: 0.5 * pageHeight}]}
                             key={`${section.key}-body`}>
                             { sectionBody }
                          </View>)
