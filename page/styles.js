@@ -47,7 +47,7 @@ export const Em = ({children}) => (
 );
 
 export const Bull = ({children}) => (
-    <Text style={[styles.bodyText, styles.liText, styles.center]}>
+    <Text style={[styles.bodyText, styles.liText]}>
         {children}
     </Text>
 );
