@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
-import { objectPages } from './config';
+import { updatedObjectPages } from './config';
 
 import { Button } from "./component/Button.js";
 
@@ -41,7 +41,7 @@ class ObjectChooser extends React.Component {
   }
 
   renderPagerDotIndicator = () => {
-      return <PagerDotIndicator pageCount={objectPages.length}/>
+      return <PagerDotIndicator pageCount={updatedObjectPages.length}/>
   }
 
   render() {
@@ -58,7 +58,7 @@ class ObjectChooser extends React.Component {
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
-              {objectPages.map(page => {
+              {updatedObjectPages.map(page => {
                 return <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                     <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
                     <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
