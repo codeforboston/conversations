@@ -12,7 +12,7 @@ export const ProjectDescription = {
 
             </P>
             <P>
-                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |    
+                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |
 
             </P>
             <P>
@@ -30,13 +30,13 @@ export const ProjectDescription = {
             <P>
                 <Strong>Aashiyaan</Strong> is an interactive mobile documentary that has been co-created by domestic workers, homemakers and a filmmaker from Delhi. Filmed entirely in India, the transmedia project was developed with support from artists, volunteers, hackers and friends in New Delhi, India; Ryerson and York Universities, Canada; Code for Boston, USA and the Open Documentary Lab at MIT, USA.             </P>
             <P>
-                The documentary is a living archive of the lives and experiences of the ‘invisible’ women of Delhi. It takes on many shapes. As an interactive mobile app it invites viewsers to listen to and participate in women’s conversations about how they navigate unsafe urban geographies. You can also explore an audio-visual gallery that maps the psychogeoraphies of the women as they speak of nostalgia, loss and desire in the city. 
+                The documentary is a living archive of the lives and experiences of the ‘invisible’ women of Delhi. It takes on many shapes. As an interactive mobile app it invites viewsers to listen to and participate in women’s conversations about how they navigate unsafe urban geographies. You can also explore an audio-visual gallery that maps the psychogeoraphies of the women as they speak of nostalgia, loss and desire in the city.
             </P>
             <P>
-                To know more about the women and to experience the city through their eyes you can choose your journey on a map or visit the interactive archive on YouTube. You can even see how these co-creators became documentarians with their own unique point of view on www.aashiyaan.org. 
+                To know more about the women and to experience the city through their eyes you can choose your journey on a map or visit the interactive archive on YouTube. You can even see how these co-creators became documentarians with their own unique point of view on www.aashiyaan.org.
             </P>
             <P>
-                When cities are labelled unsafe, women appear as statistics and victims. <Strong> Aashiyaan </Strong> challenges that dehumanization by presenting cross-class experiences of women in the city. The domestic labour performed by these women, who are also also the filmmakers,  shapes their creative labour as they set up conversations, film everyday activities and even chase peacocks. <Strong>Aashiyaan</Strong> translates to a nest, a home...your own personal sanctuary. 
+                When cities are labelled unsafe, women appear as statistics and victims. <Strong> Aashiyaan </Strong> challenges that dehumanization by presenting cross-class experiences of women in the city. The domestic labour performed by these women, who are also also the filmmakers,  shapes their creative labour as they set up conversations, film everyday activities and even chase peacocks. <Strong>Aashiyaan</Strong> translates to a nest, a home...your own personal sanctuary.
             </P>
         </View>
     )
@@ -49,7 +49,7 @@ export const ProjectCredits = (languageMap)=> {
 export const ProjectCreditsList = ({languageMap}) => (
     <View>
 
-        <BullHeader> {languageMap.children["coCreators"]} </BullHeader> 
+        <BullHeader> {languageMap.children["coCreators"]} </BullHeader>
 
         <Bull> Deepa Sardar </Bull>
         <Bull> Gurvinder Heer </Bull>
@@ -73,32 +73,32 @@ export const ProjectCreditsList = ({languageMap}) => (
 
         <BullHeader> {languageMap.children["researchAssistance"]} </BullHeader>
         <Bull> Umang Sabarwal </Bull>
-        
+
         <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
 
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
-        <Bull> Abhishek Yadav </Bull> 
-        <Bull> Alisha Chatterjee </Bull> 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Nagma Sahi Ansari </Bull> 
-        <Bull> Umang Sabarwal </Bull> 
+        <Bull> Abhishek Yadav </Bull>
+        <Bull> Alisha Chatterjee </Bull>
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Nagma Sahi Ansari </Bull>
+        <Bull> Umang Sabarwal </Bull>
 
         <BullHeader> {languageMap.children["filmEditing"]} </BullHeader>
 
-        <Bull> Saugata Paul </Bull> 
-        <Bull> Subhash Bhanwala </Bull> 
+        <Bull> Saugata Paul </Bull>
+        <Bull> Subhash Bhanwala </Bull>
 
         <BullHeader> {languageMap.children["soundEditing"]} </BullHeader>
 
-        <Bull> Vishnu Rajeev </Bull> 
+        <Bull> Vishnu Rajeev </Bull>
 
         <BullHeader> {languageMap.children["photoGraphy"]} </BullHeader>
 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Harneet Singh </Bull> 
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Harneet Singh </Bull>
 
-        <BullHeaderMain> {languageMap.children["teamBoston"]} </BullHeaderMain>
+        <BullHeader> {languageMap.children["teamBoston"]} </BullHeader>
         <BullHeader> {languageMap.children["developers"]} </BullHeader>
 
         <Bull> Andrew Seeder  </Bull>
@@ -147,7 +147,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Akshaya Sawant </Bull>
         <Bull> Alisha Chatterjee </Bull>
         <Bull> Anandana Kapur </Bull>
-        <Bull> Anchita Krishna</Bull> 
+        <Bull> Anchita Krishna</Bull>
         <Bull> Arjun Soni </Bull>
         <Bull> Anusha Jain </Bull>
         <Bull> Bidisha Saikia </Bull>
@@ -155,13 +155,13 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Kush Pathak </Bull>
         <Bull> Isha Vedantam </Bull>
         <Bull> Priyanka Yadav </Bull>
-        <Bull> Ranjani Rajagopalan</Bull> 
+        <Bull> Ranjani Rajagopalan</Bull>
         <Bull> Rashmi Ravindran </Bull>
         <Bull> Rohan Mehta </Bull>
         <Bull> Shweta Prajapati </Bull>
         <Bull> Sudeshna Mahata </Bull>
         <Bull> Taiyaba Ali </Bull>
-        <Bull> Tatheer Naqvi</Bull> 
+        <Bull> Tatheer Naqvi</Bull>
         <Bull> Vidya Kamudini </Bull>
 
         <BullHeader> {languageMap.children["institutionalPartner"]} </BullHeader>
@@ -209,7 +209,7 @@ export const ProjectCreditsList = ({languageMap}) => (
 
 
         <BullHeader>Curator/Creator | क्यूरेटर/ रचनाकार </BullHeader>
-        
+
         <Bull> Anandana Kapur </Bull>
 
         <BullHeader> © GPL2 2018</BullHeader>
