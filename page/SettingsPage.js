@@ -13,6 +13,8 @@ const radioToLanguageMap = {
   1 : 'Hindi'
 };
 
+const bottomScrollerMarginFactor = 0.18;
+
 const languageToRadioMap = {
   'English': 0,
   'Hindi': 1
@@ -47,14 +49,14 @@ export default class SettingsPage extends Component {
 
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
-
+    
     return (
       <ImageBackground
           source={ homeScreenImage }
           imageStyle={{resizeMode: 'cover'}}
           style={{width: width, height: height}}
       >
-        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05}}>
+        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05, marginBottom: height*bottomScrollerMarginFactor}}>
            <View style={mystyles.BackGroundStyle} >
               <View style={mystyles.SettingsTitle}>
                     <HMedium>{localizedStrMap["settingsTitle"]}</HMedium>
