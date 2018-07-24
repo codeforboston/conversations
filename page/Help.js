@@ -12,7 +12,7 @@ import { ENGLISH, HINDI } from '../config';
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
-import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
+import pageStyles, { A, Mail, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
 
 
@@ -157,7 +157,7 @@ const translations = {
             title: 'Contact',
             audio: '',
             text: () => (
-                <P>Email us at idoc.conversations@gmail.com</P>
+                <P><Mail href="mailto:idoc.conversations@gmail.com">Email</Mail> us at idoc.conversations@gmail.com</P>
             )
         },
     },
@@ -265,7 +265,7 @@ const translations = {
             title: 'ईमेल',
             audio: '',
             text: () => (
-                <P>idoc.conversations@gmail.com पर ईमेल भेजकर हमसे संपर्क करें |</P>
+                <P><Mail href="mailto:idoc.conversations@gmail.com">idoc.conversations@gmail.com</Mail> पर ईमेल भेजकर हमसे संपर्क करें |</P>
             )
         },
     },
