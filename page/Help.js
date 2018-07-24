@@ -116,26 +116,26 @@ const translations = {
                         about the co-creators, their stories and experiences of the city of Delhi.
                     </P>
                     <P><Em>How Can I Help?</Em></P>
-                    <P>
+                    <Bull>
                         Share your favourite stories (especially strategies!)
                         with #AashiyaanStories on social media so others can also
                         watch, learn, contribute and reclaim the city.
-                    </P>
-                    <P>
+                    </Bull>
+                    <Bull>
                         Organize a living room or porch conversation with
                         homemakers and domestic workers about their city experiences
                         and strategies. Contact us for ideas and to share post
                         discussion photos and videos on our <A href="http://www.aashiyaan.org">website</A>.
-                    </P>
-                    <P>
+                    </Bull>
+                    <Bull>
                         Go to our <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">YouTube
                     channel</A> and add a translation in your local language. Let’s keep the conversation going!
-                    </P>
+                    </Bull>
                     <P><Em>Support Groups</Em></P>
-                    <P>Helplines (India)    http://ncw.nic.in/frmhelpline.aspx</P>
-                    <P>Self defense        https://www.slaponline.org/</P>
-                    <P>Film for Change    https://krititeam.blogspot.com/</P>
-                    <P>Visit www.aashiyaan.org for more...</P>
+                    <Bull><A href='http://ncw.nic.in/frmhelpline.aspx'>Helplines (India)</A></Bull>
+                    <Bull><A href='https://www.slaponline.org/'>Self defense</A></Bull>
+                    <Bull><A href='https://krititeam.blogspot.com/'>Film for Change</A></Bull>
+                    <Bull>Visit <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> for more...</Bull>
                 </View>
             )
         },
@@ -233,17 +233,17 @@ const translations = {
                     <P><Em>और जानने में दिलचस्पी ?</Em></P>
                     <P>
                         सह-निर्माता और उनकी दिल्ली शहर सम्बन्धी कहानियों और अनुभवों के बारे में 
-                        अधिक जानने के लिए www.aashiyaan.org पर जाएं।
+                        अधिक जानने के लिए <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> पर जाएं।
                     </P>
                     <P><Em>मैं कैसे मदद कर सकती/सकता हूँ?</Em></P>
                     <Bull>सोशल मीडिया पर #AashiyaanStories के साथ अपनी पसंदीदा कहानियाँ (विशेष रूप से उपाय) प्रचलित करें| इससे अन्य लोग भी नए उपाय सीखेंगे, और अपनी कहानी का योगदान कर शहर को अपना सा बना पाएंगे।</Bull>
-                    <Bull>गृहणियों और घरेलू श्रमिकों के साथ अपने शहर के अनुभवों और सुरक्षित रहने के उपायों  के बारे में अपने घर या आँगन में बातचीत का आयोजन करें। बातचीत का आयोजन करने के तरीकों के अलावा चर्चा के फ़ोटो और वीडियो को हमारी वेबसाइट [http://www.aashiyaan.org/] पे शामिल करने के लिए हमसे संपर्क करें।</Bull>
-                    <Bull>हमारे यूट्यूब चैनल [https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz] पर जायेँ और अपनी स्थानीय भाषा में अनुवाद करें। बातचीत जारी रखें!</Bull>
-                    <P><Strong>सहायता</Strong></P>
-                    <P>हेल्पलाइन (भारत)        http://ncw.nic.in/frmhelpline.aspx</P>
-                    <P>आत्मरक्षा        https://www.slaponline.org/</P>
-                    <P>परिवर्तन के लिए फिल्में     https://krititeam.blogspot.com/</P>
-                    <P>अधिक जानकारी के लिए पर www.aashiyaan.org जायें </P>
+                    <Bull>गृहणियों और घरेलू श्रमिकों के साथ अपने शहर के अनुभवों और सुरक्षित रहने के उपायों  के बारे में अपने घर या आँगन में बातचीत का आयोजन करें। बातचीत का आयोजन करने के तरीकों के अलावा चर्चा के फ़ोटो और वीडियो को हमारी <A href='http://www.aashiyaan.org'>वेबसाइट</A> पे शामिल करने के लिए हमसे संपर्क करें।</Bull>
+                    <Bull>हमारे <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">यूट्यूब चैनल</A> पर जायेँ और अपनी स्थानीय भाषा में अनुवाद करें। बातचीत जारी रखें!</Bull>
+                    <P><Em>सहायता</Em></P>
+                    <Bull><A href='http://ncw.nic.in/frmhelpline.aspx'>हेल्पलाइन (भारत)</A></Bull>
+                    <Bull><A href='https://www.slaponline.org/'>आत्मरक्षा</A></Bull>
+                    <Bull><A href='https://krititeam.blogspot.com/'>परिवर्तन के लिए फिल्में</A></Bull>
+                    <Bull>अधिक जानकारी के लिए पर <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> जायें</Bull>
                 </View>
             )
         },    
