@@ -25,7 +25,7 @@ class HomeScreenWrapped extends React.Component {
   handlePress= (lang) => {
       global.LANG = lang;
       saveSetting({name: "languagePreference", value: global.LANG});
-      this.props.navigation.navigate("Chooser");
+      this.props.navigation.navigate("ObjectChooserx");
   }
 
   componentWillMount() {

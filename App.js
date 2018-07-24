@@ -5,15 +5,15 @@ import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import { Sound } from 'react-native-sound';
 
-import ObjectChooser from './ObjectChooser';
+import ObjectChooserWrapper from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';
 import AboutPage from "./page/About.js";
-import HomeScreen from "./HomeScreen.js";
 import UploadPage from "./page/Upload.js";
 import ContactPage from "./page/Contact.js";
 import HelpPage from "./page/Help.js";
 import SettingsPage from "./page/SettingsPage";
+
 
 import { Button } from "./component/Button.js";
 import pageStyles from "./page/styles.js";
@@ -21,24 +21,6 @@ import pageStyles from "./page/styles.js";
 const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU"; 
 
 console.disableYellowBox = true;
-
-class Player extends React.Component {
-  render() {
-    const navigation = this.props.navigation;
-    return (
-      <View>
-        <YouTube
-          apiKey={youtubeApiKey}
-          videoId={this.props.navigation.getParam('videoId','')}
-          play={true}
-          fullscreen={true}
-          showFullscreenButton={false}
-          onChangeFullscreen={e => e.isFullscreen || navigation.goBack()}
-        />
-      </View>
-    );
-  }
-}
 
 const TabIcons = {
     Chooser: require("./assets/help/tap_and_hold-24px_default.png"),
@@ -60,7 +42,7 @@ const SelectedTabIcons = {
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {previousTabScreen: 'ObjectChooserXXX'};
+    this.state = {previousTabScreen: null};
   }
 
   getCurrentRouteName = navigationState => {
@@ -95,24 +77,20 @@ export default class App extends React.Component {
   }
 }
 
+ObjectChooser.navConfig = {
+  screen: ObjectChooserWrapper,
+
+  navigationOptions: ({navigation}) => ({
+    tabBarVisible: ({}) => {null ? false : true},
+  })
+}
+
 const TabNav = createBottomTabNavigator({
-  HomeScreen: {screen: HomeScreen,
-    navigationOptions: {
-      tabBarVisible: false,
-      tabBarIcon: null,
-    },
-  },
-  Chooser: {screen: ObjectChooser},
+  Chooser: ObjectChooser.navConfig,
   Settings: SettingsPage.navConfig,
-  Player: { screen: Player,
-  navigationOptions: {
-      tabBarVisible: false,
-      tabBarIcon: null,
-    }},
-    Settings: SettingsPage.navConfig,
-    Contact: ContactPage.navConfig,
-    Upload: UploadPage.navConfig,
-    Help: HelpPage.navConfig
+  Contact: ContactPage.navConfig,
+  Upload: UploadPage.navConfig,
+  Help: HelpPage.navConfig
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
@@ -133,6 +111,6 @@ const TabNav = createBottomTabNavigator({
     }
   }, 
   animationEnabled: false,
-}
+  }
 );
 
