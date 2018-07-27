@@ -4,7 +4,8 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
-    View
+    View,
+    Animated
 } from 'react-native';
 import Sound from "react-native-sound";
 
@@ -14,6 +15,7 @@ import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
+import HelpTalk from "../component/HelpTalk";
 
 
 const HelpIcons = {
@@ -390,6 +392,7 @@ export class SectionedScroller extends Component {
                              <H3 style={styles.sectionTitle}>
                                  { sectionTitle }
                              </H3>
+                             <HelpTalk />
                              <Button image={active && soundPlaying ? PlayingIcon : ListenIcon}
                                      style={styles.listenButton}
                                      imageStyle={[styles.listenButtonImageStyle,
