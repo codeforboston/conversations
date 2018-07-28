@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "babel-plugin-transform-inline-environment-variables": "^0.4.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest": "^22.4.3",
     "jest-react-native": "^18.0.0",
@@ -22,10 +22,17 @@
     ]
   },
   "dependencies": {
+    "eslint": "^4.19.1",
+    "npm": "^6.0.1",
     "react": "16.3.1",
     "react-native": "0.55.1",
+    "react-native-firebase": "^4.2.0",
+    "react-native-image-picker": "^0.26.10",
+    "react-native-shared-preferences": "^1.0.0",
+    "react-native-sound": "^0.10.9",
+    "react-native-simple-radio-button": "^2.7.1",
     "react-native-youtube": "^1.1.0",
-    "react-navigation": "^1.5.11",
+    "react-navigation": "2.0.4",
     "rn-viewpager": "^1.2.9"
   }
 }
