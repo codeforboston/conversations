@@ -61,3 +61,5 @@ conversations-d.ipr
 conversations-d.iws
 gradlew
 gradlew.bat
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties

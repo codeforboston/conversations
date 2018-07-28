@@ -15,7 +15,7 @@ import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
-import HelpTalk from "../component/HelpTalk";
+import HelpTalk, { stopTalking } from "../component/HelpTalk";
 
 
 const HelpIcons = {
@@ -28,8 +28,8 @@ const HelpAudio = {
     home: require("../assets/audio/sound.mp3")
 }
 
-const PlayingIcon = require("../assets/help/record_voice_over_playing-24px_default.png");
-const ListenIcon = require("../assets/help/audio_help-24px_default.png");
+const PlayingIcon = HelpTalk  // require("../assets/help/record_voice_over_playing-24px_default.png");
+const ListenIcon =   //require("../assets/help/audio_help-24px_default.png");
 
 function withSound(name) {
     return new Promise(function(resolve, reject) {
@@ -393,11 +393,12 @@ export class SectionedScroller extends Component {
                                  { sectionTitle }
                              </H3>
                              <HelpTalk />
-                             <Button image={active && soundPlaying ? PlayingIcon : ListenIcon}
-                                     style={styles.listenButton}
-                                     imageStyle={[styles.listenButtonImageStyle,
+                             <HelpTalk 
+                                    image={active && soundPlaying ? PlayingIcon : ListenIcon}
+                                    style={styles.listenButton}
+                                    imageStyle={[styles.listenButtonImageStyle,
                                                   active && soundLoading && styles.listenButtonImageLoadingStyle]}
-                                     onPress={() => this.playSound(section.key)}
+                                    onPress={() => this.playSound(section.key)}
                              />
                          </View>),
                          (<View ref={section.key}

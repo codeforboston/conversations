@@ -19,49 +19,59 @@ export default class HelpTalk extends Component {
     constructor(props){
         super(props); 
         this.state = {
-            playing: false, 
             layer: 2,
+            playing: false,
         };
     }
     
-    onComponentDidUnmount() {
-        clearTimeout(this._showTalking);
+    onComponentDidMount() {
+        this.showTalking; 
     }
 
-    onComponentDidMount() {
-        this.showTalking(); 
+    onComponentDidUnmount() {
+        this.stopTalking; 
+    }
+
+    export const stopTalking = () => {
+        clearTimeout(this._showTalking);
+        clearTimeout(this._showTalking1);
+        clearTimeout(this._showTalking2);
     }
 
     showTalking = () => {
-        this.setState({ layer: 0 });
-        console.log("I'm on layer", this.state.layer);
-        setTimeout(() => { this.setState({ layer: 1 }), console.log("show Talking layer", this.state.layer), this.keepTalking() } , 1000);
-    }
-
-    keepTalking = () => {
-        setTimeout(() => {this.setState({ layer: 2}, console.log("Keep talking layer", this.state.layer)), this.goOn()}, 1000);
-    }
-
-    goOn = () => {
-        console.log("go on", this.state.layer); 
-        this._showTalking = setTimeout(this.showTalking, 1000); 
-    }
-
-    stopTalking = () => {
         clearTimeout(this._showTalking);
-    }
-    
+        this.setLayer(0);
+        this._showTalking = setTimeout(() => { 
+                this.setLayer(1);
+                this._showTalking1 = setTimeout(() => { 
+                        this.setLayer(2), 
+                        this._showTalking2 = setTimeout(() => {
+                            clearTimeout(this._showTalking);
+                            this.showTalking()
+                        }, 600)  
+                }, 600)}
+        ,600)
+    };
+
+
     onPress = () => {
-        console.log("I got pressed");
-        this.playing ? this.stopTalking : this.showTalking;
+        this.state.playing ? this.setState((prevState, props) => { return {playing: false}  } ) : this.setState((prevState, props) => { return {playing: true } });
+        this.state.playing ? this.stopTalking() : this.showTalking(); 
+        console.log("I got pressed", this.state.playing);
     }
 
+
+    setLayer( num ) {
+        this.setState({ layer: num });
+        console.log("I'm on layer", this.state.layer);
+    }
 
     render(){
      const helpLayer = layers[this.state.layer];
         return (
            <TouchableHighlight 
-                onPress={this.showTalking}>
+                onPress={this.onPress}
+                onLongPress={this.onLongPress}>
                     <Image 
                         source={helpLayer}
                         />
