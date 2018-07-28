@@ -8,18 +8,17 @@ import { Button } from "./component/Button.js";
 
 
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
-    return (video) => {
-        const disabled = video.isRemnant && shouldDisableRemnant;
-
-        return (
-            <Button key={video.youtubeVideoId}
-                    onPress={() => navigate(video)}
-                    style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
-                    disabled={disabled}
-                    image={video.asset}
-                    pressAnimation="spring"/>
-        );
-    }
+  return (video) => {
+    const disabled = video.isRemnant && shouldDisableRemnant;
+    return (
+        <Button key={video.youtubeVideoId}
+                onPress={() => navigate(video)}
+                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
+                disabled={disabled}
+                image={video.asset}
+                pressAnimation="spring"/>
+    );
+  }
 }
 
 class ObjectChooser extends React.Component {
@@ -53,8 +52,6 @@ class ObjectChooser extends React.Component {
       this.setState({ watchedVideos: Array.from(watchedVideos) });
       navigation.navigate('Player', { videoId: video.youtubeVideoId });
     }, shouldDisableRemnant, this.state.imgwidth / 3);
-    
-
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>

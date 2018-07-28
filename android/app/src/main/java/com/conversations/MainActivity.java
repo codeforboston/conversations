@@ -1,4 +1,4 @@
-package org.aashiyaan;
+package com.conversations;
 
 import com.facebook.react.ReactActivity;
 

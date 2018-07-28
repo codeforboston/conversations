@@ -10,42 +10,37 @@ import {
 } from "react-native";
 
 
-function debounceFn(fn, period) {
-    var lastCalled;
-    return (...args) => {
-        if (!lastCalled || new Date().getTime() - lastCalled >= period) {
-            lastCalled = new Date().getTime();
-            return fn(...args);
-        }
-    }
-}
-
 function makePressHandler({navigation, route, navParams, onPress}) {
-    if (navigation && route) {
+    if (navigation && route)
         return (...args) => {
             navigation.navigate(route, navParams);
             if (onPress) onPress(...args);
         }
-    }
 
     return onPress;
 }
 
+export const TextButton = ({navigation, route, navParams, onPress, children, style, ...props}) => (
+    <TouchableHighlight onPress={makePressHandler({navigation, route, navParams, onPress})}
+                        underlayColor="rgba(255, 255, 255, 0.5)">
+        <Text style={[styles.textButton, style]} {...props}>
+            {children}
+        </Text>
+    </TouchableHighlight>
+);
+
 export class Button extends Component {
     constructor(props) {
         super(props);
-
-        let handler = makePressHandler(this.props);
         this.state = {
             active: false,
-            scale: new Animated.Value(1),
-            pressHandler: props.debounce ? debounceFn(handler, props.debounce) : handler
+            scale: new Animated.Value(1)
         };
     }
 
     renderContents = () => {
         let {activeImage, disabled, image, imageStyle, children,
-             buttonStyle, activeTextStyles, style} = this.props,
+             textStyles, activeTextStyles, style} = this.props,
             {scale} = this.state,
             transform = [{scale: scale}],
             active = !disabled && this.state.active;
@@ -65,94 +60,45 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[styles.button, buttonStyle, active && activeTextStyles,
+            <Text style={[style, styles.button, textStyles, active && activeTextStyles,
                           disabled && styles.disabledButton]}>
                 {children}
             </Text>
         );
     }
 
-    _queue = []
-    _blockQueue = false
-
-    _queueAnimation = (animation, block=false) => {
-        if (!this._blockQueue) {
-            this._queue.push(animation);
-
-            if (block) {
-                this._blockQueue = true;
-                this._queue.push(() => this._blockQueue = false);
-            }
-
-            if (!this._animation) {
-                this._nextAnimation();
-            }
-        }
-    }
-
-    _clearQueue = (_) => {
-        if (this._animation)
-            this._animation.stopAnimation();
-        this._queue = [];
-    }
-
-    _nextAnimation = () => {
-        if (this._queue && this._queue.length) {
-            var next = this._queue.shift();
-
-            if (typeof next === "function") {
-                next();
-                this._nextAnimation();
-            } else {
-                this._animation = next;
-                next.start(this._nextAnimation);
-            }
-        } else {
-            this._animation = null;
-        }
-    }
-
-    onPressIn = (e) => {
-        let {pressAnimation} = this.props;
+    makePressHandler() {
+        let {pressAnimation} = this.props,
+            handler = makePressHandler(this.props);
 
         if (pressAnimation === "spring") {
-            this._queueAnimation(
-                Animated.timing(this.state.scale, {toValue: 0.7,
-                                                   duration: 75,
-                                                   easing: Easing.linear()}));
-        }
-    }
+            // Run the animation before running the handler
+            return ((...args) => {
+                let {scale} = this.state;
 
-    onPressOut = (e) => {
-        let {scale} = this.state;
-        let {pressAnimation} = this.props;
-
-        if (pressAnimation === "spring") {
-            this._queueAnimation(
                 Animated.sequence([
+                    Animated.timing(scale, {toValue: 0.7, duration: 100, easing: Easing.linear()}),
                     Animated.timing(scale, {toValue: 1.2, duration: 200, easing: Easing.linear()}),
                     Animated.timing(scale, {toValue: 1, duration: 100, easing: Easing.linear()})
-                ]));
+                ]).start(() => handler(...args));
+            })
+        } else {
+            // Run right away:
+            return handler;
         }
-    }
-
-    onPress = (...args) => {
-        let {pressAnimation} = this.props,
-            {pressHandler} = this.state;
-
-        this._queueAnimation(() => pressHandler(...args), true);
     }
 
     render() {
-        let {activeOpacity, debounce, disabled, style, onPress, ...props} = this.props;
+        let {activeOpacity, disabled, style, onPress, ...props} = this.props,
+            {active} = this.state;
 
         return (
             <TouchableOpacity
                 activeOpacity={activeOpacity}
                 disabled={disabled}
-                onPressIn={this.onPressIn}
-                onPressOut={this.onPressOut}
-                onPress={this.onPress}
+                onPressIn={() => this.setState({ active: true })}
+                onPressOut={() => this.setState({ active: false })}
+                onPress={this.makePressHandler()}
                 style={style}
                 {...props}
             >
@@ -164,7 +110,6 @@ export class Button extends Component {
 
 Button.defaultProps = {
     activeOpacity: 0.5,
-    debounce: 500,
     disabled: false,
     navParams: {}
 };
