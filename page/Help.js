@@ -4,8 +4,8 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
-    View,
-    Animated
+    View, 
+    TouchableOpacity
 } from 'react-native';
 import Sound from "react-native-sound";
 
@@ -15,7 +15,7 @@ import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
-import HelpTalk, { stopTalking } from "../component/HelpTalk";
+import HelpTalk from "../component/HelpTalk";
 
 
 const HelpIcons = {
@@ -27,9 +27,6 @@ const HelpIcons = {
 const HelpAudio = {
     home: require("../assets/audio/sound.mp3")
 }
-
-const PlayingIcon = HelpTalk  // require("../assets/help/record_voice_over_playing-24px_default.png");
-const ListenIcon =   //require("../assets/help/audio_help-24px_default.png");
 
 function withSound(name) {
     return new Promise(function(resolve, reject) {
@@ -392,14 +389,22 @@ export class SectionedScroller extends Component {
                              <H3 style={styles.sectionTitle}>
                                  { sectionTitle }
                              </H3>
-                             <HelpTalk />
-                             <HelpTalk 
-                                    image={active && soundPlaying ? PlayingIcon : ListenIcon}
+                             {/* <TouchableOpacity 
                                     style={styles.listenButton}
-                                    imageStyle={[styles.listenButtonImageStyle,
-                                                  active && soundLoading && styles.listenButtonImageLoadingStyle]}
-                                    onPress={() => this.playSound(section.key)}
-                             />
+                                    onPress={() => this.playSound(section.key)} > */}
+
+                                <HelpTalk 
+                                        style={styles.listenButton}
+                                        onPress={() => {
+                                                        this.playSound(section.key);
+                                                        console.log("pressed");
+                                                        this.props.playing ? showTalking() : stopTalking() ;
+                                                        console.log("help talk pressed") ;
+                                                        }}
+                                        playing={ active && soundPlaying ? true : false }
+                                    />
+                                    
+                            {/* </TouchableOpacity> */}
                          </View>),
                          (<View ref={section.key}
                             style={[styles.section, {minHeight: pageHeight}]}
