@@ -4,6 +4,7 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from 'react-native';
 import Sound from "react-native-sound";
@@ -142,15 +143,19 @@ const translations = {
         about: {
             title: 'About',
             audio: '',
-            text: () => (
-                <P>(See Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                    <P>&rarr; Settings Screen</P>
+                </TouchableOpacity>
             )
         },
         credits: {
             title: 'Credits',
             audio: '',
-            text: () => (
-                <P>(link to Credits in Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                    <P>&rarr; Settings Screen</P>
+                </TouchableOpacity>
             )
         },
         contact: {
@@ -250,15 +255,19 @@ const translations = {
         about: {
             title: 'ऐप के बारे में जानें',
             audio: '',
-            text: () => (
-                <P>(See Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                    <Text>&rarr; सेटिंग्स</Text>
+                </TouchableOpacity>
             )
         },
         credits: {
             title: 'आभार',
             audio: '',
-            text: () => (
-                <P>(link to Credits in Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                    <Text>&rarr; सेटिंग्स</Text>
+                </TouchableOpacity>
             )
         },
         contact: {
@@ -365,7 +374,7 @@ export class SectionedScroller extends Component {
     }
 
     render() {
-        let {children, style} = this.props,
+        let {children, nav, style} = this.props,
             {pageHeight, soundKey, soundLoading, soundPlaying} = this.state;
         
         let selectedLang = global.LANG || HINDI,
@@ -381,7 +390,7 @@ export class SectionedScroller extends Component {
                          icon = HelpIcons[section.key],
                          iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>),
                          active = soundKey === section.key,
-                         sectionBody = localizedText[section.key].text() || (<Text>(Not found)</Text>)
+                         sectionBody = localizedText[section.key].text(nav) || (<Text>(Not found)</Text>)
                          sectionTitle = localizedText[section.key].title;
 
                      return [
@@ -448,11 +457,13 @@ export default class HelpPage extends Component {
 
         return (
             <SectionedScroller selected={section}
+                               nav={this.props.navigation}
                                style={{backgroundColor: "white"}}>
                 <Section key="home"></Section>
                 <Section key="share"></Section>
                 <Section key="remnants"></Section>
                 <Section key="resources"></Section>
+                <Section key="settings"></Section>
                 <Section key="about"></Section>
                 <Section key="credits"></Section>
                 <Section key="contact"></Section>
