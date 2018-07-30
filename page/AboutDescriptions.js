@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import pageStyles, { A, H2, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
+import pageStyles, { A, H2, H1, H3, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
 
 
 export const ProjectDescription = {
@@ -74,7 +74,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <BullHeader> {languageMap.children["researchAssistance"]} </BullHeader>
         <Bull> Umang Sabarwal </Bull>
 
-        <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
+        <BullHeaderMain> {languageMap.children["teamDelhi"]} </BullHeaderMain>
 
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
@@ -98,7 +98,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Aoun Naqvi </Bull>
         <Bull> Harneet Singh </Bull>
 
-        <BullHeader> {languageMap.children["teamBoston"]} </BullHeader>
+        <BullHeaderMain> {languageMap.children["teamBoston"]} </BullHeaderMain>
         <BullHeader> {languageMap.children["developers"]} </BullHeader>
 
         <Bull> Andrew Seeder  </Bull>

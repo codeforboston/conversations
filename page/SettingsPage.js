@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import styles , {P,H2,HR, H3, HMedium} from "././styles.js";
+import styles , {InsetView, InsetText, P,H1,H2,H3,HR, height, width, homeScreenImage} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 import {saveSetting, getSetting} from ".././StorageUtils";
@@ -12,8 +12,6 @@ const radioToLanguageMap = {
   0: 'English',
   1 : 'Hindi'
 };
-
-const bottomScrollerMarginFactor = 0.18;
 
 const languageToRadioMap = {
   'English': 0,
@@ -43,10 +41,7 @@ export default class SettingsPage extends Component {
 
 
   render() {
-    const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
-    let homeScreenImage = require('.././assets/BackgroundForAppLanding.png');
-
+    
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
     
@@ -56,67 +51,36 @@ export default class SettingsPage extends Component {
           imageStyle={{resizeMode: 'cover'}}
           style={{width: width, height: height}}
       >
-        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05, marginBottom: height*bottomScrollerMarginFactor}}>
-           <View style={mystyles.BackGroundStyle} >
-              <View style={mystyles.SettingsTitle}>
-                    <HMedium>{localizedStrMap["settingsTitle"]}</HMedium>
-              </View>
-              <View style={mystyles.languageChooser}>
-                  <HMedium>{localizedStrMap["chooseLanguageOption"]}</HMedium>
-              </View>
-              <RadioForm style={styles.radioForm}
-                  radio_props={radio_props}
-                  buttonColor={'rgb(43,35,103)'}
-                  selectedButtonColor={'rgb(43,35,103)'}
-                  initial={languageToRadioMap[global.LANG]}
-                  buttonStyle={styles.settingsRadioButton}
-                  labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
-                  onPress={(value) => {this.handleSettingsChanged(value)}}
+        <ScrollView>
+            <InsetView>
+                 <H1>{localizedStrMap["settingsTitle"]}</H1>
+                 <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
+                 <RadioForm
+                    radio_props={radio_props}
+                    buttonColor={'rgb(43,35,103)'}
+                    selectedButtonColor={'rgb(43,35,103)'}
+                    initial={languageToRadioMap[global.LANG]}
+                    buttonStyle={styles.settingsRadioButton}
+                    labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
+                    onPress={(value) => {this.handleSettingsChanged(value)}}
                 />
                 <HR />
-                <View style={mystyles.SettingsTitle}>
-                  <HMedium>{localizedStrMap["aboutTheProjectTitle"]}</HMedium>
-                </View>
-                <View style={mystyles.AboutDesc}>
-                    <AboutDescription />
-                </View>
+
+                  <H1>{localizedStrMap["aboutTheProjectTitle"]}</H1>
+                  <AboutDescription />
+
                 <HR />
-                <View style={mystyles.SettingsTitle}>
-                    <HMedium>
-                        {localizedStrMap["acknowledgementsTitle"]}
-                    </HMedium>
-                </View>
-                <View>
-                    <ProjectCredits>{localizedStrMap}</ProjectCredits>
-                </View>
-                <View style={{marginBottom: 10*pr}}></View>
-           </View>
+
+                  <H1>{localizedStrMap["acknowledgementsTitle"]}</H1>
+                  <ProjectCredits>{localizedStrMap}</ProjectCredits>
+
+
+            </InsetView>
         </ScrollView>
       </ImageBackground>
     );
   }
 }
-
-const mystyles = StyleSheet.create({
-  BackGroundStyle: {
-     flex: 1,
-     flexDirection: 'column'
-  },
-  SettingsTitle: {
-     paddingTop: 10*pr,
-     paddingLeft: 15*pr,
-  },
-  languageChooser: {
-      paddingLeft: 20*pr
-  },
-  AboutDesc: {
-     paddingLeft: 10*pr,
-     paddingRight: 10*pr,
-     marginBottom: 10*pr
-  },
-
-});
-
 
 SettingsPage.navConfig = {
   screen: SettingsPage
