@@ -144,7 +144,7 @@ const translations = {
             title: 'About',
             audio: '',
             text: (nav) => (
-                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'about'})}>
                     <P>&rarr; Settings Screen</P>
                 </TouchableOpacity>
             )
@@ -153,7 +153,7 @@ const translations = {
             title: 'Credits',
             audio: '',
             text: (nav) => (
-                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'credits'})}>
                     <P>&rarr; Settings Screen</P>
                 </TouchableOpacity>
             )
@@ -256,7 +256,7 @@ const translations = {
             title: 'ऐप के बारे में जानें',
             audio: '',
             text: (nav) => (
-                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'about'})}>
                     <Text>&rarr; सेटिंग्स</Text>
                 </TouchableOpacity>
             )
@@ -265,7 +265,7 @@ const translations = {
             title: 'आभार',
             audio: '',
             text: (nav) => (
-                <TouchableOpacity onPress={() => nav.navigate('Settings')}>
+                <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'credits'})}>
                     <Text>&rarr; सेटिंग्स</Text>
                 </TouchableOpacity>
             )
