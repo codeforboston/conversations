@@ -1,64 +1,5 @@
-export const objectPages = [
-  { asset: require('./assets/ObjPhoto_IMG_7755.jpg'), objects: [
-      {
-        youtubeVideoId: '_LroBWpJ4Ps',
-        asset: require('./assets/Object1PepperSpray.png'),
-      },
-      {
-        youtubeVideoId: 'bXChsVqt4qo', // corresponds to video at https://www.youtube.com/watch?v=bXChsVqt4qo
-        asset: require('./assets/Object2ChilliPowder.png'), // corresponds to image located in this repository
-      },
-      {
-        youtubeVideoId: '2J1BGnyu7Hk',
-        asset: require('./assets/Object3Pigeon.png'),
-      }]
-  },
-  { asset: require('./assets/ObjPhoto_IMG_7755.jpg'), objects: [
-      // {
-      //   youtubeVideoId: '_LroBWpJ4Ps',
-      //   asset: require('./assets/Object4SafetyPin.png'),
-      // },
-      {
-        youtubeVideoId: 'GEmnflI3mu8',
-        asset: require('./assets/RemnantsAppearPlate.png'),
-        isRemnant: true,
-      },
-      // {
-      //   youtubeVideoId: '_LroBWpJ4Ps',
-      //   asset: require('./assets/Object5Elbow.png'),
-      // },
-      // {
-      //   youtubeVideoId: '_LroBWpJ4Ps',
-      //   asset: require('./assets/Object6Hundred.png'),
-      // },
-      // {
-      //   youtubeVideoId: '_LroBWpJ4Ps',
-      //   asset: require('./assets/Object7Umbrella.png'),
-      // },
-      // {
-      //   youtubeVideoId: '_LroBWpJ4Ps',
-      //   asset: require('./assets/Object8Slipper.png'),
-      // },
-    ]
-  },
-  { asset: require('./assets/ObjPhoto_IMG_7755.jpg'), objects: [
-      {
-        youtubeVideoId: '_LroBWpJ4Ps',
-        asset: require('./assets/Object6Hundred.png'),
-      },
-      {
-        youtubeVideoId: '_LroBWpJ4Ps',
-        asset: require('./assets/Object7Umbrella.png'),
-      },
-      {
-        youtubeVideoId: '_LroBWpJ4Ps',
-        asset: require('./assets/Object8Slipper.png'),
-      }]
-  },
-];
-
 export const updatedObjectPages = [
-  { asset: require('./assets/updatedObjects/Pushpa Manorama Portrait.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/PushpaManoramaPortrait.png'), objects: [
       {
         youtubeVideoId: 'CN-oeBbaIiQ',
         asset: require('./assets/updatedObjects/Object1Blade.png'),
@@ -76,7 +17,7 @@ export const updatedObjectPages = [
         asset: require('./assets/updatedObjects/Object4Elbow.png'),
       }]
   },
-  { asset: require('./assets/updatedObjects/PushpaManorama2.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/PushpaManorama2.png'), objects: [
     {
       youtubeVideoId: '6Qqeej-plzE',
       asset: require('./assets/updatedObjects/Object5HeavyBag.png'),
@@ -86,16 +27,11 @@ export const updatedObjectPages = [
       asset: require('./assets/updatedObjects/Object6ChilliPowder.png'),
     },
     {
-      youtubeVideoId: 'GEmnflI3mu8',
-      asset: require('./assets/RemnantsAppearPlate.png'),
-      isRemnant: true,
-    },
-    {
       youtubeVideoId: 'R1in7KFdFHk',
       asset: require('./assets/updatedObjects/Object8NumberPlate.png'),
     }]
   },
-  { asset: require('./assets/updatedObjects/SangeetaGurvinder.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/SangeetaGurvinder.png'), objects: [
     {
       youtubeVideoId: '_LroBWpJ4Ps',
       asset: require('./assets/updatedObjects/Object8Umbrella.png'),
@@ -117,7 +53,7 @@ export const updatedObjectPages = [
       asset: require('./assets/updatedObjects/Object12Shield.png'),
     }]
   },
-  { asset: require('./assets/updatedObjects/DeepaJaskeerat.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/DeepaJaskeerat.png'), objects: [
     {
       youtubeVideoId: 'J4DNVLLpJFc',
       asset: require('./assets/updatedObjects/Object13EducateYourself.png'),
@@ -127,7 +63,7 @@ export const updatedObjectPages = [
       asset: require('./assets/updatedObjects/Object14CCTV.png'),
     }]
   },
-  { asset: require('./assets/updatedObjects/ReetaShahina.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/ReetaShahina.png'), objects: [
     {
       youtubeVideoId: 'KTYx-h86vjM',
       asset: require('./assets/updatedObjects/Object15NoReservation.png'),
@@ -145,7 +81,7 @@ export const updatedObjectPages = [
       asset: require('./assets/updatedObjects/Object18Filming.png'),
     }]
   },
-  { asset: require('./assets/updatedObjects/AllOfUs.jpg'), objects: [
+  { asset: require('./assets/updatedObjects/AllOfUs.png'), objects: [
     {
       youtubeVideoId: 't0BloRX8dpA',
       asset: require('./assets/updatedObjects/Object19Pigeon.png'),
