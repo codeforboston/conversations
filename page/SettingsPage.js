@@ -53,10 +53,8 @@ export default class SettingsPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('settings component updates. nav param:');
     let target = this.props.navigation.state.params.targetSection;
-    console.log(target)
-    this._scrollTo(target)
+    if (target != null) this._scrollTo(target)
   }
 
 
