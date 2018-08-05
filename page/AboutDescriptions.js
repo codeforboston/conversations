@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import pageStyles, { A, H2, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
+import pageStyles, { A, H2, H1, H3, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
 
 
 export const ProjectDescription = {
@@ -50,7 +50,7 @@ export const ProjectCredits = (languageMap)=> {
 export const ProjectCreditsList = ({languageMap}) => (
     <View>
 
-        <BullHeader> {languageMap.children["coCreators"]} </BullHeader> 
+        <BullHeader> {languageMap.children["coCreators"]} </BullHeader>
 
         <Bull> Deepa Sardar </Bull>
         <Bull> Gurvinder Heer </Bull>
@@ -74,30 +74,30 @@ export const ProjectCreditsList = ({languageMap}) => (
 
         <BullHeader> {languageMap.children["researchAssistance"]} </BullHeader>
         <Bull> Umang Sabarwal </Bull>
-        
-        <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
+
+        <BullHeaderMain> {languageMap.children["teamDelhi"]} </BullHeaderMain>
 
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
-        <Bull> Abhishek Yadav </Bull> 
-        <Bull> Alisha Chatterjee </Bull> 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Nagma Sahi Ansari </Bull> 
-        <Bull> Umang Sabarwal </Bull> 
+        <Bull> Abhishek Yadav </Bull>
+        <Bull> Alisha Chatterjee </Bull>
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Nagma Sahi Ansari </Bull>
+        <Bull> Umang Sabarwal </Bull>
 
         <BullHeader> {languageMap.children["filmEditing"]} </BullHeader>
 
-        <Bull> Saugata Paul </Bull> 
-        <Bull> Subhash Bhanwala </Bull> 
+        <Bull> Saugata Paul </Bull>
+        <Bull> Subhash Bhanwala </Bull>
 
         <BullHeader> {languageMap.children["soundEditing"]} </BullHeader>
 
-        <Bull> Vishnu Rajeev </Bull> 
+        <Bull> Vishnu Rajeev </Bull>
 
         <BullHeader> {languageMap.children["photoGraphy"]} </BullHeader>
 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Harneet Singh </Bull> 
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Harneet Singh </Bull>
 
         <BullHeaderMain> {languageMap.children["teamBoston"]} </BullHeaderMain>
         <BullHeader> {languageMap.children["developers"]} </BullHeader>
@@ -148,7 +148,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Akshaya Sawant </Bull>
         <Bull> Alisha Chatterjee </Bull>
         <Bull> Anandana Kapur </Bull>
-        <Bull> Anchita Krishna</Bull> 
+        <Bull> Anchita Krishna</Bull>
         <Bull> Arjun Soni </Bull>
         <Bull> Anusha Jain </Bull>
         <Bull> Bidisha Saikia </Bull>
@@ -156,13 +156,13 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Kush Pathak </Bull>
         <Bull> Isha Vedantam </Bull>
         <Bull> Priyanka Yadav </Bull>
-        <Bull> Ranjani Rajagopalan</Bull> 
+        <Bull> Ranjani Rajagopalan</Bull>
         <Bull> Rashmi Ravindran </Bull>
         <Bull> Rohan Mehta </Bull>
         <Bull> Shweta Prajapati </Bull>
         <Bull> Sudeshna Mahata </Bull>
         <Bull> Taiyaba Ali </Bull>
-        <Bull> Tatheer Naqvi</Bull> 
+        <Bull> Tatheer Naqvi</Bull>
         <Bull> Vidya Kamudini </Bull>
 
         <BullHeader> {languageMap.children["institutionalPartner"]} </BullHeader>
@@ -210,7 +210,7 @@ export const ProjectCreditsList = ({languageMap}) => (
 
 
         <BullHeader>Curator/Creator | क्यूरेटर/ रचनाकार </BullHeader>
-        
+
         <Bull> Anandana Kapur </Bull>
 
         <BullHeader> © GPL2 2018</BullHeader>
