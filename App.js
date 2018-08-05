@@ -6,6 +6,7 @@ import { videos } from './config';
 import { Sound } from 'react-native-sound';
 
 import ObjectChooser from './ObjectChooser';
+import Player from './page/Player'
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';
 import AboutPage from "./page/About.js";
@@ -21,25 +22,6 @@ import pageStyles from "./page/styles.js";
 const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY"; 
 
 console.disableYellowBox = true;
-
-class Player extends React.Component {
-  render() {
-    const navigation = this.props.navigation;
-    return (
-      <View>
-        <YouTube
-        ref={yt => { this._yt = yt; }}
-          apiKey={youtubeApiKey}
-          videoId={this.props.navigation.getParam('videoId','')}
-          play={true}
-          fullscreen={true}
-          showFullscreenButton={false}
-          onChangeFullscreen={e => e.isFullscreen || navigation.goBack()}
-        />
-      </View>
-    );
-  }
-}
 
 const TabIcons = {
     Chooser: require("./assets/help/tap_and_hold-24px_default.png"),
