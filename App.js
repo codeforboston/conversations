@@ -28,6 +28,7 @@ class Player extends React.Component {
     return (
       <View>
         <YouTube
+        ref={yt => { this._yt = yt; }}
           apiKey={youtubeApiKey}
           videoId={this.props.navigation.getParam('videoId','')}
           play={true}

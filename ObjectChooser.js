@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
@@ -22,7 +22,7 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
     }
 }
 
-class ObjectChooser extends React.Component {
+export default class ObjectChooser extends Component {
 
   constructor(props) {
     super(props);
@@ -51,6 +51,7 @@ class ObjectChooser extends React.Component {
       const watchedVideos = new Set(this.state.watchedVideos);
       watchedVideos.add(video.youtubeVideoId);
       this.setState({ watchedVideos: Array.from(watchedVideos) });
+      console.warn('videoId = ', video.youtubeVideoId);
       navigation.navigate('Player', { videoId: video.youtubeVideoId });
     }, shouldDisableRemnant, this.state.imgwidth / 3);
     
@@ -71,9 +72,6 @@ class ObjectChooser extends React.Component {
     );
   }
 }
-
-
-export default ObjectChooser
 
 const styles = StyleSheet.create({
   objectChooser: {
