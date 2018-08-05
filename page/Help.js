@@ -358,8 +358,7 @@ export class SectionedScroller extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // never evaluates to true?
-        // if (this.props.selected && prevProps.selected !== this.props.selected)
+        if (this.props.selected && prevProps.selected !== this.props.selected)
             this._scrollTo(this.props.selected, true);
     }
 
