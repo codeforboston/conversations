@@ -18,7 +18,7 @@ import SettingsPage from "./page/SettingsPage";
 import { Button } from "./component/Button.js";
 import pageStyles from "./page/styles.js";
 
-const youtubeApiKey = "AIzaSyBVwmuzixD7KGYsuP_2840WcXNFk1SnrUU"; 
+const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY"; 
 
 console.disableYellowBox = true;
 
@@ -129,10 +129,9 @@ const TabNav = createBottomTabNavigator({
   tabBarOptions: {
     showLabel : false,
     style: {
-      backgroundColor: 'blue', 
+      backgroundColor: '#262C66',
     }
-  }, 
+  },
   animationEnabled: false,
 }
 );
-

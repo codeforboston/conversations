@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
+import ReactNative, { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import styles , {P,H2,HR} from "././styles.js";
+import styles , {InsetView, InsetText, P,H1,H2,H3,HR, height, width, homeScreenImage} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 import {saveSetting, getSetting} from ".././StorageUtils";
@@ -37,83 +37,73 @@ export default class SettingsPage extends Component {
       global.LANG = radioToLanguageMap[value];
       this.setState({language: global.LANG});
       saveSetting({name: "languagePreference", value: global.LANG});
-  } 
+  }
 
+  _scrollTo(name, animated=false) {
+    let child = this.refs[name]
+
+    if (child != null) {
+      let nodeHandle = ReactNative.findNodeHandle(this._scroller);
+      child.measureLayout(nodeHandle, (_x, y) => {
+        this._scroller.scrollTo({x: 0, y: y, animated: animated});
+      }, (error) => {
+        console.log(error)
+      })
+    }
+  }
+
+  componentDidUpdate({state}) {
+      let {navigation} = this.props;
+      try {
+          let target = navigation.state.params && navigation.state.params.targetSection,
+              oldTarget = state.params && prevProps.state.params.targetSection;
+
+          if (target !== null && oldTarget !== target)
+              this._scrollTo(target);
+      } catch(_) { }
+  }
 
   render() {
-    const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
-    let homeScreenImage = require('.././assets/BackgroundForAppLanding.png');
-
+    
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
-
+    
     return (
       <ImageBackground
           source={ homeScreenImage }
           imageStyle={{resizeMode: 'cover'}}
           style={{width: width, height: height}}
       >
-        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05}}>
-           <View style={mystyles.BackGroundStyle} >
-              <View style={mystyles.SettingsTitle}>
-                    <H2>{localizedStrMap["settingsTitle"]}</H2>
-              </View>
-              <View style={mystyles.languageChooser}> 
-                  <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
-              </View>
-              <RadioForm style={styles.radioForm}
-                  radio_props={radio_props}
-                  buttonColor={'rgb(43,35,103)'}
-                  selectedButtonColor={'rgb(43,35,103)'}            
-                  initial={languageToRadioMap[global.LANG]}
-                  buttonStyle={styles.settingsRadioButton}
-                  labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
-                  onPress={(value) => {this.handleSettingsChanged(value)}}
+        <ScrollView ref={scroller => { this._scroller = scroller; }}>
+            <InsetView>
+                 <H1>{localizedStrMap["settingsTitle"]}</H1>
+                 <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
+                 <RadioForm
+                    radio_props={radio_props}
+                    buttonColor={'rgb(43,35,103)'}
+                    selectedButtonColor={'rgb(43,35,103)'}
+                    initial={languageToRadioMap[global.LANG]}
+                    buttonStyle={styles.settingsRadioButton}
+                    labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
+                    onPress={(value) => {this.handleSettingsChanged(value)}}
                 />
                 <HR />
-                <View style={mystyles.SettingsTitle}>
-                  <H2>{localizedStrMap["aboutTheProjectTitle"]}</H2>
-                </View>
-                <View style={mystyles.AboutDesc}>
-                    <AboutDescription />
-                </View>
+
+                  <H1>{localizedStrMap["aboutTheProjectTitle"]}</H1>
+                  <AboutDescription />
+
                 <HR />
-                <View style={mystyles.SettingsTitle}>
-                    <H2>
-                        {localizedStrMap["acknowledgementsTitle"]}
-                    </H2>
-                </View>
-                <View>
-                    <ProjectCredits>{localizedStrMap}</ProjectCredits>
-                </View>
-                <View style={{marginBottom: 10*pr}}></View>
-           </View>
+
+                  <H1>{localizedStrMap["acknowledgementsTitle"]}</H1>
+                  <ProjectCredits>{localizedStrMap}</ProjectCredits>
+
+
+            </InsetView>
         </ScrollView>
       </ImageBackground>
     );
   }
 }
-
-const mystyles = StyleSheet.create({
-  BackGroundStyle: {
-     flex: 1,
-     flexDirection: 'column'
-  },
-  SettingsTitle: {
-     paddingTop: 10*pr,
-     paddingLeft: 15*pr,
-  },
-  languageChooser: {
-      paddingLeft: 20*pr
-  },
-  AboutDesc: {
-     paddingLeft: 10*pr,
-     paddingRight: 10*pr,
-     marginBottom: 10*pr
-  }
-});
-
 
 SettingsPage.navConfig = {
   screen: SettingsPage
