@@ -15,7 +15,7 @@ import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
-import HelpTalk from "../component/HelpTalk";
+import AnimatedImage from "../component/AnimatedImage.js";
 
 
 const HelpIcons = {
@@ -270,6 +270,10 @@ const translations = {
     },
 }
 
+const frames = [require("../assets/HelpTalk/help_talk_anim_0000_Layer-1.png"),
+                require("../assets/HelpTalk/help_talk_anim_0001_Layer-2.png"),
+                require("../assets/HelpTalk/help_talk_anim_0002_Layer-3.png")]
+
 export class SectionedScroller extends Component {
     constructor(props) {
         super(props);
@@ -389,22 +393,18 @@ export class SectionedScroller extends Component {
                              <H3 style={styles.sectionTitle}>
                                  { sectionTitle }
                              </H3>
-                             {/* <TouchableOpacity 
-                                    style={styles.listenButton}
-                                    onPress={() => this.playSound(section.key)} > */}
+                             <TouchableOpacity 
+                                 style={styles.listenButton}
+                                 onPress={() => this.playSound(section.key)} >
 
-                                <HelpTalk 
-                                        style={styles.listenButton}
-                                        onPress={() => {
-                                                        this.playSound(section.key);
-                                                        console.log("pressed");
-                                                        this.props.playing ? showTalking() : stopTalking() ;
-                                                        console.log("help talk pressed") ;
-                                                        }}
-                                        playing={ active && soundPlaying ? true : false }
-                                    />
+                                <AnimatedImage
+                                    style={styles.listenButtonImageStyle}
+                                    playing={ active && soundPlaying ? true : false }
+                                    source={frames[0]}
+                                    startFrame={2}
+                                    frames={frames} />
                                     
-                            {/* </TouchableOpacity> */}
+                            </TouchableOpacity>
                          </View>),
                          (<View ref={section.key}
                             style={[styles.section, {minHeight: pageHeight}]}
@@ -458,13 +458,13 @@ export default class HelpPage extends Component {
         return (
             <SectionedScroller selected={section}
                                style={{backgroundColor: "white"}}>
-                <Section key="home"></Section>
-                <Section key="share"></Section>
-                <Section key="remnants"></Section>
-                <Section key="resources"></Section>
-                <Section key="about"></Section>
-                <Section key="credits"></Section>
-                <Section key="contact"></Section>
+                <Section key="home"/>
+                <Section key="share"/>
+                <Section key="remnants"/>
+                <Section key="resources"/>
+                <Section key="about"/>
+                <Section key="credits"/>
+                <Section key="contact"/>
             </SectionedScroller>
         );
     }
