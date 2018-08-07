@@ -44,23 +44,19 @@ export default class Player extends Component {
     }
 
     restartYouTubePlayer(navigate) {
-        return(
-            this.state.renderChild ?
-            <YouTube
-                apiKey={youtubeApiKey}
-                videoId={navigate.getParam('videoId','')}
-                play={true}
-                fullscreen={true}
-                showFullscreenButton={false}
-                onChangeFullscreen={e => e.isFullscreen || navigate.goBack()}
-                onReady={e => this.setState({ isReady: true })}
-                onChangeState={e => this.setState({ status: e.state })}
-                onChangeQuality={e => this.setState({ quality: e.quality })}
-                onError={e => this.setState({ error: e.error })}
-                style={{ alignSelf: 'stretch', height: 300 }}
-            /> 
-            : null
-        );
+        return React.createElement(YouTube, {
+                apiKey: youtubeApiKey,
+                videoId: navigate.getParam('videoId',''),
+                play: true,
+                fullscreen: true,
+                showFullscreenButton: false,
+                onChangeFullscreen: e => e.isFullscreen || navigate.goBack(),
+                onReady: e => this.setState({ isReady: true }),
+                onChangeState: e => this.setState({ status: e.state }),
+                onChangeQuality: e => this.setState({ quality: e.quality }),
+                onError: e => this.setState({ error: e.error }),
+                style: { alignSelf: 'stretch', height: 300 }
+            });
     }
 
     render() {
@@ -68,7 +64,7 @@ export default class Player extends Component {
       return (
         <View style={stylePlayer.container}>
         {
-            this.restartYouTubePlayer(navigate) 
+            this.restartYouTubePlayer(navigate)
         }
         </View>
       );
