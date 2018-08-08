@@ -4,6 +4,7 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from 'react-native';
 import Sound from "react-native-sound";
@@ -12,7 +13,7 @@ import { ENGLISH, HINDI } from '../config';
 
 import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
-import pageStyles, { A, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
+import pageStyles, { A, Mail, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
 
 
@@ -116,48 +117,52 @@ const translations = {
                         about the co-creators, their stories and experiences of the city of Delhi.
                     </P>
                     <P><Em>How Can I Help?</Em></P>
-                    <P>
+                    <Bull>
                         Share your favourite stories (especially strategies!)
                         with #AashiyaanStories on social media so others can also
                         watch, learn, contribute and reclaim the city.
-                    </P>
-                    <P>
+                    </Bull>
+                    <Bull>
                         Organize a living room or porch conversation with
                         homemakers and domestic workers about their city experiences
                         and strategies. Contact us for ideas and to share post
                         discussion photos and videos on our <A href="http://www.aashiyaan.org">website</A>.
-                    </P>
-                    <P>
+                    </Bull>
+                    <Bull>
                         Go to our <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">YouTube
                     channel</A> and add a translation in your local language. Let’s keep the conversation going!
-                    </P>
+                    </Bull>
                     <P><Em>Support Groups</Em></P>
-                    <P>Helplines (India)    http://ncw.nic.in/frmhelpline.aspx</P>
-                    <P>Self defense        https://www.slaponline.org/</P>
-                    <P>Film for Change    https://krititeam.blogspot.com/</P>
-                    <P>Visit www.aashiyaan.org for more...</P>
+                    <Bull><A href='http://ncw.nic.in/frmhelpline.aspx'>Helplines (India)</A></Bull>
+                    <Bull><A href='https://www.slaponline.org/'>Self defense</A></Bull>
+                    <Bull><A href='https://krititeam.blogspot.com/'>Film for Change</A></Bull>
+                    <Bull>Visit <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> for more...</Bull>
                 </View>
             )
         },
         about: {
             title: 'About',
             audio: require("../assets/audio/English_audio/help_about_cue.mp3"),
-            text: () => (
-                <P>(See Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'about'})}>
+                    <P>&rarr; Settings Screen</P>
+                </TouchableOpacity>
             )
         },
         credits: {
             title: 'Credits',
             audio: require("../assets/audio/English_audio/help_credits_cue.mp3"),
-            text: () => (
-                <P>(link to Credits in Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'credits'})}>
+                    <P>&rarr; Settings Screen</P>
+                </TouchableOpacity>
             )
         },
         contact: {
             title: 'Contact',
             audio: require("../assets/audio/English_audio/help_contact_us_cue.mp3"),
             text: () => (
-                <P>Email us at idoc.conversations@gmail.com</P>
+                <P><Mail href="mailto:idoc.conversations@gmail.com">Email</Mail> us at idoc.conversations@gmail.com</P>
             )
         },
     },
@@ -232,39 +237,44 @@ const translations = {
                     <P><Em>और जानने में दिलचस्पी ?</Em></P>
                     <P>
                         सह-निर्माता और उनकी दिल्ली शहर सम्बन्धी कहानियों और अनुभवों के बारे में 
-                        अधिक जानने के लिए www.aashiyaan.org पर जाएं।
+                        अधिक जानने के लिए <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> पर जाएं।
                     </P>
                     <P><Em>मैं कैसे मदद कर सकती/सकता हूँ?</Em></P>
+
                     <Bull>सोशल मीडिया पर '#AashiyaanStories' के साथ अपनी पसंदीदा कहानियाँ (विशेष रूप से उपाय) प्रचलित करें| इससे अन्य लोग भी नए उपाय सीखेंगे, और अपनी कहानी का योगदान कर शहर को अपना सा बना पाएंगे।</Bull>
-                    <Bull>गृहणियों और घरेलू श्रमिकों के साथ अपने शहर के अनुभवों और सुरक्षित रहने के उपायों  के बारे में अपने घर या आँगन में बातचीत का आयोजन करें। बातचीत का आयोजन करने के तरीकों के अलावा चर्चा के फ़ोटो और वीडियो को हमारी वेबसाइट [http://www.aashiyaan.org/] पे शामिल करने के लिए हमसे संपर्क करें।</Bull>
-                    <Bull>हमारे यूट्यूब चैनल ['https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz'] पर जायेँ और अपनी स्थानीय भाषा में अनुवाद करें। बातचीत जारी रखें!</Bull>
-                    <P><Strong>सहायता</Strong></P>
-                    <P>हेल्पलाइन (भारत)        http://ncw.nic.in/frmhelpline.aspx</P>
-                    <P>आत्मरक्षा        https://www.slaponline.org/</P>
-                    <P>परिवर्तन के लिए फिल्में     https://krititeam.blogspot.com/</P>
-                    <P>अधिक जानकारी के लिए पर www.aashiyaan.org जायें </P>
+                    <Bull>गृहणियों और घरेलू श्रमिकों के साथ अपने शहर के अनुभवों और सुरक्षित रहने के उपायों  के बारे में अपने घर या आँगन में बातचीत का आयोजन करें। बातचीत का आयोजन करने के तरीकों के अलावा चर्चा के फ़ोटो और वीडियो को हमारी <A href='http://www.aashiyaan.org'>वेबसाइट</A> पे शामिल करने के लिए हमसे संपर्क करें।</Bull>
+                    <Bull>हमारे <A href="https://www.youtube.com/playlist?list=PLTXq6Eg-6vhrYDlEKZVYURf1JOSoHkRJz">यूट्यूब चैनल</A> पर जायेँ और अपनी स्थानीय भाषा में अनुवाद करें। बातचीत जारी रखें!</Bull>
+                    <P><Em>सहायता</Em></P>
+                    <Bull><A href='http://ncw.nic.in/frmhelpline.aspx'>हेल्पलाइन (भारत)</A></Bull>
+                    <Bull><A href='https://www.slaponline.org/'>आत्मरक्षा</A></Bull>
+                    <Bull><A href='https://krititeam.blogspot.com/'>परिवर्तन के लिए फिल्में</A></Bull>
+                    <Bull>अधिक जानकारी के लिए पर <A href='http://www.aashiyaan.org'>www.aashiyan.org</A> जायें</Bull>
                 </View>
             )
         },    
         about: {
             title: 'ऐप के बारे में जानें',
             audio: require("../assets/audio/Hindi_audio/about_the_app_cue_hindi.mp3"),
-            text: () => (
-                <P>(See Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'about'})}>
+                    <Text>&rarr; सेटिंग्स</Text>
+                </TouchableOpacity>
             )
         },
         credits: {
             title: 'आभार',
             audio: require("../assets/audio/Hindi_audio/acknowledgements_hindi_cue.mp3"),
-            text: () => (
-                <P>(link to Credits in Settings)</P>
+            text: (nav) => (
+                <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'credits'})}>
+                    <Text>&rarr; सेटिंग्स</Text>
+                </TouchableOpacity>
             )
         },
         contact: {
             title: 'ईमेल',
             audio: require("../assets/audio/Hindi_audio/email_us_hindi.mp3"),
             text: () => (
-                <P>idoc.conversations@gmail.com पर ईमेल भेजकर हमसे संपर्क करें |</P>
+                <P><Mail href="mailto:idoc.conversations@gmail.com">idoc.conversations@gmail.com</Mail> पर ईमेल भेजकर हमसे संपर्क करें |</P>
             )
         },
     },
@@ -365,7 +375,7 @@ export class SectionedScroller extends Component {
     }
 
     render() {
-        let {children, style} = this.props,
+        let {children, nav, style} = this.props,
             {pageHeight, soundKey, soundLoading, soundPlaying} = this.state;
         
         let selectedLang = global.LANG || HINDI,
@@ -381,7 +391,7 @@ export class SectionedScroller extends Component {
                          icon = HelpIcons[section.key],
                          iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>),
                          active = soundKey === section.key,
-                         sectionBody = localizedText[section.key].text() || (<Text>(Not found)</Text>)
+                         sectionBody = localizedText[section.key].text(nav) || (<Text>(Not found)</Text>)
                          sectionTitle = localizedText[section.key].title;
 
                      return [
@@ -448,12 +458,14 @@ export default class HelpPage extends Component {
 
         return (
             <SectionedScroller selected={section}
+                               nav={this.props.navigation}
                                style={{backgroundColor: "white"}}>
                 <Section key="home"></Section>
                 <Section key="share"></Section>
                 <Section key="remnants"></Section>
                 <Section key="settings"></Section>
                 <Section key="resources"></Section>
+                <Section key="settings"></Section>
                 <Section key="about"></Section>
                 <Section key="credits"></Section>
                 <Section key="contact"></Section>

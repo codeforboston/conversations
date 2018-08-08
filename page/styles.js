@@ -40,6 +40,23 @@ export const A = ({children, href, onPress, style, ...props}) => (
     </Text>
 );
 
+export const Mail = ({children, href, onPress, style, ...props}) => (
+    <Text style={[styles.link, style]} 
+          onPress={ onPress || (() => {
+            Linking.canOpenURL(href).then(supported => {
+                if (!supported) {
+                  console.log('Can\'t handle url: ' + href);
+                } else {
+                  return Linking.openURL(href);
+                }
+              }).catch(err => console.error('An error occurred', err));
+          })
+        }
+    >
+        { children }
+    </Text>
+)
+
 export const Strong = ({children}) => (
     <Text style={styles.bold}>
         { children }
@@ -54,7 +71,7 @@ export const Em = ({children}) => (
 
 export const Bull = ({children}) => (
     <Text style={[styles.bodyText, styles.liText]}>
-        {children}
+        {`\u2022`} {children}
     </Text>
 );
 

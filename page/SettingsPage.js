@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
+import ReactNative, { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import styles , {P,H2,HR, H3, HMedium} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
@@ -41,6 +41,24 @@ export default class SettingsPage extends Component {
       saveSetting({name: "languagePreference", value: global.LANG});
   }
 
+  _scrollTo(name, animated=false) {
+    let child = this.refs[name]
+
+    if (child != null) {
+      let nodeHandle = ReactNative.findNodeHandle(this._scroller);
+      child.measureLayout(nodeHandle, (_x, y) => {
+        this._scroller.scrollTo({x: 0, y: y, animated: animated});
+      }, (error) => {
+        console.log(error)
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    let target = this.props.navigation.state.params.targetSection;
+    if (target != null) this._scrollTo(target)
+  }
+
 
   render() {
     const width = Dimensions.get('window').width;
@@ -56,7 +74,8 @@ export default class SettingsPage extends Component {
           imageStyle={{resizeMode: 'cover'}}
           style={{width: width, height: height}}
       >
-        <ScrollView style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05, marginBottom: height*bottomScrollerMarginFactor}}>
+        <ScrollView ref={scroller => { this._scroller = scroller; }}
+                    style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05, marginBottom: height*bottomScrollerMarginFactor}}>
            <View style={mystyles.BackGroundStyle} >
               <View style={mystyles.SettingsTitle}>
                     <HMedium>{localizedStrMap["settingsTitle"]}</HMedium>
@@ -74,14 +93,14 @@ export default class SettingsPage extends Component {
                   onPress={(value) => {this.handleSettingsChanged(value)}}
                 />
                 <HR />
-                <View style={mystyles.SettingsTitle}>
+                <View ref="about" style={mystyles.SettingsTitle}>
                   <HMedium>{localizedStrMap["aboutTheProjectTitle"]}</HMedium>
                 </View>
                 <View style={mystyles.AboutDesc}>
                     <AboutDescription />
                 </View>
                 <HR />
-                <View style={mystyles.SettingsTitle}>
+                <View ref="credits" style={mystyles.SettingsTitle}>
                     <HMedium>
                         {localizedStrMap["acknowledgementsTitle"]}
                     </HMedium>

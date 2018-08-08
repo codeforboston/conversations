@@ -16,7 +16,8 @@ export const ProjectDescription = {
   
             </P>
             <P>
-                यदि आप इन महिलाओं के बारे में और जानना चाहते हैं और उनकी आंखों से शहर का अनुभव करना चाहते हैं आप अपनी यात्रा का चयन कर सकते हैं या YouTube पर हमारे इंटरैक्टिव संग्रह पर जा सकते हैं। आप यह भी देख सकते हैं कि ये सह-निर्माता अपनी रोज़ मर्रा की ज़िन्दगी के दौरान  फ़िल्मकार कैसे बनीं?
+
+                यदि आप इन महिलाओं के बारे में और जानना चाहते हैं और उनकी आंखों से शहर का अनुभव करना चाहते हैं आप अपनी यात्रा का चयन कर सकते हैं या <A href="https://www.youtube.com/channel/UCX3ZB98dqk_3GfL9s6yLINA?view_as=subscriber">YouTube</A> पर हमारे इंटरैक्टिव संग्रह पर जा सकते हैं। आप यह भी देख सकते हैं कि ये सह-निर्माता अपनी रोज़ मर्रा की ज़िन्दगी के दौरान  फ़िल्मकार कैसे बनीं | हमारी वेबसाइट है <A href="http://www.aashiyaan.org">www.aashiyaan.org</A> |
 
             </P>
             <P>
@@ -33,7 +34,7 @@ export const ProjectDescription = {
                 The documentary is a living archive of the lives and experiences of the ‘invisible’ women of Delhi. It takes on many shapes. As an interactive mobile app it invites viewers to listen to and participate in women’s conversations about how they navigate unsafe urban geographies. You can also explore an audio-visual gallery that maps the psychogeographies of the women as they speak of nostalgia, loss and desire in the city. 
             </P>
             <P>
-                To know more about the women and to experience the city through their eyes you can choose your journey on a map or visit the interactive archive on YouTube. You can even see how these co-creators became documentarians with their own unique point of view on www.aashiyaan.org.
+                To know more about the women and to experience the city through their eyes you can choose your journey on a map or visit the <A href="https://www.youtube.com/channel/UCX3ZB98dqk_3GfL9s6yLINA?view_as=subscriber">interactive archive on YouTube</A>. You can even see how these co-creators became documentarians with their own unique point of view on <A href="http://www.aashiyaan.org">www.aashiyaan.org</A>. 
             </P>
             <P>
                 When cities are labelled unsafe, women appear as statistics and victims. <Strong> Aashiyaan </Strong> challenges that dehumanization by presenting cross-class experiences of women in the city. The domestic labour performed by these women, who are also also the filmmakers,  shapes their creative labour as they set up conversations, film everyday activities and even chase peacocks. <Strong>Aashiyaan</Strong> translates to a nest, a home... your own personal sanctuary. 
