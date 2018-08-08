@@ -257,7 +257,7 @@ const translations = {
             audio: '',
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'about'})}>
-                    <Text>सेटिंग्स से लिंक करें</Text>
+                    <Text>सेटिंग पेज पर टेक्स्ट के बारे में देखें</Text>
                 </TouchableOpacity>
             )
         },
@@ -266,7 +266,7 @@ const translations = {
             audio: '',
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'credits'})}>
-                    <Text>सेटिंग्स से लिंक करेंस</Text>
+                    <Text>सेटिंग्स पेज पर क्रेडिट देखें</Text>
                 </TouchableOpacity>
             )
         },
