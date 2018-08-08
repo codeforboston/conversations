@@ -1,0 +1,17 @@
+./assets/audio/English_audio/about_english_para_1.mp3
+./assets/audio/English_audio/about_para_2_english.mp3
+./assets/audio/English_audio/about_para_3_english.mp3
+./assets/audio/English_audio/about_para_4_english.mp3
+./assets/audio/English_audio/filenames.txt
+./assets/audio/English_audio/help_about_cue.mp3
+./assets/audio/English_audio/help_contact.mp3
+./assets/audio/English_audio/help_contact_us_cue.mp3
+./assets/audio/English_audio/help_credits_cue.mp3
+./assets/audio/English_audio/help_home.wav
+./assets/audio/English_audio/help_more_objects.wav
+./assets/audio/English_audio/help_objects.wav
+./assets/audio/English_audio/help_remnants_full_section.wav
+./assets/audio/English_audio/help_resources.mp3
+./assets/audio/English_audio/help_settings.wav
+./assets/audio/English_audio/help_settings_new_audio.mp3
+./assets/audio/English_audio/help_share_your_video_story.wav

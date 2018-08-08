@@ -10,6 +10,12 @@ export const H2 = ({style, children}) => (
     </Text>
 );
 
+export const HMedium = ({style, children}) => (
+    <Text style={[styles.bodyText, styles.hMedium, style]}>
+        {children}
+    </Text>
+);
+
 export const H3 = ({style, children}) => (
     <Text style={[styles.bodyText, styles.h3, style]}>
         {children}
@@ -47,7 +53,7 @@ export const Em = ({children}) => (
 );
 
 export const Bull = ({children}) => (
-    <Text style={[styles.bodyText, styles.liText, styles.center]}>
+    <Text style={[styles.bodyText, styles.liText]}>
         {children}
     </Text>
 );
@@ -88,6 +94,9 @@ const styles = StyleSheet.create({
         color: 'rgb(43, 35, 103)'
         /* textDecorationColor: "#ddd",
          * textDecorationLine: "underline" */
+    },
+    hMedium: {
+         fontSize: 9*pr
     },
 
     bodyText: {
@@ -148,9 +157,14 @@ const styles = StyleSheet.create({
         fontSize: 7*pr
     },
     settingsRadioButton: {
-        lineHeight: 10, 
+        lineHeight: 10,
         alignSelf: 'flex-start'
+    },
+
+    PageTitle: {
+      fontSize: 10 * pr
     }
+
 });
 
 export default styles;
