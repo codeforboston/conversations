@@ -265,7 +265,7 @@ const translations = {
             audio: require("../assets/audio/Hindi_audio/about_the_app_cue_hindi.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'about'})}>
-                    <Text>&rarr; सेटिंग्स</Text>
+                    <Text>सेटिंग्स से लिंक करें</Text>
                 </TouchableOpacity>
             )
         },
@@ -274,7 +274,7 @@ const translations = {
             audio: require("../assets/audio/Hindi_audio/acknowledgements_hindi_cue.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'credits'})}>
-                    <Text>&rarr; सेटिंग्स</Text>
+                    <Text>सेटिंग्स से लिंक करेंस</Text>
                 </TouchableOpacity>
             )
         },
