@@ -46,7 +46,7 @@ const translations = {
     [ENGLISH]: {
         home: {
             title: 'Objects',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_home.wav"),
             text: () => (
                 <View>
                     <P>Explore stories of the invisible women of Delhi as told by them.</P>
@@ -64,7 +64,7 @@ const translations = {
         },
         share: {
             title: 'Share Your Video Story',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_share_your_video_story.mp3"),
             text: () => (
                 <P>
                     Record a video on your phone and share your own story. By sharing more 
@@ -74,7 +74,7 @@ const translations = {
         },
         remnants: {
             title: 'Remnants',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_remnants_full_section.mp3"),
             text: () => (
                 <View>
                     <P>
@@ -97,7 +97,7 @@ const translations = {
         },
         settings: {
             title: 'Settings',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_settings.mp3"),
             text: () => (
                 <P>
                     Choose your preferred language
@@ -108,7 +108,7 @@ const translations = {
         },
         resources: {
             title: 'Resources',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_resources.mp3"),
             text: () => (
                 <View>
                     <P><Em>I’m interested in knowing more</Em></P>
@@ -142,7 +142,7 @@ const translations = {
         },
         about: {
             title: 'About',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_about_cue.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'about'})}>
                     <P>&rarr; Settings Screen</P>
@@ -151,7 +151,7 @@ const translations = {
         },
         credits: {
             title: 'Credits',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_credits_cue.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings',{targetSection:'credits'})}>
                     <P>&rarr; Settings Screen</P>
@@ -160,7 +160,7 @@ const translations = {
         },
         contact: {
             title: 'Contact',
-            audio: '',
+            audio: require("../assets/audio/English_audio/help_contact_us_cue.mp3"),
             text: () => (
                 <P><Mail href="mailto:idoc.conversations@gmail.com">Email</Mail> us at idoc.conversations@gmail.com</P>
             )
@@ -169,7 +169,7 @@ const translations = {
     [HINDI]: {
         home: {
             title: 'होम',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/home_hindi.mp3"),
             text: () => (
                 <View>
                     <P>दिल्ली में रहने वाली महिलाओं की अदृश्य जीवनियों को देखें।</P>
@@ -189,7 +189,7 @@ const translations = {
         },
         share: {
             title: 'अपना वीडियो शामिल करें',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/share_your_video_story_hindi.mp3"),
             text: () => (
                 <P>
                     अपने फ़ोन पर वीडियो रिकॉर्ड करें और अपनी कहानी भेजें | अपने अलग-अलग उपाय आपस में 
@@ -199,7 +199,7 @@ const translations = {
         },
         remnants: {
             title: 'निशान',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/remnants_hindi.mp3"),
             text: () => (
                 <View>
                     <P>
@@ -221,7 +221,7 @@ const translations = {
         },        
         settings: {
             title: 'सेटिंग्स',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/settings_audio_cue_hindi.mp3"),
             text: () => (
                 <P>
                     अंग्रेजी या हिंदी भाषा चुनें 
@@ -231,7 +231,7 @@ const translations = {
         },        
         resources: {
             title: 'अन्य उपाय और कहानियाँ',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/resources_hindi.mp3"),
             text: () => (
                 <View>
                     <P><Em>और जानने में दिलचस्पी ?</Em></P>
@@ -254,7 +254,7 @@ const translations = {
         },    
         about: {
             title: 'ऐप के बारे में जानें',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/about_the_app_cue_hindi.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'about'})}>
                     <Text>&rarr; सेटिंग्स</Text>
@@ -263,7 +263,7 @@ const translations = {
         },
         credits: {
             title: 'आभार',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/acknowledgements_hindi_cue.mp3"),
             text: (nav) => (
                 <TouchableOpacity onPress={() => nav.navigate('Settings', {targetSection:'credits'})}>
                     <Text>&rarr; सेटिंग्स</Text>
@@ -272,7 +272,7 @@ const translations = {
         },
         contact: {
             title: 'ईमेल',
-            audio: '',
+            audio: require("../assets/audio/Hindi_audio/email_us_hindi.mp3"),
             text: () => (
                 <P><Mail href="mailto:idoc.conversations@gmail.com">idoc.conversations@gmail.com</Mail> पर ईमेल भेजकर हमसे संपर्क करें |</P>
             )
@@ -290,7 +290,7 @@ export class SectionedScroller extends Component {
             soundLoading: null
         };
     }
-
+    
     _scrollTo(name, animated=false) {
         let child = this.refs[name];
 
@@ -337,7 +337,8 @@ export class SectionedScroller extends Component {
         }
 
         this.setState({ soundKey: key, soundLoading: true });
-        withSound(HelpAudio.home)
+        var selectedLang = global.LANG || HINDI;
+        withSound( translations[selectedLang][key].audio ) //translations[HINDI]['home'] )
             .then((sound) => {
                 console.log(sound);
                 if (this.state.soundKey !== key) return;
@@ -429,7 +430,7 @@ const sectionLookup = {
     RemnantChooser: 'remnants',
     RemnantDisplay: 'remnants',
     About: 'resources',
-    Settings: 'home',
+    Settings: 'settings',
 }
 
 export default class HelpPage extends Component {
@@ -462,6 +463,7 @@ export default class HelpPage extends Component {
                 <Section key="home"></Section>
                 <Section key="share"></Section>
                 <Section key="remnants"></Section>
+                <Section key="settings"></Section>
                 <Section key="resources"></Section>
                 <Section key="settings"></Section>
                 <Section key="about"></Section>

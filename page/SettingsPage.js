@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactNative, { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import styles , {P,H2,HR} from "././styles.js";
+import styles , {P,H2,HR, H3, HMedium} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 import {saveSetting, getSetting} from ".././StorageUtils";
@@ -12,6 +12,8 @@ const radioToLanguageMap = {
   0: 'English',
   1 : 'Hindi'
 };
+
+const bottomScrollerMarginFactor = 0.18;
 
 const languageToRadioMap = {
   'English': 0,
@@ -37,7 +39,7 @@ export default class SettingsPage extends Component {
       global.LANG = radioToLanguageMap[value];
       this.setState({language: global.LANG});
       saveSetting({name: "languagePreference", value: global.LANG});
-  } 
+  }
 
   _scrollTo(name, animated=false) {
     let child = this.refs[name]
@@ -65,7 +67,7 @@ export default class SettingsPage extends Component {
 
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
-
+    
     return (
       <ImageBackground
           source={ homeScreenImage }
@@ -73,18 +75,18 @@ export default class SettingsPage extends Component {
           style={{width: width, height: height}}
       >
         <ScrollView ref={scroller => { this._scroller = scroller; }}
-                    style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05}}>
+                    style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginTop: height*0.05, marginBottom: height*bottomScrollerMarginFactor}}>
            <View style={mystyles.BackGroundStyle} >
               <View style={mystyles.SettingsTitle}>
-                    <H2>{localizedStrMap["settingsTitle"]}</H2>
+                    <HMedium>{localizedStrMap["settingsTitle"]}</HMedium>
               </View>
-              <View style={mystyles.languageChooser}> 
-                  <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
+              <View style={mystyles.languageChooser}>
+                  <HMedium>{localizedStrMap["chooseLanguageOption"]}</HMedium>
               </View>
               <RadioForm style={styles.radioForm}
                   radio_props={radio_props}
                   buttonColor={'rgb(43,35,103)'}
-                  selectedButtonColor={'rgb(43,35,103)'}            
+                  selectedButtonColor={'rgb(43,35,103)'}
                   initial={languageToRadioMap[global.LANG]}
                   buttonStyle={styles.settingsRadioButton}
                   labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
@@ -92,16 +94,16 @@ export default class SettingsPage extends Component {
                 />
                 <HR />
                 <View ref="about" style={mystyles.SettingsTitle}>
-                  <H2>{localizedStrMap["aboutTheProjectTitle"]}</H2>
+                  <HMedium>{localizedStrMap["aboutTheProjectTitle"]}</HMedium>
                 </View>
                 <View style={mystyles.AboutDesc}>
                     <AboutDescription />
                 </View>
                 <HR />
                 <View ref="credits" style={mystyles.SettingsTitle}>
-                    <H2>
+                    <HMedium>
                         {localizedStrMap["acknowledgementsTitle"]}
-                    </H2>
+                    </HMedium>
                 </View>
                 <View>
                     <ProjectCredits>{localizedStrMap}</ProjectCredits>
@@ -130,7 +132,8 @@ const mystyles = StyleSheet.create({
      paddingLeft: 10*pr,
      paddingRight: 10*pr,
      marginBottom: 10*pr
-  }
+  },
+
 });
 
 

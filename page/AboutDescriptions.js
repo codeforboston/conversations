@@ -12,8 +12,8 @@ export const ProjectDescription = {
 
             </P>
             <P>
-                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |    
-
+                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |
+  
             </P>
             <P>
 
@@ -50,7 +50,7 @@ export const ProjectCredits = (languageMap)=> {
 export const ProjectCreditsList = ({languageMap}) => (
     <View>
 
-        <BullHeader> {languageMap.children["coCreators"]} </BullHeader> 
+        <BullHeader> {languageMap.children["coCreators"]} </BullHeader>
 
         <Bull> Deepa Sardar </Bull>
         <Bull> Gurvinder Heer </Bull>
@@ -74,32 +74,32 @@ export const ProjectCreditsList = ({languageMap}) => (
 
         <BullHeader> {languageMap.children["researchAssistance"]} </BullHeader>
         <Bull> Umang Sabarwal </Bull>
-        
+
         <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
 
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
-        <Bull> Abhishek Yadav </Bull> 
-        <Bull> Alisha Chatterjee </Bull> 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Nagma Sahi Ansari </Bull> 
-        <Bull> Umang Sabarwal </Bull> 
+        <Bull> Abhishek Yadav </Bull>
+        <Bull> Alisha Chatterjee </Bull>
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Nagma Sahi Ansari </Bull>
+        <Bull> Umang Sabarwal </Bull>
 
         <BullHeader> {languageMap.children["filmEditing"]} </BullHeader>
 
-        <Bull> Saugata Paul </Bull> 
-        <Bull> Subhash Bhanwala </Bull> 
+        <Bull> Saugata Paul </Bull>
+        <Bull> Subhash Bhanwala </Bull>
 
         <BullHeader> {languageMap.children["soundEditing"]} </BullHeader>
 
-        <Bull> Vishnu Rajeev </Bull> 
+        <Bull> Vishnu Rajeev </Bull>
 
         <BullHeader> {languageMap.children["photoGraphy"]} </BullHeader>
 
-        <Bull> Aoun Naqvi </Bull> 
-        <Bull> Harneet Singh </Bull> 
+        <Bull> Aoun Naqvi </Bull>
+        <Bull> Harneet Singh </Bull>
 
-        <BullHeaderMain> {languageMap.children["teamBoston"]} </BullHeaderMain>
+        <BullHeader> {languageMap.children["teamBoston"]} </BullHeader>
         <BullHeader> {languageMap.children["developers"]} </BullHeader>
 
         <Bull> Andrew Seeder  </Bull>
@@ -148,7 +148,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Akshaya Sawant </Bull>
         <Bull> Alisha Chatterjee </Bull>
         <Bull> Anandana Kapur </Bull>
-        <Bull> Anchita Krishna</Bull> 
+        <Bull> Anchita Krishna</Bull>
         <Bull> Arjun Soni </Bull>
         <Bull> Anusha Jain </Bull>
         <Bull> Bidisha Saikia </Bull>
@@ -156,13 +156,13 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Kush Pathak </Bull>
         <Bull> Isha Vedantam </Bull>
         <Bull> Priyanka Yadav </Bull>
-        <Bull> Ranjani Rajagopalan</Bull> 
+        <Bull> Ranjani Rajagopalan</Bull>
         <Bull> Rashmi Ravindran </Bull>
         <Bull> Rohan Mehta </Bull>
         <Bull> Shweta Prajapati </Bull>
         <Bull> Sudeshna Mahata </Bull>
         <Bull> Taiyaba Ali </Bull>
-        <Bull> Tatheer Naqvi</Bull> 
+        <Bull> Tatheer Naqvi</Bull>
         <Bull> Vidya Kamudini </Bull>
 
         <BullHeader> {languageMap.children["institutionalPartner"]} </BullHeader>
@@ -210,7 +210,7 @@ export const ProjectCreditsList = ({languageMap}) => (
 
 
         <BullHeader>Curator/Creator | क्यूरेटर/ रचनाकार </BullHeader>
-        
+
         <Bull> Anandana Kapur </Bull>
 
         <BullHeader> © GPL2 2018</BullHeader>
