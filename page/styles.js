@@ -180,8 +180,14 @@ const styles = StyleSheet.create({
 
     PageTitle: {
       fontSize: 10 * pr
-    }
+    },
 
+    // dimensions: 1280 x 173, reducing to 1/5th
+    screenshot: {
+        resizeMode: 'contain',
+        width: 256 * pr,
+        height: 35 * pr
+    }
 });
 
 export default styles;
