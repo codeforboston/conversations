@@ -1,25 +1,25 @@
 import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { videos } from './config';
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
+import { objectPages } from './config';
 
 import { Button } from "./component/Button.js";
 
 
 function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
-  return (video) => {
-    const disabled = video.isRemnant && shouldDisableRemnant;
-    return (
-        <Button key={video.youtubeVideoId}
-                onPress={() => navigate(video)}
-                style={[styles.touchableStyle, { opacity: disabled ? 0 : 1 }]}
-                disabled={disabled}
-                image={video.asset}
-                pressAnimation="spring"
-                resizeMode="contain"
-                imageStyle={styles.objectImage}/>
-    );
-  }
+    return (video) => {
+        const disabled = video.isRemnant && shouldDisableRemnant;
+
+        return (
+            <Button key={video.youtubeVideoId}
+                    onPress={() => navigate(video)}
+                    style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
+                    disabled={disabled}
+                    image={video.asset}
+                    pressAnimation="spring"/>
+        );
+    }
 }
 
 class ObjectChooser extends React.Component {
@@ -40,6 +40,10 @@ class ObjectChooser extends React.Component {
       })
   }
 
+  renderPagerDotIndicator = () => {
+      return <PagerDotIndicator pageCount={objectPages.length}/>
+  }
+
   render() {
     const navigation = this.props.navigation;
     const shouldDisableRemnant = this.state.watchedVideos.length < 2;
@@ -50,59 +54,50 @@ class ObjectChooser extends React.Component {
       navigation.navigate('Player', { videoId: video.youtubeVideoId });
     }, shouldDisableRemnant, this.state.imgwidth / 3);
     return (
-      <View style={{flex:1, flexDirection: 'row'}}>
-        <Image source={require('./assets/BackgroundForObjectsAndHelpAbout.png')} style={styles.backgroundImage} />
-
-        <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
-          {videos.map(renderVideo)}
-        </View>
-
-        <View style={{ flex: 1.5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-          <View style={{backgroundColor: '#aa99dd', height: 80, width: 160, position: 'absolute'}}></View>
-          <Button image={require('./assets/AboutIcon.png')}
-                  pressAnimation="spring"
-                  style={styles.navIcon}
-                  navigation={navigation}
-                  route="About"
-          />
-          <Button image={require('./assets/HelpIcon.png')}
-                  pressAnimation="spring"
-                  style={styles.navIcon}
-                  navigation={navigation}
-                  route="Help" />
-        </View>
+      <View style={{flex:1, flexDirection: 'column'}}>
+          <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
+              {objectPages.map(page => {
+                return <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                    <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
+                    <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
+                      {page.objects.map(renderVideo)}
+                    </View>
+                    <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
+                </View>})}
+          </IndicatorViewPager>
       </View>
     );
   }
 }
+
+
 export default ObjectChooser
 
 const styles = StyleSheet.create({
   objectChooser: {
-    flex: 3,
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between'
   },
   touchableStyle: {
-    flex: 1,
+    flex: .5,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft: 60,
-    paddingBottom: 0,
-    paddingRight: 60,
-    paddingTop: 0,
-    margin: 10,
   },
   navIcon: {
     height: 100,
     width: 100,
     margin: -12,
   },
+  objectPageImage: {
+    flex: 3
+  },
   backgroundImage: {
     position: 'absolute',
+    paddingTop: 10,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height
   },
 });

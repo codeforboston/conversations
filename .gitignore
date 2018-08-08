@@ -199,5 +199,7 @@ xcuserdata/
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+# Miscellaneous
+MISC/
 
 # End of https://www.gitignore.io/api/reactnative
