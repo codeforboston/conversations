@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
-import { objectPages } from './config';
+import { updatedObjectPages } from './config';
 
 import { Button } from "./component/Button.js";
 
@@ -22,7 +22,7 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
     }
 }
 
-class ObjectChooser extends React.Component {
+export default class ObjectChooser extends Component {
 
   constructor(props) {
     super(props);
@@ -41,7 +41,7 @@ class ObjectChooser extends React.Component {
   }
 
   renderPagerDotIndicator = () => {
-      return <PagerDotIndicator pageCount={objectPages.length}/>
+      return <PagerDotIndicator pageCount={updatedObjectPages.length}/>
   }
 
   render() {
@@ -51,6 +51,7 @@ class ObjectChooser extends React.Component {
       const watchedVideos = new Set(this.state.watchedVideos);
       watchedVideos.add(video.youtubeVideoId);
       this.setState({ watchedVideos: Array.from(watchedVideos) });
+      console.warn('videoId = ', video.youtubeVideoId);
       navigation.navigate('Player', { videoId: video.youtubeVideoId });
     }, shouldDisableRemnant, this.state.imgwidth / 3);
     
@@ -58,7 +59,7 @@ class ObjectChooser extends React.Component {
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
-              {objectPages.map(page => {
+              {updatedObjectPages.map(page => {
                 return <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                     <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
                     <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
@@ -71,9 +72,6 @@ class ObjectChooser extends React.Component {
     );
   }
 }
-
-
-export default ObjectChooser
 
 const styles = StyleSheet.create({
   objectChooser: {
