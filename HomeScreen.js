@@ -25,7 +25,7 @@ class HomeScreenWrapped extends React.Component {
   handlePress= (lang) => {
       global.LANG = lang;
       saveSetting({name: "languagePreference", value: global.LANG});
-      this.props.navigation.navigate("ObjectChooserx");
+      this.props.navigation.navigate("ObjectChooser", {TEST: "123"});
   }
 
   componentWillMount() {
@@ -137,6 +137,10 @@ const HomeScreen = withDimensions(HomeScreenWrapped);
 
 
 export default HomeScreen;
+
+HomeScreen.navigationOptions = {
+    tabBarVisible: false,
+};
 
 const styles = StyleSheet.create({
   previewText: {

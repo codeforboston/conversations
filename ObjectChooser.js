@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
-import { StackNavigator, createStackNavigator } from 'react-navigation';
+import { StackNavigator, createStackNavigator,withNavigationFocus } from 'react-navigation';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import { objectPages } from './config';
 import YouTube from 'react-native-youtube';
@@ -24,7 +24,7 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
   }
 }
 
-class ObjectChooserx extends React.Component {
+class ObjectChooserPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -52,7 +52,7 @@ class ObjectChooserx extends React.Component {
       if (nav.getParam('setRemnant') == false && shouldDisableRemnant==true) {
         this.props.screenProps.setRemnantFunction(shouldDisableRemnant);
         nav.setParams( {setRemnant:true} )
-    }
+      }
     }
 
 
@@ -101,13 +101,14 @@ class Player extends React.Component {
   }
 }
 
-export default class ObjectChooserWrapper extends React.Component {
+export default class ObjectChooser extends React.Component{
   render(){
     return(
       <CSN/>
     )
   }
 }
+
 
 const styles = StyleSheet.create({
   objectChooser: {
@@ -138,20 +139,31 @@ const styles = StyleSheet.create({
   },
 });
 
+{/* A stack navigator that contains the player,
+object chooser page and home screen */}
+
 const CSN = createStackNavigator({
-  Player: {
-    screen: Player
+    Player: {
+      screen: Player
+    },
+    ObjectChooser: {
+      screen: ObjectChooserPage
+    },
+    HomeScreen: {
+      screen: HomeScreen,
+    },
   },
-  ObjectChooser: {
-    screen: ObjectChooser
-  },
-  HomeScreen: {
-    screen: HomeScreen
-  }}, {
+  {
     initialRouteName: 'HomeScreen',
     headerMode: 'none',
-    navigationOptions: {
-      tabBarVisible: false,
+  });
+
+  CSN.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+      tabBarVisible = false;
     }
-  }
-  );
+    return {
+      tabBarVisible,
+    };
+  };
