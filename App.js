@@ -5,7 +5,7 @@ import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import { Sound } from 'react-native-sound';
 
-import ObjectChooser from './ObjectChooser';
+import CSN, { ObjectChooser } from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';
 import AboutPage from "./page/About.js";
@@ -54,7 +54,7 @@ export default class App extends React.Component {
     const route = navigationState.routes[navigationState.index];
 
     if (route.routes) {
-      return getActiveRouteName(route);
+      //return getActiveRouteName(route);
     }
     return route.routeName;
   }
@@ -101,7 +101,7 @@ stack navigator that contains the object chooser,
 the home screen and the player component */}
 const TabNav = createBottomTabNavigator({
   Chooser: {
-  screen: ObjectChooser,
+  screen: CSN,
   },
   Upload: UploadPage.navConfig,
   Remnant: Remnant.navConfig,

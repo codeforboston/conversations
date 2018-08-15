@@ -101,14 +101,13 @@ class Player extends React.Component {
   }
 }
 
-export default class ObjectChooser extends React.Component{
+export class ObjectChooser extends React.Component{
   render(){
     return(
       <CSN/>
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   objectChooser: {
@@ -139,6 +138,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 {/* A stack navigator that contains the player,
 object chooser page and home screen */}
 
@@ -159,11 +159,17 @@ const CSN = createStackNavigator({
   });
 
   CSN.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true;
-    if (navigation.state.index > 0) {
-      tabBarVisible = false;
+    let { routeName } = navigation.state.routes[navigation.state.index];
+    let navigationOptions = {};
+
+    {/* Hide the nav bar in the home screen, only make it visible once you get to the object chooser */}
+    navigationOptions.tabBarVisible = false;
+
+    if (routeName === 'ObjectChooser') {
+      navigationOptions.tabBarVisible = true;
     }
-    return {
-      tabBarVisible,
-    };
+    return navigationOptions;
   };
+
+  export default CSN;
+  
