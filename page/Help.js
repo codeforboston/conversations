@@ -50,6 +50,10 @@ const translations = {
             text: () => (
                 <View>
                     <P>Explore stories of the invisible women of Delhi as told by them.</P>
+                    <Image
+                        source={ require("../assets/help/objects-example.png") }
+                        style={ pageStyles.screenshot }
+                    />
                     <P>
                         <Strong>Objects:</Strong> To play a video clip, select one of the 
                         Objects at the top of the page. Each video will feature the women in 
@@ -173,6 +177,10 @@ const translations = {
             text: () => (
                 <View>
                     <P>दिल्ली में रहने वाली महिलाओं की अदृश्य जीवनियों को देखें।</P>
+                    <Image
+                        source={ require("../assets/help/objects-example.png") }
+                        style={ pageStyles.screenshot }
+                    />
                     <P>
                         <Strong>वस्तु:</Strong> वीडियो क्लिप चलाने के लिए, स्क्रीन के ऊपरी 
                         हिस्से से मनचाही वस्तु का चयन करें। प्रत्येक वीडियो आपको फोटोग्राफ़ में दर्शायी 
