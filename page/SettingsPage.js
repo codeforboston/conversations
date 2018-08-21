@@ -52,10 +52,16 @@ export default class SettingsPage extends Component {
     }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   let target = this.props.navigation.state.params.targetSection;
-  //   if (target != null) this._scrollTo(target)
-  // }
+  componentDidUpdate({state}) {
+      let {navigation} = this.props;
+      try {
+          let target = navigation.state.params && navigation.state.params.targetSection,
+              oldTarget = state.params && prevProps.state.params.targetSection;
+
+          if (target !== null && oldTarget !== target)
+              this._scrollTo(target);
+      } catch(_) { }
+  }
 
 
   render() {
