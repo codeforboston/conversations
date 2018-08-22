@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
       fontSize: 48 * pr * adjustmentFactor,
       fontWeight: "700",
       lineHeight: 48 * pr * adjustmentFactor * 1.3,
-      letterSpacing: 0.5 * pr, 
+      letterSpacing: 0.5 * pr,
       marginTop: 12 * pr,
       marginBottom: 4 * pr,
       textAlign: "justify",
@@ -191,11 +191,11 @@ const styles = StyleSheet.create({
       paddingLeft: width*0.08,
       paddingBottom: width*0.18,
     },
-    
+
     bodyText: {
         fontSize: 30 * pr * adjustmentFactor,
         lineHeight: 30 * pr * adjustmentFactor * 1.8,
-        fontWeight: "100", 
+        fontWeight: "100",
         letterSpacing: 0.05 * pr,
         marginBottom: 34 * pr * adjustmentFactor,
         textAlign: "justify",

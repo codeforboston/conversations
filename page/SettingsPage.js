@@ -41,10 +41,10 @@ export default class SettingsPage extends Component {
 
 
   render() {
-    
+
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
-    
+
     return (
       <ImageBackground
           source={ homeScreenImage }
