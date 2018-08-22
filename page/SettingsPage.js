@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
+import ReactNative, { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import styles , {InsetView, InsetText, P,H1,H2,H3,HR, height, width, homeScreenImage} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
@@ -37,6 +37,24 @@ export default class SettingsPage extends Component {
       global.LANG = radioToLanguageMap[value];
       this.setState({language: global.LANG});
       saveSetting({name: "languagePreference", value: global.LANG});
+  }
+
+  _scrollTo(name, animated=false) {
+    let child = this.refs[name]
+
+    if (child != null) {
+      let nodeHandle = ReactNative.findNodeHandle(this._scroller);
+      child.measureLayout(nodeHandle, (_x, y) => {
+        this._scroller.scrollTo({x: 0, y: y, animated: animated});
+      }, (error) => {
+        console.log(error)
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    let target = this.props.navigation.state.params.targetSection;
+    if (target != null) this._scrollTo(target)
   }
 
 
