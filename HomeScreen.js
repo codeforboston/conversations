@@ -1,5 +1,4 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
 import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} from 'react-native';
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";

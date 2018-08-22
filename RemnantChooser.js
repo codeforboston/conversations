@@ -12,7 +12,6 @@ import {
   Button,
   Animated
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { remnants } from './config';
 import Sound from 'react-native-sound'; 
 import { RemnantDisplay } from './Remnant';
