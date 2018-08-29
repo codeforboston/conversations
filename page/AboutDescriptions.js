@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import pageStyles, { A, H2, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
+import pageStyles, { A, H2, H1, H3, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
 
 
 export const ProjectDescription = {
@@ -12,8 +12,8 @@ export const ProjectDescription = {
 
             </P>
             <P>
-                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |
-  
+                यह डॉक्यूमेंटरी दिल्ली की 'अदृश्य' महिलाओं के जीवन और अनुभवों का एक जीवित संग्रह है। यह कई आकार लेता है। एक इंटरैक्टिव मोबाइल ऐप के ज़रिए आप इन महिलाओं की असुरक्षित शहरी क्षेत्रों में रहने, चलने और अपनी राह बनाने की बातचीत में शामिल हो सकते हैं | आप एक ऑडियो-विज़ुअल गैलरी (चित्र और संवाद) के ज़रिये इन महिलाओं की उम्मीदों, यादों और आकांक्षाओं का अनुभव कर सकते हैं |    
+
             </P>
             <P>
 
@@ -75,7 +75,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <BullHeader> {languageMap.children["researchAssistance"]} </BullHeader>
         <Bull> Umang Sabarwal </Bull>
 
-        <BullHeader> {languageMap.children["teamDelhi"]} </BullHeader>
+        <BullHeaderMain> {languageMap.children["teamDelhi"]} </BullHeaderMain>
 
         <BullHeader> {languageMap.children["filmProduction"]} </BullHeader>
 
@@ -99,7 +99,7 @@ export const ProjectCreditsList = ({languageMap}) => (
         <Bull> Aoun Naqvi </Bull>
         <Bull> Harneet Singh </Bull>
 
-        <BullHeader> {languageMap.children["teamBoston"]} </BullHeader>
+        <BullHeaderMain> {languageMap.children["teamBoston"]} </BullHeaderMain>
         <BullHeader> {languageMap.children["developers"]} </BullHeader>
 
         <Bull> Andrew Seeder  </Bull>

@@ -4,8 +4,8 @@ import ReactNative, {
     ScrollView,
     StyleSheet,
     Text,
-    TouchableOpacity,
-    View
+    View, 
+    TouchableOpacity
 } from 'react-native';
 import Sound from "react-native-sound";
 
@@ -15,6 +15,7 @@ import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
 
 import pageStyles, { A, Mail, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain } from "./styles.js";
 import { Button } from "../component/Button.js";
+import AnimatedImage from "../component/AnimatedImage.js";
 
 
 const HelpIcons = {
@@ -26,9 +27,6 @@ const HelpIcons = {
 const HelpAudio = {
     home: require("../assets/audio/sound.mp3")
 }
-
-const PlayingIcon = require("../assets/help/record_voice_over_playing-24px_default.png");
-const ListenIcon = require("../assets/help/audio_help-24px_default.png");
 
 function withSound(name) {
     return new Promise(function(resolve, reject) {
@@ -288,6 +286,10 @@ const translations = {
     },
 }
 
+const frames = [require("../assets/HelpTalk/help_talk_anim_0000_Layer-1.png"),
+                require("../assets/HelpTalk/help_talk_anim_0001_Layer-2.png"),
+                require("../assets/HelpTalk/help_talk_anim_0002_Layer-3.png")]
+
 export class SectionedScroller extends Component {
     constructor(props) {
         super(props);
@@ -373,8 +375,7 @@ export class SectionedScroller extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // never evaluates to true?
-        // if (this.props.selected && prevProps.selected !== this.props.selected)
+        if (this.props.selected && prevProps.selected !== this.props.selected)
             this._scrollTo(this.props.selected, true);
     }
 
@@ -408,12 +409,18 @@ export class SectionedScroller extends Component {
                              <H3 style={styles.sectionTitle}>
                                  { sectionTitle }
                              </H3>
-                             <Button image={active && soundPlaying ? PlayingIcon : ListenIcon}
-                                     style={styles.listenButton}
-                                     imageStyle={[styles.listenButtonImageStyle,
-                                                  active && soundLoading && styles.listenButtonImageLoadingStyle]}
-                                     onPress={() => this.playSound(section.key)}
-                             />
+                             <TouchableOpacity 
+                                 style={styles.listenButton}
+                                 onPress={() => this.playSound(section.key)} >
+
+                                <AnimatedImage
+                                    style={styles.listenButtonImageStyle}
+                                    playing={ active && soundPlaying ? true : false }
+                                    source={frames[0]}
+                                    startFrame={2}
+                                    frames={frames} />
+                                    
+                            </TouchableOpacity>
                          </View>),
                          (<View ref={section.key}
                             style={[styles.section, {minHeight: 0.5 * pageHeight}]}
@@ -468,15 +475,14 @@ export default class HelpPage extends Component {
             <SectionedScroller selected={section}
                                nav={this.props.navigation}
                                style={{backgroundColor: "white"}}>
-                <Section key="home"></Section>
-                <Section key="share"></Section>
-                <Section key="remnants"></Section>
-                <Section key="settings"></Section>
-                <Section key="resources"></Section>
-                <Section key="settings"></Section>
-                <Section key="about"></Section>
-                <Section key="credits"></Section>
-                <Section key="contact"></Section>
+                <Section key="home"/>
+                <Section key="share"/>
+                <Section key="remnants"/>
+                <Section key="resources"/>
+                <Section key="settings"/>
+                <Section key="about"/>
+                <Section key="credits"/>
+                <Section key="contact"/>
             </SectionedScroller>
         );
     }
@@ -519,8 +525,8 @@ const styles = StyleSheet.create({
     },
 
     listenButtonImageStyle: {
-        height: 50,
-        width: 50
+        height: 40,
+        width: 40
     },
 
     listenButtonImageLoadingStyle: {
