@@ -41,6 +41,10 @@ export default class SettingsPage extends Component {
       saveSetting({name: "languagePreference", value: global.LANG});
   }
 
+    onScroll = () => {
+        this._userScrolled = true;
+    }
+
   _scrollTo(name, animated=false) {
     let child = this.refs[name]
 
@@ -48,17 +52,23 @@ export default class SettingsPage extends Component {
       let nodeHandle = ReactNative.findNodeHandle(this._scroller);
       child.measureLayout(nodeHandle, (_x, y) => {
         this._scroller.scrollTo({x: 0, y: y, animated: animated});
+          this._userScrolled = false;
       }, (error) => {
         console.log(error)
       })
     }
   }
 
-  componentDidUpdate(prevProps) {
-    let target = this.props.navigation.state.params.targetSection;
-    if (target != null) this._scrollTo(target)
-  }
+  componentDidUpdate({state}) {
+      let {navigation} = this.props;
+      try {
+          let target = navigation.state.params && navigation.state.params.targetSection,
+              oldTarget = state.params && prevProps.state.params.targetSection;
 
+          if (target !== null && (oldTarget !== target || this._userScrolled))
+              this._scrollTo(target);
+      } catch(_) { }
+  }
 
   render() {
     const width = Dimensions.get('window').width;
