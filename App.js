@@ -4,6 +4,7 @@ import { createBottomTabNavigator, StackNavigator, TabNavigator, TabBarBottom } 
 import YouTube from 'react-native-youtube';
 import { videos } from './config';
 import { Sound } from 'react-native-sound';
+import UploadPage from './upload/ShareStoryScreen.js';
 
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
@@ -11,7 +12,6 @@ import RemnantDisplay from './Remnant';
 import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import Player from "./page/Player.js";
-import UploadPage from "./page/Upload.js";
 import ContactPage from "./page/Contact.js";
 import HelpPage from "./page/Help.js";
 import SettingsPage from "./page/SettingsPage";
@@ -19,7 +19,7 @@ import SettingsPage from "./page/SettingsPage";
 import { Button } from "./component/Button.js";
 import pageStyles from "./page/styles.js";
 
-const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY"; 
+const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY";
 
 console.disableYellowBox = true;
 
@@ -102,42 +102,3 @@ export default StackNavigator({
 }, {
     headerMode: "none"
 });
-
-export class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {previousTabScreen: 'ObjectChooserXXX'};
-  }
-
-  getCurrentRouteName = navigationState => {
-    if (!navigationState) {
-      return null;
-    }
-    const route = navigationState.routes[navigationState.index];
-
-    if (route.routes) {
-      return getActiveRouteName(route);
-    }
-    return route.routeName;
-  }
-
-  render(){
-      return(
-          <TabNav
-              onNavigationStateChange={(prevState, currentState) => {
-                  const currentTabScreen = this.getCurrentRouteName(currentState);
-                  const previousTabScreen = this.getCurrentRouteName(prevState);
-                  if (currentTabScreen !== previousTabScreen) {
-                      this.setState({
-                          previousTabScreen: currentTabScreen,
-                      });
-                  }
-              }}
-              screenProps={{
-                  previousTabScreen: this.state.previousTabScreen,
-              }}
-          />
-      )
-  }
-}
-

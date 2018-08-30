@@ -37,7 +37,7 @@ class HomeScreenWrapped extends React.Component {
   }
 
   handleBackButtonClick() {
-      this.setState({pressing: languageMap[global.LANG]}); 
+      this.setState({pressing: languageMap[global.LANG]});
   }
 
   onLayout = () => {
@@ -47,10 +47,10 @@ class HomeScreenWrapped extends React.Component {
     let langPref = getSetting("languagePreference");
     langPref.then((val)=> {
         var parsedVal = JSON.parse(val);
-        this.setState({pressing: languageMap[parsedVal.value]}); 
+        this.setState({pressing: languageMap[parsedVal.value]});
     });
   }
-    
+
   render () {
     const navigation = this.props.navigation;
     let homeScreenImage = require('./assets/SmallerBackgroundforAppLanding.png');
@@ -125,7 +125,7 @@ class HomeScreenWrapped extends React.Component {
                       top:'80%'
                   }} />
               </TouchableHighlight>
-              
+
           </ImageBackground>
 
       </ImageBackground>
