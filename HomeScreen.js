@@ -1,10 +1,10 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { StyleSheet, ImageBackground, View, TouchableHighlight, Image, Text} from 'react-native';
+import { StyleSheet, ImageBackground, TouchableHighlight, Image} from 'react-native';
 import { homeScreenImage, ENGLISH, HINDI } from './config';
 import { withDimensions } from "./component/responsive.js";
 
-import {saveSetting, getSetting} from "./StorageUtils";
+import { saveSetting, getSetting } from "./StorageUtils";
 import { BackHandler } from 'react-native';
 
 const languageMap = {
@@ -53,7 +53,6 @@ class HomeScreenWrapped extends React.Component {
 
   render () {
     const navigation = this.props.navigation;
-    let homeScreenImage = require('./assets/SmallerBackgroundforAppLanding.png');
     let titleImage = require('./assets/Aashiyaan.png');
     let {pressing} = this.state;
       let languageImageEnglish =

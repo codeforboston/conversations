@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import {
 	View,
 	Text,
-	Image,
 	Animated,
 	Dimensions,
 	TouchableWithoutFeedback,
 	StyleSheet,
 	Easing
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { remnants } from './config';
 import Sound from 'react-native-sound';
 
 

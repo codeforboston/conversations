@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import {
     Animated,
     Easing,
-    Image,
     StyleSheet,
     Text,
-    TouchableHighlight,
     TouchableOpacity
 } from "react-native";
 

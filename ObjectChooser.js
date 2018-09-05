@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableHighlight, Image , Dimensions} from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StyleSheet, View, Image, Dimensions} from 'react-native';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import { updatedObjectPages } from './config';
 

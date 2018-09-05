@@ -102,8 +102,6 @@ export class ShareStoryScreen extends Component {
     }
 }
 
-console.log("ShareStoryScreen?", ShareStoryScreen);
-
 const UploadStack = createStackNavigator({
     ShareStory: {
       screen: ShareStoryScreen
@@ -125,13 +123,6 @@ const UploadStack = createStackNavigator({
 
 export default UploadStack;
 
-/* export default class UploadPage extends React.Component {
- *   render() {
- *     return (
- *       <UploadStack />
- *     )
- *   }
- * }*/
 
 UploadStack.navConfig = {
     screen: UploadStack

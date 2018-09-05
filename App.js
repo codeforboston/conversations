@@ -1,23 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image, Dimensions, Text  } from 'react-native';
-import { createBottomTabNavigator, StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
+import { createBottomTabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import YouTube from 'react-native-youtube';
-import { videos } from './config';
-import { Sound } from 'react-native-sound';
 import UploadPage from './upload/ShareStoryScreen.js';
 
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';
-import AboutPage from "./page/About.js";
 import HomeScreen from "./HomeScreen.js";
 import Player from "./page/Player.js";
 import ContactPage from "./page/Contact.js";
 import HelpPage from "./page/Help.js";
 import SettingsPage from "./page/SettingsPage";
-
-import { Button } from "./component/Button.js";
-import pageStyles from "./page/styles.js";
 
 const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY";
 
@@ -75,7 +69,6 @@ const MainNavigator = createBottomTabNavigator({
       return <Image source={finishedIcon} />;
     },
     tabBarOnPress: (screen) => {
-        console.log(screen);
       screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
     },
   }),
