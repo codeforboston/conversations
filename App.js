@@ -96,6 +96,9 @@ export default StackNavigator({
     Player: {
         screen: Player
     },
+    RemnantDisplay: {
+        screen: RemnantDisplay
+    },
     Main: {
         screen: MainNavigator
     }
