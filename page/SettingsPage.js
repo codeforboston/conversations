@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
-import ReactNative, { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, ScrollView} from 'react-native';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import styles , {InsetView, InsetText, P,H1,H2,H3,HR, height, width, homeScreenImage} from "././styles.js";
+import ReactNative, {
+    Text,
+    View,
+    StyleSheet,
+    Dimensions,
+    PixelRatio,
+    ScrollView
+} from 'react-native';
+import RadioForm, {
+    RadioButton,
+    RadioButtonInput,
+    RadioButtonLabel
+} from 'react-native-simple-radio-button';
+import styles , {
+    BackgroundImage,
+    InsetView,
+    InsetText,
+    BullHeader,
+    P,
+    H1, H2, H3, HR,
+    color,
+} from "././styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 import {saveSetting, getSetting} from ".././StorageUtils";
@@ -69,43 +88,38 @@ export default class SettingsPage extends Component {
   }
 
   render() {
-    
+
     let localizedStrMap = getLocalizedString(global.LANG);
     let AboutDescription = ProjectDescription[global.LANG];
-    
+
     return (
-      <ImageBackground
-          source={ homeScreenImage }
-          imageStyle={{resizeMode: 'cover'}}
-          style={{width: width, height: height}}
-      >
+      <BackgroundImage>
         <ScrollView ref={scroller => { this._scroller = scroller; }}>
-            <InsetView>
+            <View style={[styles.insetView, styles.insetArea]}>
                  <H1>{localizedStrMap["settingsTitle"]}</H1>
                  <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
                  <RadioForm
                     radio_props={radio_props}
-                    buttonColor={'rgb(43,35,103)'}
-                    selectedButtonColor={'rgb(43,35,103)'}
+                    buttonColor={color.buttons.background}
+                    selectedButtonColor={color.buttons.selected}
                     initial={languageToRadioMap[global.LANG]}
                     buttonStyle={styles.settingsRadioButton}
-                    labelStyle={[styles.settingsRadioFormLabel, styles.fontSize10]}
+                    labelStyle={[styles.settingsRadioFormLabel]}
                     onPress={(value) => {this.handleSettingsChanged(value)}}
                 />
                 <HR />
 
-                  <H1>{localizedStrMap["aboutTheProjectTitle"]}</H1>
-                  <AboutDescription />
+                <BullHeader>{localizedStrMap["aboutTheProjectTitle"]}</BullHeader>
+                <AboutDescription />
 
                 <HR />
 
-                  <H1>{localizedStrMap["acknowledgementsTitle"]}</H1>
-                  <ProjectCredits>{localizedStrMap}</ProjectCredits>
+                <H1>{localizedStrMap["acknowledgementsTitle"]}</H1>
+                <ProjectCredits>{localizedStrMap}</ProjectCredits>
 
-
-            </InsetView>
+            </View>
         </ScrollView>
-      </ImageBackground>
+      </BackgroundImage>
     );
   }
 }
