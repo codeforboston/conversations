@@ -58,14 +58,14 @@ export default class ObjectChooser extends Component {
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
-              {updatedObjectPages.map(page => {
-                return <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+              {updatedObjectPages.map((page, i) => (
+                  <View style={styles.objectPage} key={i}>
                     <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
                     <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
                       {page.objects.map(renderVideo)}
                     </View>
                     <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
-                </View>})}
+                </View>))}
           </IndicatorViewPager>
       </View>
     );
@@ -90,6 +90,12 @@ const styles = StyleSheet.create({
     width: 100,
     margin: -12,
   },
+    objectPage: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+
   objectPageImage: {
     flex: 3
   },
