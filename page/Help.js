@@ -15,6 +15,7 @@ import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 
 import styles, {
     BackgroundImage,
+    PaddedImage,
     ScrollHeader,
     A, Mail, H1, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain,
 } from "./styles.js";
@@ -52,6 +53,10 @@ const translations = {
             text: () => (
                 <View>
                     <P>Explore stories of the invisible women of Delhi as told by them.</P>
+                    <PaddedImage
+                        source={ require("../assets/help/objects-example.png") }
+                        style={ styles.screenshot }
+                    />
                     <P>
                         <Strong>Objects:</Strong> To play a video clip, select one of the
                         Objects at the top of the page. Each video will feature the women in
@@ -175,7 +180,7 @@ const translations = {
             text: () => (
                 <View>
                     <P>दिल्ली में रहने वाली महिलाओं की अदृश्य जीवनियों को देखें।</P>
-                    <Image
+                    <PaddedImage
                         source={ require("../assets/help/objects-example.png") }
                         style={ styles.screenshot }
                     />
@@ -392,26 +397,29 @@ export class SectionedScroller extends Component {
         return (
             <BackgroundImage>
                 <ScrollView ref={scroller => { this._scroller = scroller; }}
-                            style={[styles.insetView, styles.insetArea]}
                             onLayout={ this.onLayout }
                             stickyHeaderIndices={children.map((_, i) => i*2)}>
                     {React.Children.map(children, (section) => {
                          let {title} = section.props,
                              icon = HelpIcons[section.key],
-                             iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}/>),
+                             iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}></Image> || <View style={styles.sectionIcon}></View>),
                              active = soundKey === section.key,
                              sectionBody = localizedText[section.key].text(nav) || (<Text>(Not found)</Text>)
                          sectionTitle = localizedText[section.key].title;
 
                          return [
                              (<ScrollHeader key={`${section.key}-head`}
-                                            styles={{flex: 1, width: width}}>
+                                            style={{
+                                                flex: 1,
+                                                flexDirection: "row", 
+                                                justifyItems: "space-between", 
+                                                alignItems: "baseline"}} >
                                  {iconComponent}
-                                 <H1 style={styles.sectionTitle}>
+                                 <H1 style={{marginTop: 0}}>
                                      { sectionTitle }
                                  </H1>
                                  <TouchableOpacity
-                                     style={styles.listenButton}
+                                     //  style={styles.listenButton}
                                      onPress={() => this.playSound(section.key)} >
 
                                      <AnimatedImage
@@ -424,7 +432,7 @@ export class SectionedScroller extends Component {
                                  </TouchableOpacity>
                              </ScrollHeader>),
                              (<View ref={section.key}
-                                    style={section.insetArea}
+                                    style={styles.insetArea}
                                     key={`${section.key}-body`}>
                                  { sectionBody }
                              </View>)

@@ -138,9 +138,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-sound')
-    compile project(':react-native-youtube')
-    compile project(':react-native-image-picker')
+    implementation project(':react-native-sound')
+    implementation project(':react-native-youtube')
+    implementation project(':react-native-image-picker')
     implementation(project(':react-native-firebase')) {
         transitive = false
     }
@@ -154,8 +154,8 @@ dependencies {
     implementation "com.google.firebase:firebase-storage:15.0.2"
     implementation "com.google.firebase:firebase-messaging:15.0.2"
     implementation "com.google.firebase:firebase-firestore:16.0.0"
-    compile project(':react-native-sound')
-    compile project(":react-native-shared-preferences") 
+    implementation project(':react-native-sound')
+    implementation project(":react-native-shared-preferences") 
 }
 
 // Run this once to be able to run the application with BUCK
