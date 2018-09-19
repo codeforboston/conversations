@@ -402,7 +402,9 @@ export class SectionedScroller extends Component {
                     {React.Children.map(children, (section) => {
                          let {title} = section.props,
                              icon = HelpIcons[section.key],
-                             iconComponent = icon && (<Image source={icon} style={styles.sectionIcon}></Image> || <View style={styles.sectionIcon}></View>),
+                             iconComponent = icon ?
+                                             (<Image source={icon} style={styles.sectionIcon}/>) :
+                                             (<View style={styles.sectionIcon}/>),
                              active = soundKey === section.key,
                              sectionBody = localizedText[section.key].text(nav) || (<Text>(Not found)</Text>)
                          sectionTitle = localizedText[section.key].title;
@@ -413,9 +415,10 @@ export class SectionedScroller extends Component {
                                                 flex: 1,
                                                 flexDirection: "row", 
                                                 justifyItems: "space-between", 
-                                                alignItems: "baseline"}} >
+                                                alignItems: "flex-start"
+                                            }} >
                                  {iconComponent}
-                                 <H1 style={{marginTop: 0}}>
+                                 <H1 style={{marginTop: 10}}>
                                      { sectionTitle }
                                  </H1>
                                  <TouchableOpacity

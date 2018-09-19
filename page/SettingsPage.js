@@ -114,7 +114,7 @@ export default class SettingsPage extends Component {
 
                 <HR />
 
-                <H1>{localizedStrMap["acknowledgementsTitle"]}</H1>
+                <BullHeader>{localizedStrMap["acknowledgementsTitle"]}</BullHeader>
                 <ProjectCredits>{localizedStrMap}</ProjectCredits>
 
             </View>

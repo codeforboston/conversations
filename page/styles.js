@@ -92,8 +92,10 @@ export const ScrollHeader = ({style, children}) => (
     </View>
 );
 
-export const H1 = ({children, cancelVertMargins}) => {
-     return <Text style={[{cancelVertMargins}, styles.h1]}>{children}</Text>
+export const H1 = ({children, cancelVertMargins, style}) => {
+    return (<Text style={[{cancelVertMargins}, styles.h1, style]}>
+        {children}
+    </Text>);
 };
 
 export const H2 = ({children}) => (
@@ -259,10 +261,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingLeft: leftSpacer / 2,
-      paddingRight: leftSpacer,
+      paddingLeft: leftGutter / 2,
+      paddingRight: rightGutter / 2,
       marginRight: leftSpacer,
-      marginLeft: leftSpacer,
+      marginLeft: rightSpacer,
       backgroundColor: color.insetFrame,
       height: 30 * pr,
     },
