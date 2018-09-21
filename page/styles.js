@@ -92,26 +92,26 @@ export const ScrollHeader = ({style, children}) => (
     </View>
 );
 
-export const H1 = ({children, cancelVertMargins, style}) => {
-    return (<Text style={[{cancelVertMargins}, styles.h1, style]}>
+export const H1 = ({children, style, ...props}) => {
+    return (<Text style={[styles.h1, style]} {...props}>
         {children}
     </Text>);
 };
 
-export const H2 = ({children}) => (
-    <Text style={styles.h2}>
+export const H2 = ({children, style, ...props}) => (
+    <Text style={[styles.h2, style]} {...props}>
         {children}
     </Text>
 );
 
-export const H3 = ({children}) => (
-    <Text style={styles.h3}>
+export const H3 = ({children, style, ...props}) => (
+    <Text style={[styles.h3, style]} {...props}>
         {children}
     </Text>
 );
 
-export const P = ({children}) => (
-  <Text style={styles.bodyText}>
+export const P = ({children, style, ...props}) => (
+  <Text style={[styles.bodyText, style]} {...props}>
     { children } {'\n'}
   </Text>
 );
@@ -268,12 +268,6 @@ const styles = StyleSheet.create({
       backgroundColor: color.insetFrame,
       height: 30 * pr,
     },
-
-    cancelVertMargins: {
-        marginTop: 0,
-        marginBottom: 0,
-    },
-
 
     errorText: {
         borderWidth: 1,
