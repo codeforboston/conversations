@@ -18,9 +18,9 @@ import styles , {
     InsetText,
     BullHeader,
     P,
-    H1, H2, H3, HR,
+    H1, H2, HR,
     color,
-} from "././styles.js";
+} from "./styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 import {saveSetting, getSetting} from ".././StorageUtils";
@@ -110,7 +110,7 @@ export default class SettingsPage extends Component {
                 <HR />
 
                 <BullHeader>{localizedStrMap["aboutTheProjectTitle"]}</BullHeader>
-                <AboutDescription />
+                {AboutDescription()}
 
                 <HR />
 
