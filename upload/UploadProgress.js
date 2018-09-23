@@ -21,12 +21,15 @@ export default class UploadProgress extends React.Component {
     constructor(props) {
       super(props);
       const {navigation} = this.props;
+
       this.state = {
         video: navigation.getParam('video', null),
         checked: navigation.getParam('checked', false),
+        name: navigation.getParam('name', ''),
+        desc: navigation.getParam('desc', ''),
+        email: navigation.getParam('email', ''),
         user: null,
         state: CHOOSER,
-        myKey: null,
         uploaded: [],
         error: null
       }
@@ -34,26 +37,26 @@ export default class UploadProgress extends React.Component {
     }
 
     componentDidMount() {
-        firebase.messaging().getToken()
-        .then(fcmToken => {
-            if (fcmToken) {
-            // user has a device token
-            console.debug("user has a device token; fcmtoken = ", fcmToken);
-            } else {
-            // user doesn't have a device token yet
-            console.debug("user doesn't have a device token yet; fcmtoken = ", fcmToken);
-            }
-        }).catch(function(err) {
-            console.error('An error occurred while retrieving token. ', err);
-        });
-        this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-            // Process your token as required
-            console.log("Process your token as required; refreshed token = ", fcmToken);
-        });
-
-        this.onTokenRefreshListener();
-        this.upload();
-
+        const {doUpload} = this.state;
+            firebase.messaging().getToken()
+            .then(fcmToken => {
+                if (fcmToken) {
+                // user has a device token
+                console.debug("user has a device token; fcmtoken = ", fcmToken);
+                } else {
+                // user doesn't have a device token yet
+                console.debug("user doesn't have a device token yet; fcmtoken = ", fcmToken);
+                }
+            }).catch(function(err) {
+                console.error('An error occurred while retrieving token. ', err);
+            });
+            this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+                // Process your token as required
+                console.log("Process your token as required; refreshed token = ", fcmToken);
+            });
+    
+            this.onTokenRefreshListener();
+            this.upload();
     }
 
     videoName = (video) => {
@@ -81,7 +84,7 @@ export default class UploadProgress extends React.Component {
         let {total, transferred} = this.state.upload;
         return (
             <View style={styles.contentWrapper}>
-                <P>Uploading {this.videoName()}</P>
+                <P>Uploading {this.state.name}</P>
                 <Progress current={transferred}
                           total={total}
                           text={`${formatSize(transferred)}/${formatSize(total)} bytes uploaded`}
@@ -95,23 +98,21 @@ export default class UploadProgress extends React.Component {
       return (
           <View>
             <Text>
-                Upload Progress Tracker
             </Text>
           </View>
       );
     }
 
     upload = () => {
-        let {video} = this.state;
+        let {video, name} = this.state;
         if (video) {
             firebase.auth().signInAnonymouslyAndRetrieveData()
                     .then(creds => {
-                        console.debug("Creds set");
                         this.setState({
                             user: creds.user.toJSON()
                         });
 
-                        let refpath = `${creds.user.uid}/${this.videoName(video)}`;
+                        let refpath = `${creds.user.uid}/${name}`;
                         let ref = firebase.storage().ref(refpath);
 
                         var metadata = {
@@ -135,17 +136,17 @@ export default class UploadProgress extends React.Component {
                                 });
 
                                 if (state === firebase.storage.TaskState.SUCCESS) {
-                                    video.name = this.videoName(video);
+                                    video.name = this.state.name;
                                     video.size = totalBytes;
                                     video.date = new Date();
-                                    console.debug("SUCCESSSSS");
+                                    video.description = this.state.desc;
+                                    video.email = this.state.email;
                                     this.saveVideoInfo(video).then(videos =>  this.props.navigation.navigate("UploadedFiles", {uploadedVideos: videos}),
                                                                    error => console.log(error));
                                     unsubscribe();
                                 }
                             },
                             (error) => {
-                                console.debug(error);
                                 unsubscribe();
                                 this.setState({
                                     state: CHOOSER,
@@ -160,8 +161,6 @@ export default class UploadProgress extends React.Component {
 
     saveVideoInfo(video) {
         var date = video.date || new Date().toISOString();
-        console.debug("In SAVE VIDEO INFO");
-        console.debug(date);
         if (typeof date !== "string")
             date = date.toISOString();
 

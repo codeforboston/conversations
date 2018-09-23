@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableHighlight, Image, Dimensions, Text  } from 'react-native';
 import { createBottomTabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import YouTube from 'react-native-youtube';
-import UploadPage from './upload/ShareStoryScreen.js';
+import UploadPage from './upload/ShareStoryScreen';
 
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';

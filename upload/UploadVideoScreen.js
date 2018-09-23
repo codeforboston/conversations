@@ -40,20 +40,20 @@ export class VideoInfoFields extends React.Component {
   }
 
   render() {
-    let {name, desc, email} = this.state;
+    let {videoNameText, descText, emailText} = this.state;
     return (
       <View>
         <Text> Video Name: </Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(videoNameText) => this.updateVideoInfo({videoNameText}, desc, email)}
+          onChangeText={(nameText) => this.updateVideoInfo(nameText, descText, emailText)}
           value = {this.state.videoNameText}/>
         <Text> My Story is about ... </Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(descText) => this.updateVideoInfo(name, {descText}, email)}
+          onChangeText={(newDescText) => this.updateVideoInfo(videoNameText, newDescText, emailText)}
           value={this.state.descText} />
         <Text> Email address to contact me: </Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(emailText) => this.updateVideoInfo(name, desc, {emailText})}
+          onChangeText={(newEmailText) => this.updateVideoInfo(videoNameText, descText, newEmailText)}
           value={this.state.emailText}/>
       </View>
     );
@@ -98,21 +98,18 @@ export default class UploadVideoScreen extends React.Component {
   }
 
   videoEditInfo (name, desc, email) {
+
       this.setState({
           name: name,
           desc: desc,
           email: email
-      })
-  }
-
-  videoName = (video) => {
-      if (!video) video = this.state.video;
-      return video ? video.path.split("/").slice(-1)[0] : "";
+      });
   }
 
   render () {
     let {checked, video, upload, uploaded} = this.state;
     let bgColor = !video ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
+    let {name, desc, email} = this.state;
     return (
       <View style={styles.container}>
             <View style={styles.buttonRow}>
@@ -126,7 +123,7 @@ export default class UploadVideoScreen extends React.Component {
 
               <TouchableHighlight
                   style= {styles.buttonStyle}
-                  onPress={()=>this.props.navigation.navigate('UploadProgress', {video: this.state.video, checked: this.state.checked})}
+                  onPress={()=>this.props.navigation.navigate('UploadProgress', {video: video, checked: checked, name: name, desc: desc, email: email})}
                   disabled={!video}
                   activeOpacity={!video? 1: 0.7} >
                 <View style={{height:30, width:130, backgroundColor: bgColor,margin:20}}>

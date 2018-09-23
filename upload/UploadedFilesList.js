@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TextInput, CheckBox, AsyncStorage, FlatList} fr
 import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import { H2, P, Strong } from "../page/styles.js";
+import { BackHandler } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import { StackActions } from 'react-navigation';
 
 
 function formatDate(when) {
@@ -16,6 +19,7 @@ function formatDate(when) {
 
 export default class UploadedFilesList extends React.Component {
   constructor(props) {
+
     super(props);
     const {navigation} = this.props;
     this.state = {
@@ -32,6 +36,21 @@ export default class UploadedFilesList extends React.Component {
       } else {
           return [];
       }
+  }
+
+
+  componentWillMount() {
+      var that = this;
+      BackHandler.addEventListener('hardwareBackPress', handler = function () {
+            const {goBack} = that.props.navigation;
+            BackHandler.removeEventListener('hardwareBackpress', handler);
+            const navigateAction = NavigationActions.navigate({
+                routeName: 'ShareStory',
+                params: {}
+              }); 
+            that.props.navigation.dispatch(navigateAction); 
+            return true;       
+      });
   }
 
   onDelete = (video) => {

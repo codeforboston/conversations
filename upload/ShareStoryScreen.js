@@ -38,7 +38,6 @@ export class ShareStoryScreen extends Component {
     }
 
     _onViewUploaded (event) {
-        console.debug("REACHED HERE");
         this.props.navigation.navigate('UploadedFiles', {uploadedVideos: this.state.uploadedVideos});
     }
 
@@ -48,7 +47,6 @@ export class ShareStoryScreen extends Component {
       let homeScreenImage = require('.././assets/BackgroundForAppLanding.png');
       let viewUploadedDisabled = this.state.uploadedVideos.length <1;
       let uploadedViewColor = viewUploadedDisabled ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
-
       return (
         <ImageBackground
             source={ homeScreenImage }
