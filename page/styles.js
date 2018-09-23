@@ -59,19 +59,14 @@ const rightGutter = 15 * pr;
  *   />
  * ) */
 
-export const BackgroundImageWrapped =
-    ({source, style, children,
-      imageStyle, screenDimensions,
-      windowDimensions,
-      ... props}) => (
-          <ImageBackground source={source || homeScreenImage}
-                           imageStyle={[{resizeMode: "cover"}, imageStyle]}
-                           style={[{width: screenDimensions.width,
-                                    height: screenDimensions.height}, style]}>
-              {children}
-          </ImageBackground>
-      );
-export const BackgroundImage = withDimensions(BackgroundImageWrapped);
+export const BackgroundImage = ({source, style, children, imageStyle,
+                                 screenDimensions, ... props}) => (
+                                     <ImageBackground source={source || homeScreenImage}
+                                                      imageStyle={[{resizeMode: "cover"}, imageStyle]}
+                                                      style={[{flex: 1}, style]}>
+                                         {children}
+                                     </ImageBackground>
+                                 );
 
 export const TextContainer = ({style, children}) => (
   <Text style={[styles.bodyText, styles.textContainer, style]}>
@@ -188,6 +183,14 @@ export const Em = ({children}) => (
     </Text>
 );
 
+export const PaddedImage = ({leftPad, rightPad, ...props}) => (
+    <View style={{flex: 1, flexDirection: "row"}}>
+        <View style={{width: leftPad || 5}}/>
+        <Image {...props} />
+        <View style={{width: rightPad || 5}}/>
+    </View>
+);
+
 const styles = StyleSheet.create({
     header: {
         color: "red",
@@ -202,11 +205,11 @@ const styles = StyleSheet.create({
     },
 
     bodyText: {
-        fontSize: 30 * pr * adjustmentFactor,
-        lineHeight: 30 * pr * adjustmentFactor * 1.8,
+        fontSize: 24 * pr * adjustmentFactor,
+        lineHeight: 24 * pr * adjustmentFactor * 1.2,
         fontWeight: "100",
         letterSpacing: 0.05 * pr,
-        marginBottom: 34 * pr * adjustmentFactor,
+        marginBottom: 20 * pr * adjustmentFactor,
         textAlign: "justify",
         color: color.paragraphText,
     },
@@ -222,17 +225,17 @@ const styles = StyleSheet.create({
     },
 
     h2: {
-        fontSize: 34 * pr * adjustmentFactor,
+        fontSize: 28 * pr * adjustmentFactor,
         fontWeight: "300",
-        lineHeight: 34 * pr * adjustmentFactor * 1.3,
+        lineHeight: 28 * pr * adjustmentFactor * 1.3,
         textAlign: "justify",
         color: color.darkText
     },
 
     h3: {
-        fontSize: 34 * pr * adjustmentFactor,
+        fontSize: 28 * pr * adjustmentFactor,
         fontWeight: "500",
-        lineHeight: 34 * pr * adjustmentFactor * 1.3,
+        lineHeight: 28 * pr * adjustmentFactor * 1.3,
         marginTop: 8 * pr,
         marginBottom: 8 * pr,
         textAlign: "left",
@@ -298,18 +301,18 @@ const styles = StyleSheet.create({
         width: 14 * pr,
         margin: 4 * pr
     },
-
+    
+    listenButtonImageStyle: {
+        height: 14*pr,
+        width: 14*pr,
+        margin: 4*pr,
+    },
+    
     bullHeader: {
         fontSize: 15 * pr,
         lineHeight: 20 * pr,
         padding: 15,
         textAlign: "justify"
-    },
-
-    listenButtonImageStyle: {
-        height: 14*pr,
-        width: 14*pr,
-        margin: 4*pr,
     },
 
     bullHeaderMain: {
@@ -338,9 +341,10 @@ const styles = StyleSheet.create({
 
     // dimensions: 1280 x 173, reducing to 1/5th
     screenshot: {
+        flex: 1,
         resizeMode: 'contain',
-        width: 256 * pr,
-        height: 35 * pr
+        height: 35 * pr,
+        alignSelf: "center",
     }
 });
 
