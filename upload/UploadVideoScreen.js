@@ -6,6 +6,8 @@ import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
 import UploadProgress from "./UploadProgress.js";
+import {getLocalizedString} from ".././Languages/LanguageChooser";
+
 
 const CHOOSER = 1
 const LOGGING_IN = 2
@@ -23,6 +25,7 @@ export class VideoInfoFields extends React.Component {
       emailText: ""
     }
     this.updateVideoInfo = this.updateVideoInfo.bind(this);
+    this.props.updateVideoInfoFn(fileName, "", "");
   }
 
   getVideoFileName(video) {
@@ -41,17 +44,19 @@ export class VideoInfoFields extends React.Component {
 
   render() {
     let {videoNameText, descText, emailText} = this.state;
+    let localizedStrMap = getLocalizedString(global.LANG);
+
     return (
       <View>
-        <Text> Video Name: </Text>
+        <Text>{localizedStrMap["videoName"]}</Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(nameText) => this.updateVideoInfo(nameText, descText, emailText)}
           value = {this.state.videoNameText}/>
-        <Text> My Story is about ... </Text>
+        <Text>{localizedStrMap["videoDescription"]}</Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(newDescText) => this.updateVideoInfo(videoNameText, newDescText, emailText)}
           value={this.state.descText} />
-        <Text> Email address to contact me: </Text>
+        <Text>{localizedStrMap["emailAddress"]}</Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(newEmailText) => this.updateVideoInfo(videoNameText, descText, newEmailText)}
           value={this.state.emailText}/>
@@ -97,8 +102,7 @@ export default class UploadVideoScreen extends React.Component {
       });
   }
 
-  videoEditInfo (name, desc, email) {
-
+  videoEditInfo (name, desc, email) {      
       this.setState({
           name: name,
           desc: desc,
@@ -110,6 +114,7 @@ export default class UploadVideoScreen extends React.Component {
     let {checked, video, upload, uploaded} = this.state;
     let bgColor = !video ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
     let {name, desc, email} = this.state;
+    let localizedStrMap = getLocalizedString(global.LANG);
     return (
       <View style={styles.container}>
             <View style={styles.buttonRow}>
@@ -117,7 +122,7 @@ export default class UploadVideoScreen extends React.Component {
                   onPress={this.selectVideo}
                   background={TouchableNativeFeedback.SelectableBackground()}>
                 <View style={{height:30, width:130, backgroundColor: 'rgb(43,35,103)',margin:20}}>
-                  <Text style={{color: 'white', textAlign:'center'}}>SELECT VIDEO</Text>
+                  <Text style={{color: 'white', textAlign:'center'}}>{localizedStrMap["selectVideoButton"]}</Text>
                 </View>
               </TouchableHighlight>
 
@@ -127,7 +132,7 @@ export default class UploadVideoScreen extends React.Component {
                   disabled={!video}
                   activeOpacity={!video? 1: 0.7} >
                 <View style={{height:30, width:130, backgroundColor: bgColor,margin:20}}>
-                  <Text style={{color: 'white', textAlign:'center'}}>UPLOAD VIDEO</Text>
+                  <Text style={{color: 'white', textAlign:'center'}}>{localizedStrMap["uploadVideoButton"]}</Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -138,7 +143,7 @@ export default class UploadVideoScreen extends React.Component {
                           value={checked}
                           disabled={!video}
                       />
-                      <Text style={{marginTop: 5}}> Notify me if my video is uploaded to YouTube</Text>
+                      <Text style={{marginTop: 5}}> {localizedStrMap["notifyOnUploadText"]}</Text>
                   </View>
               </TouchableWithoutFeedback>
             </View>

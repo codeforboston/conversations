@@ -7,7 +7,7 @@ import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
 import { H2, P, Strong } from "../page/styles.js";
 import UploadedFilesList from "./UploadedFilesList.js";
-
+import {getLocalizedString} from ".././Languages/LanguageChooser";
 
 const CHOOSER = 1
 const UPLOADING = 3
@@ -82,9 +82,11 @@ export default class UploadProgress extends React.Component {
 
     renderUploader = () => {
         let {total, transferred} = this.state.upload;
+        let localizedStrMap = getLocalizedString(global.LANG);
+
         return (
             <View style={styles.contentWrapper}>
-                <P>Uploading {this.state.name}</P>
+                <P>{localizedStrMap["uploadingNotification"] + this.state.name}</P>
                 <Progress current={transferred}
                           total={total}
                           text={`${formatSize(transferred)}/${formatSize(total)} bytes uploaded`}
@@ -164,11 +166,12 @@ export default class UploadProgress extends React.Component {
         if (typeof date !== "string")
             date = date.toISOString();
 
-        return AsyncStorage.mergeItem("Aashiyaan:uploaded",
+        let videos= AsyncStorage.mergeItem("Aashiyaan:uploaded",
                                       JSON.stringify({
                                           [date]: video
                                       }))
-                           .then(() => this.getUploadedVideos());
+                           .then(() => {videos=this.getUploadedVideos();return videos;});
+        return videos;
     }
 
     async getUploadedVideos() {

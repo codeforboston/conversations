@@ -28,7 +28,24 @@ const EnglishStrings = {
     academicAdvisors: "Academic Advisors",
     projectAdvisors: "Project Advisors",
     specialThanks: "Special Thanks",
-    creator: "Curator/Creator"
-
+    creator: "Curator/Creator",
+    shareStoryTitle: "Share Your Story",
+    aboutAppDesc: "The women of Aashiyaan shared their strategies to stay safe.",
+    shareDesc: "Share YOUR strategy !",
+    createStoryTitle: "Create a story",
+    uploadInstruction1: "Record a video with your device",
+    uploadInstruction2: "Submit one story or strategy per video.",
+    uploadInstruction3: "Keep clips short. We recommend less than 2 minutes.",
+    uploadInstruction4: "Your story may be added to Aashiyaan!",
+    startUploadButton: "START",
+    viewUploadedButton: "VIEW UPLOADED",
+    videoName: "Video Name: ",
+    videoDescription: "My Story is about ... ",
+    emailAddress: "Email address to contact me: ",
+    selectVideoButton: "SELECT VIDEO",
+    uploadVideoButton: "UPLOAD VIDEO",
+    notifyOnUploadText: "Notify me if my video is uploaded to YouTube",
+    uploadingNotification: "Uploading",
+    uploadedNotification: "Uploaded"
 }
 export default EnglishStrings;

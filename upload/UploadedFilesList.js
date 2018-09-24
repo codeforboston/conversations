@@ -6,6 +6,7 @@ import { H2, P, Strong } from "../page/styles.js";
 import { BackHandler } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { StackActions } from 'react-navigation';
+import {getLocalizedString} from ".././Languages/LanguageChooser";
 
 
 function formatDate(when) {
@@ -22,6 +23,7 @@ export default class UploadedFilesList extends React.Component {
 
     super(props);
     const {navigation} = this.props;
+
     this.state = {
       uploadedVideos: navigation.getParam('uploadedVideos', [])
     }
@@ -46,7 +48,7 @@ export default class UploadedFilesList extends React.Component {
             BackHandler.removeEventListener('hardwareBackpress', handler);
             const navigateAction = NavigationActions.navigate({
                 routeName: 'ShareStory',
-                params: {}
+                params: {uploadedVideos: that.state.uploadedVideos, 'ReachedViaNavigation': true}
               }); 
             that.props.navigation.dispatch(navigateAction); 
             return true;       
@@ -78,6 +80,8 @@ export default class UploadedFilesList extends React.Component {
 
   render () {
     let videos = this.state.uploadedVideos || [];
+    let localizedStrMap = getLocalizedString(global.LANG);
+
     return (
       <FlatList
           contentContainerStyle={{justifyContent: "center"}}
@@ -87,7 +91,7 @@ export default class UploadedFilesList extends React.Component {
               <View style={styles.uploadedItem} key={item.date}>
                   <Text>
                       <Strong>{item.name}</Strong>{"\n"}
-                        Uploaded {formatDate(item.date)}
+                     {localizedStrMap["uploadedNotification"] + formatDate(item.date)}
                   </Text>
                   <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
                         style={{alignSelf: "flex-end"}}
