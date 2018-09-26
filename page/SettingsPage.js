@@ -23,39 +23,23 @@ import styles , {
 } from "./styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
-import {saveSetting, getSetting} from ".././StorageUtils";
+
+import Settings, { withSettings, ENGLISH, HINDI } from "../Settings.js";
 
 
-const pr = PixelRatio.get();
-const radioToLanguageMap = {
-  0: 'English',
-  1 : 'Hindi'
-};
-
-const languageToRadioMap = {
-  'English': 0,
-  'Hindi': 1
-};
-
+const radioToLanguageMap = [ENGLISH, HINDI];
+const languageToRadioMap = {[ENGLISH]: 0, [HINDI]: 1};
 const englishLocalization = getLocalizedString(radioToLanguageMap[0]);
 const hindiLocalization = getLocalizedString(radioToLanguageMap[1]);
 
-var radio_props = [
-  {label: englishLocalization["languageName"], value: 0 },
-  {label: hindiLocalization["languageName"], value: 1 }
+const radio_props = [
+  {label: englishLocalization["languageName"], value: ENGLISH },
+  {label: hindiLocalization["languageName"], value: HINDI }
 ];
 
-export default class SettingsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSettingsChanged = this.handleSettingsChanged.bind(this);
-    this.state = {language: global.LANG};
-  }
-
-  handleSettingsChanged(value) {
-      global.LANG = radioToLanguageMap[value];
-      this.setState({language: global.LANG});
-      saveSetting({name: "languagePreference", value: global.LANG});
+const SettingsPage = withSettings(class extends Component {
+  handleSettingsChanged = (value) => {
+      this.props.settings.storeSetting("language", value);
   }
 
     onScroll = () => {
@@ -88,9 +72,10 @@ export default class SettingsPage extends Component {
   }
 
   render() {
-
-    let localizedStrMap = getLocalizedString(global.LANG);
-    let AboutDescription = ProjectDescription[global.LANG];
+      let {language} = this.props.settings,
+          localizedStrMap = getLocalizedString(language),
+          AboutDescription = ProjectDescription[language];
+      console.log(`${language}`, AboutDescription);
 
     return (
       <BackgroundImage>
@@ -102,10 +87,10 @@ export default class SettingsPage extends Component {
                     radio_props={radio_props}
                     buttonColor={color.buttons.background}
                     selectedButtonColor={color.buttons.selected}
-                    initial={languageToRadioMap[global.LANG]}
+                    initial={languageToRadioMap[language]}
                     buttonStyle={styles.settingsRadioButton}
                     labelStyle={[styles.settingsRadioFormLabel]}
-                    onPress={(value) => {this.handleSettingsChanged(value)}}
+                    onPress={this.handleSettingsChanged}
                 />
                 <HR />
 
@@ -122,8 +107,10 @@ export default class SettingsPage extends Component {
       </BackgroundImage>
     );
   }
-}
+});
 
 SettingsPage.navConfig = {
   screen: SettingsPage
 }
+
+export default SettingsPage;

@@ -9,17 +9,14 @@ import ReactNative, {
 } from 'react-native';
 import Sound from "react-native-sound";
 
-import { ENGLISH, HINDI } from '../config';
-
-import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
+import Settings, { localized, ENGLISH, HINDI } from "../Settings.js";
 
 import styles, {
     BackgroundImage,
     PaddedImage,
     ScrollHeader,
-    A, Mail, H1, H3, Em, Bull, P, Strong, BullHeader, BullHeaderMain,
+    A, Mail, H1, H3, Em, Bull, P, Strong,
 } from "./styles.js";
-import { Button } from "../component/Button.js";
 import AnimatedImage from "../component/AnimatedImage.js";
 
 
@@ -352,8 +349,7 @@ export class SectionedScroller extends Component {
         }
 
         this.setState({ soundKey: key, soundLoading: true });
-        var selectedLang = global.LANG || HINDI;
-        withSound( translations[selectedLang][key].audio ) //translations[HINDI]['home'] )
+        withSound( translations[this.props.language][key].audio ) //translations[HINDI]['home'] )
             .then((sound) => {
                 if (this.state.soundKey !== key) return;
 
@@ -387,12 +383,11 @@ export class SectionedScroller extends Component {
     }
 
     render() {
-        let {children, nav} = this.props,
+        let {children, nav, language} = this.props,
             {page, soundKey, soundLoading, soundPlaying} = this.state,
             {height, width} = page;
 
-        let selectedLang = global.LANG || HINDI,
-            localizedText = translations[selectedLang];
+        let localizedText = translations[language];
 
         return (
             <BackgroundImage>
@@ -460,14 +455,14 @@ const sectionLookup = ({
     Settings: 'settings',
 });
 
-export default class HelpPage extends Component {
+const HelpPage = localized(class extends Component {
     componentDidUpdate(prevProps) {
         let prevScreen = this.props.navigation.getParam('previousTabScreen', 'Home')
         this.props.selected = sectionLookup[prevScreen]
     }
 
     render() {
-        let {navigation} = this.props,
+        let {navigation, language} = this.props,
             prevScreen = navigation.getParam('previousTabScreen', 'Home'),
             section = sectionLookup[prevScreen],
             gotoSection = (section) => { navigation.setParams({ section: section })};
@@ -479,6 +474,7 @@ export default class HelpPage extends Component {
         return (
             <SectionedScroller selected={section}
                                nav={this.props.navigation}
+                               language={language}
                                style={{backgroundColor: "white"}}>
                 <Section key="home"/>
                 <Section key="share"/>
@@ -491,7 +487,7 @@ export default class HelpPage extends Component {
             </SectionedScroller>
         );
     }
-}
+});
 
 HelpPage.navigationOptions = ({screenProps}) => ({
     tabBarOnPress: (scene, jumpToIndex) => {
@@ -503,3 +499,5 @@ HelpPage.navigationOptions = ({screenProps}) => ({
 HelpPage.navConfig = {
     screen: HelpPage
 };
+
+export default HelpPage;

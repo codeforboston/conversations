@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import pageStyles, { A, H2, H1, H3, Bull, P, Strong, BullHeader,BullHeaderMain } from "./styles.js";
+import pageStyles, {
+    A,
+    Bull,
+    BullHeader,
+    BullHeaderMain,
+    P,
+    Strong,
+} from "./styles.js";
+import { ENGLISH, HINDI } from "../Settings.js";
 
 
 export const ProjectDescription = {
-    "Hindi": () => (
+    [HINDI]: () => (
         <View>
             <P>
                 <Strong> आशियाँ </Strong>एक इंटरैक्टिव मोबाइल डॉक्यूमेंट्री फ़िल्म है जिसे घरेलू श्रमिकों, गृहणियों  और दिल्ली की एक फिल्म निर्माता द्वारा सह-निर्मित किया गया है।इंटरैक्टिव डाक्यूमेंट्री वह होती है  जिस में आप स्वयं, अपनी पसंद की कहानी का चयन कर सकते हैं और अपनी कहानी भी उस में शामिल कर सकते हैं | भारत में फिल्मायी गयी यह डॉक्यूमेंटरी विभिन्न मीडिया (मोबाइल फ़ोन, इंटरनेट इत्यादि) के ज़रिये नई दिल्ली (भारत) में फ़िल्मकारों, स्वयंसेवकों, हैकर्स (कम्प्यूटर की दुनिया के जुगाड़ू) और मित्रों के सहयोग तथा रायरसन और यॉर्क विश्वविद्यालय (कैनडा); कोड फॉर बोस्टन (अमेरिका) और एम.आई.टी. की ओपन डॉक्यूमेंट्री लैब (अमेरिका) के सहयोग से बनी है।
@@ -26,7 +34,7 @@ export const ProjectDescription = {
         </View>
     ),
 
-    "English": () => (
+    [ENGLISH]: () => (
         <View>
             <P>
                 <Strong>Aashiyaan</Strong> is an interactive mobile documentary that has been co-created by domestic workers, homemakers and a filmmaker from Delhi. Filmed entirely in India, the transmedia project was developed with support from artists, volunteers, hackers and friends in New Delhi, India; Ryerson and York Universities, Canada; Code for Boston, USA and the Open Documentary Lab at MIT, USA.             </P>

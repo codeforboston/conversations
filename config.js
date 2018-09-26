@@ -149,9 +149,6 @@ export const remnantsPlaceHolders = [
 },
 ]
 
-export const ENGLISH = 'English';
-export const HINDI = 'Hindi';
-
 export const audio = [
   { asset: require('./assets/audio/Hindi_audio/about_hindi_para_1.mp3') },
   { asset: require('./assets/audio/Hindi_audio/about_hindi_para_2.mp3') },

@@ -63,7 +63,8 @@ export const BackgroundImage = ({source, style, children, imageStyle,
                                  screenDimensions, ... props}) => (
                                      <ImageBackground source={source || homeScreenImage}
                                                       imageStyle={[{resizeMode: "cover"}, imageStyle]}
-                                                      style={[{flex: 1}, style]}>
+                                                      style={[{flex: 1}, style]}
+                                                      {...props}>
                                          {children}
                                      </ImageBackground>
                                  );
