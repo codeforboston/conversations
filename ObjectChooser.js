@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Dimensions} from 'react-native';
+import {
+    Image,
+    StyleSheet,
+    View,
+} from 'react-native';
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
+
 import { updatedObjectPages } from './config';
+import { withDimensions } from "./component/responsive.js";
 
 import { Button } from "./component/Button.js";
 
@@ -21,22 +27,12 @@ function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
     }
 }
 
-export default class ObjectChooser extends Component {
-
+const ObjectChooser = withDimensions(class extends Component {
   constructor(props) {
     super(props);
-    const window = Dimensions.get('window');
     this.state = {
-      imgwidth: window.width,
-      watchedVideos: [],
+        watchedVideos: [],
     }
-    this.handleLayoutChange = this.handleLayoutChange.bind(this);
-  }
-
-  handleLayoutChange(e) {
-      this.setState({
-        imgwidth: e.nativeEvent.layout.width
-      })
   }
 
   renderPagerDotIndicator = () => {
@@ -44,24 +40,25 @@ export default class ObjectChooser extends Component {
   }
 
   render() {
-    const navigation = this.props.navigation;
+      const {navigation, windowDimensions} = this.props,
+            {width, height} = windowDimensions;
     const shouldDisableRemnant = this.state.watchedVideos.length < 2;
-    const renderVideo = renderVideoWithNavigation((video) => {
-      const watchedVideos = new Set(this.state.watchedVideos);
-      watchedVideos.add(video.youtubeVideoId);
-      this.setState({ watchedVideos: Array.from(watchedVideos) });
-      console.warn('videoId = ', video.youtubeVideoId);
-      navigation.navigate('Player', { videoId: video.youtubeVideoId });
-    }, shouldDisableRemnant, this.state.imgwidth / 3);
-    
+      const renderVideo = renderVideoWithNavigation((video) => {
+          const watchedVideos = new Set(this.state.watchedVideos);
+          watchedVideos.add(video.youtubeVideoId);
+          this.setState({ watchedVideos: Array.from(watchedVideos) });
+          console.warn('videoId = ', video.youtubeVideoId);
+          navigation.navigate('Player', { videoId: video.youtubeVideoId });
+      }, shouldDisableRemnant, width / 3);
 
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
           <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
               {updatedObjectPages.map((page, i) => (
                   <View style={styles.objectPage} key={i}>
-                    <Image source={require('./assets/skyline_bg.png')} style={styles.backgroundImage} />
-                    <View style={styles.objectChooser}  onLayout={this.handleLayoutChange}>
+                      <Image source={require('./assets/skyline_bg.png')}
+                             style={[styles.backgroundImage, {width, height}]} />
+                    <View style={styles.objectChooser}>
                       {page.objects.map(renderVideo)}
                     </View>
                     <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
@@ -70,7 +67,9 @@ export default class ObjectChooser extends Component {
       </View>
     );
   }
-}
+})
+
+export default ObjectChooser;
 
 const styles = StyleSheet.create({
   objectChooser: {
@@ -102,7 +101,5 @@ const styles = StyleSheet.create({
   backgroundImage: {
     position: 'absolute',
     paddingTop: 10,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
   },
 });

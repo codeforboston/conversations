@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import {
-    Dimensions,
     Image,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    View,
 } from 'react-native';
-import { createBottomTabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
-import YouTube from 'react-native-youtube';
-import UploadPage from './upload/ShareStoryScreen';
+import { createBottomTabNavigator, StackNavigator } from 'react-navigation';
 
+import UploadPage from './upload/ShareStoryScreen';
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';
 import HomeScreen from "./HomeScreen.js";
 import Player from "./page/Player.js";
-import ContactPage from "./page/Contact.js";
 import HelpPage from "./page/Help.js";
 import SettingsPage from "./page/SettingsPage";
 
@@ -60,7 +53,6 @@ const MainNavigator = createBottomTabNavigator({
     Chooser: {screen: ObjectChooser},
     Settings: SettingsPage.navConfig,
     Remnants: {screen: RemnantChooser},
-    /* Remnants: ContactPage.navConfig,*/
     Upload: UploadPage.navConfig,
     Help: HelpPage.navConfig
 }, {

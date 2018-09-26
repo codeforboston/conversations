@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactNative, {
     Image,
     ScrollView,
-    StyleSheet,
     Text,
     View,
     TouchableOpacity
@@ -12,10 +11,17 @@ import Sound from "react-native-sound";
 import Settings, { localized, ENGLISH, HINDI } from "../Settings.js";
 
 import styles, {
+    A,
     BackgroundImage,
+    Bull,
+    Em,
+    H1,
+    H3,
+    Mail,
+    P,
     PaddedImage,
     ScrollHeader,
-    A, Mail, H1, H3, Em, Bull, P, Strong,
+    Strong,
 } from "./styles.js";
 import AnimatedImage from "../component/AnimatedImage.js";
 

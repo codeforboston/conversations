@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
 import {
-	View,
-	Text,
 	Animated,
-	Dimensions,
-	TouchableWithoutFeedback,
+	Easing,
 	StyleSheet,
-	Easing
+	TouchableWithoutFeedback,
+	View,
 } from 'react-native';
 import Sound from 'react-native-sound';
 
+import { withDimensions } from "./component/responsive.js";
 
-const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
 
-export default class RemnantDisplay extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-
-	};
-
+const RemnantDisplay = withDimensions(class extends Component {
 	render() {
-		const navigation = this.props.navigation;
+		const {navigation, windowDimensions} = this.props;
 		const image = navigation.getParam('picture', "require('./assets/RemnantsAppearPlate.png')");
 		const audio = navigation.getParam('audio', 'remnant_1.mp3');
 
@@ -30,9 +21,10 @@ export default class RemnantDisplay extends Component {
 		const myDuration = sound.getDuration;
 		const duration = myDuration.bind(sound);
 
-
 		return(
 			<RemnantInteraction
+          width={windowDimensions.width}
+          height={windowDimensions.height}
 				image={image}
 				audio={audio}
 				sound={sound}
@@ -41,10 +33,9 @@ export default class RemnantDisplay extends Component {
 			/>
 		)
 	}
-}
+});
 
-
-
+export default RemnantDisplay;
 
 
 
@@ -109,7 +100,7 @@ class RemnantInteraction extends Component {
 
 
 	render() {
-		let { image } = this.props; 
+		let { image, width, height } = this.props; 
 		let { pressFade, pressHint, delayAppearance } = this.state;
 
 	return (
@@ -120,9 +111,11 @@ class RemnantInteraction extends Component {
 					onPressOut={this.stopFade}>
 					<Animated.Image 
 						source={ image }
-						style={[ styles.remnantImage, {opacity: pressFade} ]} />
+						style={[ styles.remnantImage, {width, height}, {opacity: pressFade} ]} />
 				</TouchableWithoutFeedback>
 				<PressAndHold 
+            width={width}
+            height={height}
 					transform={ [{scale: pressHint}] }
 					opacity={delayAppearance} 
 				/>
@@ -134,9 +127,6 @@ class RemnantInteraction extends Component {
 }
 
 
-
-
-
 class PressAndHold extends Component {
 	constructor({props}){
 		super(props); 
@@ -145,17 +135,17 @@ class PressAndHold extends Component {
 
 
 	render(){
-
-		let { transform, delayAppearance } = this.props; 
+		let { transform, delayAppearance, width, height } = this.props; 
 
 		return (
-			<Animated.View style={styles.pressHold}>
-			<Animated.Image 
-				source={require("./assets/pointandtouchlarge.png")}
-				style={[styles.pointer, {transform: transform }, {opacity: delayAppearance} ]}
-				resizeMode="contain"
-			/>	
-			</Animated.View>
+        <Animated.View style={[styles.pressHold, {width, height}]}>
+            <Animated.Image source={require("./assets/pointandtouchlarge.png")}
+                            style={[styles.pointer,
+                                    {transform, width: width/3, height: height/3},
+                                    {opacity: delayAppearance} ]}
+                            resizeMode="contain"
+            />	
+			  </Animated.View>
 		)
 	}
 }
@@ -167,8 +157,6 @@ class PressAndHold extends Component {
 const styles = StyleSheet.create({
 	remnantImage: {
 		resizeMode: "cover",
-		height: height,
-		width: width,
 	},
 	pressHold: {	
 		flex: 1, 
@@ -176,12 +164,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'column', 	
 		alignItems: 'flex-end',
 		justifyContent: 'flex-end',
-		height: height, 
-		width: width,
 	},
 	pointer: {
-		height: height/3,
-		width: width/3,
 		marginBottom: '10%',
 	},
 })

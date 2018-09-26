@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, BackHandler } from 'react-native'
-import { StackNavigator } from 'react-navigation'
+import {
+    StyleSheet,
+    View,
+    BackHandler,
+} from 'react-native'
 import YouTube from 'react-native-youtube'
-import styles from './styles';
 
 const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY"; 
 
 export default class PlayerPage extends Component {
-
     constructor(props) {
         super(props)
         this.state = {

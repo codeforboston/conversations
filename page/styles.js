@@ -59,8 +59,7 @@ const rightGutter = 15 * pr;
  *   />
  * ) */
 
-export const BackgroundImage = ({source, style, children, imageStyle,
-                                 screenDimensions, ... props}) => (
+export const BackgroundImage = ({source, style, children, imageStyle, ...props}) => (
                                      <ImageBackground source={source || homeScreenImage}
                                                       imageStyle={[{resizeMode: "cover"}, imageStyle]}
                                                       style={[{flex: 1}, style]}
@@ -68,6 +67,8 @@ export const BackgroundImage = ({source, style, children, imageStyle,
                                          {children}
                                      </ImageBackground>
                                  );
+
+/* export default class AutoBackgroundImage */
 
 export const TextContainer = ({style, children}) => (
   <Text style={[styles.bodyText, styles.textContainer, style]}>
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
         color: color.darkText
     },
 
-    insetArea:{
+    insetArea: {
       marginLeft: leftSpacer,
       marginRight: rightSpacer,
       paddingLeft: leftGutter,

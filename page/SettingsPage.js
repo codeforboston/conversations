@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
 import ReactNative, {
-    Text,
     View,
-    StyleSheet,
-    Dimensions,
-    PixelRatio,
     ScrollView
 } from 'react-native';
-import RadioForm, {
-    RadioButton,
-    RadioButtonInput,
-    RadioButtonLabel
-} from 'react-native-simple-radio-button';
-import styles , {
+import RadioForm from 'react-native-simple-radio-button';
+import styles, {
     BackgroundImage,
-    InsetView,
-    InsetText,
     BullHeader,
-    P,
-    H1, H2, HR,
+    H1,
+    H2,
+    HR,
     color,
 } from "./styles.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";

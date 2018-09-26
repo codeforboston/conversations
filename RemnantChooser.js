@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import {
-  View,
-  Text,
-  Dimensions,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
   Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet, 
-  Button,
-  Animated
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { remnants } from './config';
-import Sound from 'react-native-sound'; 
-import { RemnantDisplay } from './Remnant';
 
-const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
+import { StackNavigator } from 'react-navigation';
+import Sound from 'react-native-sound'; 
+
+import { remnants } from './config';
+import { withDimensions } from "./component/responsive.js";
+
+import { RemnantDisplay } from './Remnant';
 
 
 function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
@@ -48,9 +42,7 @@ function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
 }
 
 
-
-
-export default class RemnantChooser extends Component {
+const RemnantChooser = withDimensions(class extends Component {
   constructor(props) {
       super(props); 
       this.state = {
@@ -60,22 +52,20 @@ export default class RemnantChooser extends Component {
     }
   }
 
-
   render() {
-
-  
-    const navigation = this.props.navigation;
+      const {navigation, windowDimensions} = this.props,
+            {width, height} = windowDimensions;
     const watchedRemnants = this.state.watchedRemnants; 
     const imageTile = imageTileWithNavigation(navigation, remnants, watchedRemnants); 
-  
-
 
     return(
-      <View style={styles.container}>
-        <Image 
-        style={styles.backgroundImage}
-        source={require("./assets/CityBlueDarkSunrise-3.png")}
-        resizeMode="contain"
+      <View style={[styles.container, {width, height}]}>
+        <Image
+            style={[styles.backgroundImage, {transform: [{translateY: -height*1.8},
+                                                         {scale: 0.75},
+                                                         {translateX: -width*0.4}]}]}
+            source={require("./assets/CityBlueDarkSunrise-3.png")}
+            resizeMode="contain"
         />
 
                 <View style={styles.remnantFrame}>
@@ -96,30 +86,22 @@ export default class RemnantChooser extends Component {
                 <View style={styles.remnantFrame}>
                     <View style={{flex: 1}} />
                     {imageTile(5)}
-                </View>        
-        
-               
-      
+                </View>
       </View>
     )
   }
-};
+});
+
+export default RemnantChooser;
 
 
 const styles = StyleSheet.create({
   container: {
-    height: height,
-    width: width,
     flexDirection: 'row',
   
   }, 
   backgroundImage: {
     position: 'absolute', 
-    transform: [
-      {translateY: -height*1.8}, 
-      {scale: 0.75}, 
-      {translateX: -width*0.4}, 
-      ], 
   },
   remnantFrame: {
     flex: 1,
@@ -132,13 +114,5 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 2,
     borderColor: 'white',
-  
-  
   },
-
-
-
 });
-
-
-
