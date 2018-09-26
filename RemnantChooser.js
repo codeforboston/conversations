@@ -6,8 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import Sound from 'react-native-sound'; 
+import Sound from 'react-native-sound';
 
 import { remnants } from './config';
 import { withDimensions } from "./component/responsive.js";
@@ -98,7 +97,6 @@ export default RemnantChooser;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-  
   }, 
   backgroundImage: {
     position: 'absolute', 
@@ -106,7 +104,6 @@ const styles = StyleSheet.create({
   remnantFrame: {
     flex: 1,
     flexDirection: 'column',
-  
   },
 
   remnantTile: {

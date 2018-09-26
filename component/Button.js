@@ -63,7 +63,8 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[styles.button, buttonStyle, active && activeTextStyles,
+            <Text style={[styles.textButton, buttonStyle,
+                          active && activeTextStyles,
                           disabled && styles.disabledButton]}>
                 {children}
             </Text>
@@ -167,27 +168,18 @@ Button.defaultProps = {
     navParams: {}
 };
 
+export default Button;
 
 const styles = StyleSheet.create({
     textButton: {
         alignItems: "center",
+        backgroundColor: "rgb(38, 44, 102)",
         borderRadius: 5,
-        flex: 1,
+        color: "white",
         flexDirection: "row",
         justifyContent: "center",
+        margin: 20,
         padding: 10,
-    },
-
-    button: {
-        /* flex: 0, */
-        alignItems: "stretch",
-        justifyContent: "center",
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
-        alignSelf: 'center',
-        margin: 20
     },
 
     buttonIcon: {

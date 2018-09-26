@@ -1,11 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableNativeFeedback, TouchableHighlight, TextInput, AsyncStorage} from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    AsyncStorage
+} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import firebase from "react-native-firebase";
 
 import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
-import { H2, P, Strong } from "../page/styles.js";
+
+import {
+    P,
+} from "../page/styles.js";
 import UploadedFilesList from "./UploadedFilesList.js";
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 

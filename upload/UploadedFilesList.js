@@ -1,11 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, CheckBox, AsyncStorage, FlatList} from 'react-native';
+import {
+    AsyncStorage,
+    BackHandler,
+    CheckBox,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+
 import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import { H2, P, Strong } from "../page/styles.js";
-import { BackHandler } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { StackActions } from 'react-navigation';
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
 import {
     Dimensions,
     Image,
@@ -13,10 +12,6 @@ import { homeScreenImage } from './config';
 
 import Settings, {withSettings, ENGLISH, HINDI } from "./Settings.js";
 
-const languageMap = {
-    "Hindi": HINDI,
-    "English": ENGLISH
-};
 
 const HomeScreen = withSettings(class extends React.Component {
     constructor(props) {

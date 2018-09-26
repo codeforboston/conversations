@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
-import { Text, View , StyleSheet, Dimensions, PixelRatio, ImageBackground, FlatList, TouchableNativeFeedback, TouchableHighlight, Button, AsyncStorage} from 'react-native';
-import styles, {P, H2, HR, H3} from ".././page/styles.js";
-import {getLocalizedString} from ".././Languages/LanguageChooser";
+import {
+    AsyncStorage,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+
+import styles, {
+    BackgroundImage,
+    P,
+    H1,
+    H2,
+    H3,
+} from ".././page/styles.js";
+import { Button } from "../component/Button.js";
+import { withSettings, ENGLISH, HINDI } from "../Settings.js";
+import { getLocalizedString } from ".././Languages/LanguageChooser";
 import { createStackNavigator } from 'react-navigation';
+
 import UploadVideoScreen from './UploadVideoScreen.js';
 import UploadProgress from './UploadProgress.js';
 import UploadedFilesList from "./UploadedFilesList.js";
@@ -10,7 +25,7 @@ import UploadedFilesList from "./UploadedFilesList.js";
 
 const bottomScrollerMarginFactor = 0.18;
 
-export class ShareStoryScreen extends Component {
+const ShareStoryScreen = withSettings(class extends Component {
     constructor (props) {
       super(props);
       this.state = {
@@ -44,7 +59,7 @@ export class ShareStoryScreen extends Component {
 
         // In stackNavigator, none of the screens get unloaded. So do not rely on state for uploaded videos, get this from
         // navigator instead to send uploadedVideos back to the screen. 
-  
+
         if (navigation.getParam("ReachedViaNavigation")) {
           uploadedVideos = navigation.getParam("uploadedVideos",[]);
         }
@@ -52,12 +67,10 @@ export class ShareStoryScreen extends Component {
     }
 
     render () {
-      const width = Dimensions.get('window').width;
-      const height = Dimensions.get('window').height;
-      let homeScreenImage = require('.././assets/BackgroundForAppLanding.png');
-      const {navigation} = this.props;
+        let {navigation, settings} = this.props,
+            {width, height} = this.state;
 
-      let viewUploadedDisabled = this.state.uploadedVideos.length <1;
+      let viewUploadedDisabled = this.state.uploadedVideos.length < 1;
       // In stackNavigator, none of the screens get unloaded. So do not rely on state for uploaded videos, get this from
       // navigator instead to control disabling of the UploadedVideos button. 
 
@@ -65,60 +78,43 @@ export class ShareStoryScreen extends Component {
         viewUploadedDisabled = navigation.getParam("uploadedVideos",[]).length < 1;
       }
       let uploadedViewColor = viewUploadedDisabled ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
-      let localizedStrMap = getLocalizedString(global.LANG);
+      let localizedStrMap = getLocalizedString(settings.language);
 
       return (
-        <ImageBackground
-            source={ homeScreenImage }
-            imageStyle={{resizeMode: 'cover'}}
-            style={{width: width, height: height}}
-        >
-          <View
-            style={{ backgroundColor: "white", width: width*0.9, height: height, marginLeft: width*0.05, marginBottom: height*bottomScrollerMarginFactor}} >
-            <View>
-                <H2 style ={mystyles.shareStoryTitle}>
-                  {localizedStrMap["shareStoryTitle"]}
-                </H2>
-            </View>
-            <View>
-                <P>
-                    {localizedStrMap["aboutAppDesc"] + "\n"}
-                    {localizedStrMap["shareDesc"]}
-                </P>
-                <H3 style={mystyles.storyCreate}>
-                    {localizedStrMap["createStoryTitle"]}
-               </H3>
-             </View>
-             <View style={{height:100}}>
-             <FlatList
-                data={[{key: localizedStrMap["uploadInstruction1"]},
-                       {key: localizedStrMap["uploadInstruction2"]},
-                       {key: localizedStrMap["uploadInstruction3"]},
-                       {key: localizedStrMap["uploadInstruction4"]}]}
-               renderItem={({item}) => <Text style={mystyles.instructions}>{item.key}</Text>}> </FlatList>
-             </View>
-               <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
-                 <TouchableHighlight
-                     onPress={this._onStart}
-                     background={TouchableNativeFeedback.SelectableBackground()}>
-                   <View style={{height:30, width:130, backgroundColor: 'rgb(43,35,103)',margin:20}}>
-                     <Text style={{color: 'white', textAlign:'center'}}>{localizedStrMap["startUploadButton"]}</Text>
-                   </View>
-                 </TouchableHighlight>
-                 <TouchableHighlight
-                     onPress={this._onViewUploaded}
-                     disabled={viewUploadedDisabled}
-                     background={TouchableNativeFeedback.SelectableBackground()}>
-                   <View style={{height:30, width:130, backgroundColor: uploadedViewColor, margin:20}}>
-                     <Text style={{color: 'white', textAlign: 'center'}}>{localizedStrMap["viewUploadedButton"]}</Text>
-                   </View>
-                 </TouchableHighlight>
-               </View>
-         </View>
-      </ImageBackground>
+          <BackgroundImage>
+              <View style={[styles.insetView, styles.insetArea]} >
+                  <H1 style ={mystyles.shareStoryTitle}>
+                      {localizedStrMap["shareStoryTitle"]}
+                  </H1>
+                  <P>
+                      {localizedStrMap["aboutAppDesc"] + "\n"}
+                      {localizedStrMap["shareDesc"]}
+                  </P>
+                  <H3 style={mystyles.storyCreate}>
+                      {localizedStrMap["createStoryTitle"]}
+                  </H3>
+
+                  {
+                      [1, 2, 3, 4].map(i => (
+                          <Text style={mystyles.instructions} key={i}>
+                              {localizedStrMap[`uploadInstruction${i}`]}
+                          </Text>
+                      ))
+                  }
+                <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
+                    <Button onPress={this._onStart}>
+                                {localizedStrMap["startUploadButton"]}
+                    </Button>
+                    <Button onPress={this._onViewUploaded}
+                            disabled={viewUploadedDisabled}>
+                        {localizedStrMap["viewUploadedButton"]}
+                    </Button>
+                </View>
+              </View>
+          </BackgroundImage>
       );
     }
-}
+});
 
 const UploadStack = createStackNavigator({
     ShareStory: {
@@ -157,6 +153,8 @@ const mystyles = StyleSheet.create({
      paddingLeft: 50
    },
    storyCreate: {
-     paddingLeft: 20
+       marginBottom: 5,
+       marginTop: 0,
+       paddingLeft: 20,
    }
 });

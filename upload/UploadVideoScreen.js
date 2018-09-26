@@ -1,12 +1,22 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableNativeFeedback, TouchableHighlight, TextInput, TouchableWithoutFeedback, CheckBox} from 'react-native';
+import React, { Component } from 'react';
+import {
+    CheckBox,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableHighlight,
+    TouchableNativeFeedback,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import ImagePicker from "react-native-image-picker";
-import firebase from "react-native-firebase";
 
-import { Button } from "../component/Button.js";
+import Button from "../component/Button.js";
 import Progress from "../component/Progress.js";
 import UploadProgress from "./UploadProgress.js";
-import {getLocalizedString} from ".././Languages/LanguageChooser";
+
+import { withSettings, ENGLISH, HINDI } from "../Settings.js";
+import { getLocalizedString } from ".././Languages/LanguageChooser";
 
 
 const CHOOSER = 1
@@ -14,7 +24,7 @@ const LOGGING_IN = 2
 const UPLOADING = 3
 const UPLOADED = 4
 
-export class VideoInfoFields extends React.Component {
+class VideoInfoFields extends Component {
   constructor(props) {
     super(props);
     let {videoFile, updateVideoInfoFn} = props;
@@ -43,30 +53,32 @@ export class VideoInfoFields extends React.Component {
   }
 
   render() {
-    let {videoNameText, descText, emailText} = this.state;
-    let localizedStrMap = getLocalizedString(global.LANG);
+      let {videoNameText, descText, emailText} = this.state,
+          {language} = this.props,
+          localizedStrMap = getLocalizedString(language);
 
     return (
       <View>
-        <Text>{localizedStrMap["videoName"]}</Text>
-        <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(nameText) => this.updateVideoInfo(nameText, descText, emailText)}
+          <TextInput
+              style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              placeholder={localizedStrMap["videoName"]}
+              onChangeText={(nameText) => this.updateVideoInfo(nameText, descText, emailText)}
           value = {this.state.videoNameText}/>
-        <Text>{localizedStrMap["videoDescription"]}</Text>
         <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(newDescText) => this.updateVideoInfo(videoNameText, newDescText, emailText)}
-          value={this.state.descText} />
-        <Text>{localizedStrMap["emailAddress"]}</Text>
-        <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(newEmailText) => this.updateVideoInfo(videoNameText, descText, newEmailText)}
-          value={this.state.emailText}/>
+                   onChangeText={(newDescText) => this.updateVideoInfo(videoNameText, newDescText, emailText)}
+                   placeholder={localizedStrMap["videoDescription"]}
+                   value={this.state.descText} />
+        <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(newEmailText) => this.updateVideoInfo(videoNameText, descText, newEmailText)}
+            placeholder={localizedStrMap["emailAddress"]}
+            value={this.state.emailText}/>
       </View>
     );
   }
 }
 
-export default class UploadVideoScreen extends React.Component {
-
+const UploadVideoScreen = withSettings(class extends React.Component {
   constructor (props) {
       super(props);
       this.state = {
@@ -111,30 +123,23 @@ export default class UploadVideoScreen extends React.Component {
   }
 
   render () {
-    let {checked, video, upload, uploaded} = this.state;
+      let {checked, video, upload, uploaded} = this.state;
+      let {name, desc, email} = this.state,
+          {language} = this.props.settings;
     let bgColor = !video ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
-    let {name, desc, email} = this.state;
-    let localizedStrMap = getLocalizedString(global.LANG);
+    let localizedStrMap = getLocalizedString(language);
     return (
       <View style={styles.container}>
             <View style={styles.buttonRow}>
-              <TouchableHighlight
-                  onPress={this.selectVideo}
-                  background={TouchableNativeFeedback.SelectableBackground()}>
-                <View style={{height:30, width:130, backgroundColor: 'rgb(43,35,103)',margin:20}}>
-                  <Text style={{color: 'white', textAlign:'center'}}>{localizedStrMap["selectVideoButton"]}</Text>
-                </View>
-              </TouchableHighlight>
+              <Button onPress={this.selectVideo} >
+                  {localizedStrMap["selectVideoButton"]}
+              </Button>
 
-              <TouchableHighlight
-                  style= {styles.buttonStyle}
-                  onPress={()=>this.props.navigation.navigate('UploadProgress', {video: video, checked: checked, name: name, desc: desc, email: email})}
+              <Button onPress={()=>this.props.navigation.navigate('UploadProgress', {video: video, checked: checked, name: name, desc: desc, email: email})}
                   disabled={!video}
-                  activeOpacity={!video? 1: 0.7} >
-                <View style={{height:30, width:130, backgroundColor: bgColor,margin:20}}>
-                  <Text style={{color: 'white', textAlign:'center'}}>{localizedStrMap["uploadVideoButton"]}</Text>
-                </View>
-              </TouchableHighlight>
+                  >
+                  {localizedStrMap["uploadVideoButton"]}
+              </Button>
             </View>
             <View>
               <TouchableWithoutFeedback onPress={() => this.setState({checked: !checked})}>
@@ -143,19 +148,24 @@ export default class UploadVideoScreen extends React.Component {
                           value={checked}
                           disabled={!video}
                       />
-                      <Text style={{marginTop: 5}}> {localizedStrMap["notifyOnUploadText"]}</Text>
+                      <Text style={{marginTop: 5}}>
+                          {localizedStrMap["notifyOnUploadText"]}
+                      </Text>
                   </View>
               </TouchableWithoutFeedback>
             </View>
             <View style={styles.VideoInfoFields}>
                 {!(video===null) && <VideoInfoFields
+                                        language={language}
                                         videoFile={video}
                                         updateVideoInfoFn={this.videoEditInfo}/> }
             </View>
         </View>
     );
   }
-}
+});
+
+export default UploadVideoScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -164,11 +174,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center'
     },
-    contentWrapper: {
-        flex: 1
-    },
     VideoInfoFields: {
-        flex:1,
+        flex: 1,
         flexDirection: "row"
     },
     buttonRow: {
@@ -176,19 +183,4 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50
     },
-    progressBar: {
-        backgroundColor: "#333",
-        width: 500
-    },
-
-    uploads: {
-
-    },
-
-    uploadedItem: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "80%"
-    }
 });

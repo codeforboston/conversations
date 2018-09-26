@@ -415,7 +415,6 @@ export class SectionedScroller extends Component {
                                             style={{
                                                 flex: 1,
                                                 flexDirection: "row", 
-                                                justifyItems: "space-between", 
                                                 alignItems: "flex-start"
                                             }} >
                                  {iconComponent}
