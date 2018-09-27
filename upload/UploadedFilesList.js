@@ -10,10 +10,17 @@ import {
 } from 'react-native';
 
 import firebase from "react-native-firebase";
-import { Button } from "../component/Button.js";
-import { H2, P, Strong } from "../page/styles.js";
 import { NavigationActions } from 'react-navigation';
-import {getLocalizedString} from ".././Languages/LanguageChooser";
+
+import { Button } from "../component/Button.js";
+import styles, {
+    BackgroundImage,
+    H2,
+    P,
+    Strong,
+} from "../page/styles.js";
+import { getLocalizedString } from ".././Languages/LanguageChooser";
+import { withSettings } from "../Settings.js";
 
 
 function formatDate(when) {
@@ -25,7 +32,7 @@ function formatDate(when) {
     return [when.getFullYear(), formattedMonth, when.getDate()].join("/");
 }
 
-export default class UploadedFilesList extends React.Component {
+class UploadedFilesList extends React.Component {
   constructor(props) {
 
     super(props);
@@ -87,38 +94,43 @@ export default class UploadedFilesList extends React.Component {
 
   render () {
     let videos = this.state.uploadedVideos || [];
-    let localizedStrMap = getLocalizedString(global.LANG);
+    let localizedStrMap = getLocalizedString(this.props.settings.language);
 
     return (
-      <FlatList
-          contentContainerStyle={{justifyContent: "center"}}
-          data={videos}
+        <BackgroundImage>
+            <FlatList
+                contentContainerStyle={{justifyContent: "center"}}
+                data={videos}
 
-          renderItem={({item, index}) => (
-              <View style={styles.uploadedItem} key={item.date}>
-                  <Text>
-                      <Strong>{item.name}</Strong>{"\n"}
-                     {localizedStrMap["uploadedNotification"] + formatDate(item.date)}
-                  </Text>
-                  <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
-                        style={{alignSelf: "flex-end"}}
-                        onPress={() => this.onDelete(item)}
-                        disabled={item.deletionRequested} >
-                        {item.deletionRequested ? "Deletion Requested" : "Delete"}
-                  </Button>
+                renderItem={({item, index}) => (
+                    <View style={[styles.insetArea, mystyles.uploadedItem]}
+                                key={item.date}>
+                        <Text>
+                            <Strong>{item.name}</Strong>{"\n"}
+                            {localizedStrMap["uploadedNotification"] + formatDate(item.date)}
+                        </Text>
+                        <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
+                                            style={{alignSelf: "flex-end"}}
+                                            onPress={() => this.onDelete(item)}
+                                            disabled={item.deletionRequested} >
+                            {item.deletionRequested ? "Deletion Requested" : "Delete"}
+                        </Button>
 
-              </View>
-          )}
-      />
+                    </View>
+                )}
+            />
+        </BackgroundImage>
       )
     }
-  }
+}
 
-  const styles = StyleSheet.create({
-      uploadedItem: {
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "80%"
-      }
-  });
+export default withSettings(UploadedFilesList);
+
+const mystyles = StyleSheet.create({
+    uploadedItem: {
+        backgroundColor: "white",
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    }
+});
