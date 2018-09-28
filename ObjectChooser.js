@@ -12,15 +12,12 @@ import { withDimensions } from "./component/responsive.js";
 import { Button } from "./component/Button.js";
 
 
-function renderVideoWithNavigation(navigate, shouldDisableRemnant, imgSize) {
+function renderVideoWithNavigation(navigate, imgSize) {
     return (video) => {
-        const disabled = video.isRemnant && shouldDisableRemnant;
-
         return (
             <Button key={video.youtubeVideoId}
                     onPress={() => navigate(video)}
-                    style={[styles.touchableStyle,  { height: disabled ? 0:null, opacity: disabled ? 0 : 1 }]}
-                    disabled={disabled}
+                    style={[styles.touchableStyle]}
                     image={video.asset}
                     pressAnimation="spring"/>
         );
@@ -42,14 +39,14 @@ const ObjectChooser = withDimensions(class extends Component {
   render() {
       const {navigation, windowDimensions} = this.props,
             {width, height} = windowDimensions;
-    const shouldDisableRemnant = this.state.watchedVideos.length < 2;
+
       const renderVideo = renderVideoWithNavigation((video) => {
           const watchedVideos = new Set(this.state.watchedVideos);
           watchedVideos.add(video.youtubeVideoId);
           this.setState({ watchedVideos: Array.from(watchedVideos) });
           console.warn('videoId = ', video.youtubeVideoId);
           navigation.navigate('Player', { videoId: video.youtubeVideoId });
-      }, shouldDisableRemnant, width / 3);
+      }, width / 3);
 
     return (
       <View style={{flex:1, flexDirection: 'column'}}>
