@@ -15,7 +15,8 @@ import {
     P,
 } from "../page/styles.js";
 import UploadedFilesList from "./UploadedFilesList.js";
-import {getLocalizedString} from ".././Languages/LanguageChooser";
+import { getLocalizedString } from ".././Languages/LanguageChooser";
+import { withSettings } from "../Settings.js";
 
 const CHOOSER = 1
 const UPLOADING = 3
@@ -25,7 +26,7 @@ function formatSize(bytes) {
     return `${(bytes/1024/1024).toFixed(1)} MB`;
 }
 
-export default class UploadProgress extends React.Component {
+class UploadProgress extends React.Component {
     constructor(props) {
       super(props);
       const {navigation} = this.props;
@@ -90,7 +91,7 @@ export default class UploadProgress extends React.Component {
 
     renderUploader = () => {
         let {total, transferred} = this.state.upload;
-        let localizedStrMap = getLocalizedString(global.LANG);
+        let localizedStrMap = getLocalizedString(this.props.settings.language);
 
         return (
             <View style={styles.contentWrapper}>
@@ -204,6 +205,7 @@ export default class UploadProgress extends React.Component {
 
 }
 
+export default withSettings(UploadProgress);
 const styles = StyleSheet.create({
     container: {
         flex: 1,

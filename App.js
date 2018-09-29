@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator, StackNavigator } from 'react-navigation';
 
-import UploadPage from './upload/ShareStoryScreen';
+import UploadPage from './page/Upload.js';
 import ObjectChooser from './ObjectChooser';
 import RemnantChooser from './RemnantChooser';
 import RemnantDisplay from './Remnant';

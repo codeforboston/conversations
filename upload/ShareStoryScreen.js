@@ -16,7 +16,6 @@ import styles, {
 import { Button } from "../component/Button.js";
 import { withSettings, ENGLISH, HINDI } from "../Settings.js";
 import { getLocalizedString } from ".././Languages/LanguageChooser";
-import { createStackNavigator } from 'react-navigation';
 
 import UploadVideoScreen from './UploadVideoScreen.js';
 import UploadProgress from './UploadProgress.js';
@@ -116,31 +115,7 @@ const ShareStoryScreen = withSettings(class extends Component {
     }
 });
 
-const UploadStack = createStackNavigator({
-    ShareStory: {
-      screen: ShareStoryScreen
-    },
-    UploadVideo: {
-      screen: UploadVideoScreen
-    },
-    UploadProgress: {
-      screen: UploadProgress
-    },
-    UploadedFiles: {
-      screen: UploadedFilesList
-    }
-}, {
-    initialRouteName: 'ShareStory',
-    headerMode: 'none',
-    headerBackTitleVisible: false,
-});
-
-export default UploadStack;
-
-
-UploadStack.navConfig = {
-    screen: UploadStack
-}
+export default ShareStoryScreen;
 
 const mystyles = StyleSheet.create({
    shareStoryTitle: {
