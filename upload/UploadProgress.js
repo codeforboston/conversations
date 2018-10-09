@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {
     View,
     Text,
@@ -11,163 +11,62 @@ import firebase from "react-native-firebase";
 import { Button } from "../component/Button.js";
 import Progress from "../component/Progress.js";
 
-import {
+import styles, {
+    BackgroundImage,
+    H1,
     P,
 } from "../page/styles.js";
-import UploadedFilesList from "./UploadedFilesList.js";
+import UploadManager from "./UploadManager.js";
+
 import { getLocalizedString } from ".././Languages/LanguageChooser";
 import { withSettings } from "../Settings.js";
 
-const CHOOSER = 1
-const UPLOADING = 3
-const UPLOADED = 4
 
 function formatSize(bytes) {
     return `${(bytes/1024/1024).toFixed(1)} MB`;
 }
 
 class UploadProgress extends React.Component {
-    constructor(props) {
-      super(props);
-      const {navigation} = this.props;
+    subscribe(videoId) {
+        console.log(videoId);
+        const upload = UploadManager.getUpload(videoId);
+        console.log(upload);
+        if (!videoId) return;
+        UploadManager.getUpload(videoId)
+                     .on("update", this.onUploadUpdate)
+                     .on("complete", this.onUploadComplete);
+    }
 
-      this.state = {
-        video: navigation.getParam('video', null),
-        checked: navigation.getParam('checked', false),
-        name: navigation.getParam('name', ''),
-        desc: navigation.getParam('desc', ''),
-        email: navigation.getParam('email', ''),
-        user: null,
-        state: CHOOSER,
-        uploaded: [],
-        error: null
-      }
-      this.upload = this.upload.bind(this);
+    unsubscribe(videoId) {
+        if (!videoId) return;
+
+        UploadManager.getUpload(videoId)
+                     .off("update", this.onUploadUpdate)
+                     .off("complete", this.onUploadComplete);
     }
 
     componentDidMount() {
-        const {doUpload} = this.state;
-            firebase.messaging().getToken()
-            .then(fcmToken => {
-                if (fcmToken) {
-                // user has a device token
-                console.debug("user has a device token; fcmtoken = ", fcmToken);
-                } else {
-                // user doesn't have a device token yet
-                console.debug("user doesn't have a device token yet; fcmtoken = ", fcmToken);
-                }
-            }).catch(function(err) {
-                console.error('An error occurred while retrieving token. ', err);
-            });
-            this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-                // Process your token as required
-                console.log("Process your token as required; refreshed token = ", fcmToken);
-            });
-    
-            this.onTokenRefreshListener();
-            this.upload();
+        this.subscribe(this.props.navigation.getParam("uploadId"));
     }
 
-    videoName = (video) => {
-        if (!video) video = this.state.video;
-        return video ? video.path.split("/").slice(-1)[0] : "";
-    }
+    componentDidUpdate(prevProps) {
+        const oldNav = prevProps.navigation,
+              nav = this.props.navigation,
+              oldId = oldNav.getParam("uploadId"),
+              newId = nav.getParam("uploadId");
 
-    renderContent() {
-        switch(this.state.state) {
-            case UPLOADING:
-                return this.renderUploader();
-
-            case UPLOADED:
-                this.renderUploaded();
-            default:
-                return this.defaultUploadProgress();
+        if (oldId !== newId) {
+            this.unsubscribe(oldId);
+            this.subscribe(newId);
         }
     }
 
-    renderUploaded = () => {
-        let {successMessage, uploaded} = this.state;
+    onUploadUpdate = () => {
+        this.forceUpdate();
     }
 
-    renderUploader = () => {
-        let {total, transferred} = this.state.upload;
-        let localizedStrMap = getLocalizedString(this.props.settings.language);
-
-        return (
-            <View style={styles.contentWrapper}>
-                <P>{localizedStrMap["uploadingNotification"] + this.state.name}</P>
-                <Progress current={transferred}
-                          total={total}
-                          text={`${formatSize(transferred)}/${formatSize(total)} bytes uploaded`}
-                          style={styles.progressBar}
-                />
-            </View>
-        );
-    }
-
-    defaultUploadProgress = () => {
-      return (
-          <View>
-            <Text>
-            </Text>
-          </View>
-      );
-    }
-
-    upload = () => {
-        let {video, name} = this.state;
-        if (video) {
-            firebase.auth().signInAnonymouslyAndRetrieveData()
-                    .then(creds => {
-                        this.setState({
-                            user: creds.user.toJSON()
-                        });
-
-                        let refpath = `${creds.user.uid}/${name}`;
-                        let ref = firebase.storage().ref(refpath);
-
-                        var metadata = {
-                            contentType: 'video/mp4',
-                            customMetadata: {
-                                'userAuthId': this.state.user.uid,
-                                "notifyIfPublished": this.state.checked
-                            }
-                          };
-
-                        let unsubscribe = ref.putFile(video.path, metadata).on(
-                            firebase.storage.TaskEvent.STATE_CHANGED,
-                            (event) => {
-                                let {state, bytesTransferred, totalBytes} = event;
-                                this.setState({
-                                    upload: {
-                                        transferred: bytesTransferred,
-                                        total: totalBytes
-                                    },
-                                    state: UPLOADING
-                                });
-
-                                if (state === firebase.storage.TaskState.SUCCESS) {
-                                    video.name = this.state.name;
-                                    video.size = totalBytes;
-                                    video.date = new Date();
-                                    video.description = this.state.desc;
-                                    video.email = this.state.email;
-                                    this.saveVideoInfo(video).then(videos =>  this.props.navigation.navigate("UploadedFiles", {uploadedVideos: videos}),
-                                                                   error => console.log(error));
-                                    unsubscribe();
-                                }
-                            },
-                            (error) => {
-                                unsubscribe();
-                                this.setState({
-                                    state: CHOOSER,
-                                    error: error
-                                });
-                                console.error(error);
-                            }
-                        );
-                    });
-        }
+    onUploadComplete = (videoInfo) => {
+        UploadManager.saveVideoInfo(videoInfo);
     }
 
     saveVideoInfo(video) {
@@ -175,63 +74,76 @@ class UploadProgress extends React.Component {
         if (typeof date !== "string")
             date = date.toISOString();
 
-        let videos= AsyncStorage.mergeItem("Aashiyaan:uploaded",
-                                      JSON.stringify({
-                                          [date]: video
-                                      }))
-                           .then(() => {videos=this.getUploadedVideos();return videos;});
+        let videos = AsyncStorage.mergeItem("Aashiyaan:uploaded",
+                                            JSON.stringify({
+                                                [date]: video
+                                            }));
         return videos;
     }
 
-    async getUploadedVideos() {
-        var videos = await AsyncStorage.getItem("Aashiyaan:uploaded");
+    getUpload() {
+        const uploadId = this.props.navigation.getParam("uploadId");
 
-        if (videos) {
-            videos = JSON.parse(videos);
-            var videoList = Object.keys(videos).map(k => videos[k]);
-            return videoList;
-        } else {
-            return [];
-        }
+        return uploadId && UploadManager.getUpload(uploadId);
+    }
+
+    next = () => {
+        this.props.navigation.replace("UploadedFiles");
+    }
+
+    renderComplete(upload) {
+        const localizedStrMap = getLocalizedString(this.props.settings.language);
+        return (
+            <Fragment>
+                <H1>
+                    {localizedStrMap["uploadedNotification"]}
+                </H1>
+                <Button style={{flex: 0, flexShrink: 1 }} onPress={this.next}>
+                    Continue
+                </Button>
+            </Fragment>
+        );
+    }
+
+    renderUploading(upload) {
+        const {total, transferred, name} = upload,
+              text = `${formatSize(transferred)}/${formatSize(total)} bytes uploaded`,
+              localizedStrMap = getLocalizedString(this.props.settings.language);
+
+        return (
+            <Fragment>
+                <H1>
+                    {localizedStrMap["uploadingNotification"] + " " + name}
+                </H1>
+                <Progress current={transferred}
+                        total={total}
+                        text={text}
+                        style={myStyles.progressBar}
+                />
+            </Fragment>
+        );
     }
 
     render() {
-      return (
-          <View>
-            {this.renderContent()}
-          </View>
-      );
-    }
+        const upload = this.getUpload();
 
+        return (
+            <BackgroundImage>
+                <View style={[styles.insetView, styles.insetArea]}>
+                    {upload.complete ?
+                     this.renderComplete(upload) :
+                     this.renderUploading(upload)}
+                </View>
+            </BackgroundImage>
+        );
+    }
 }
 
 export default withSettings(UploadProgress);
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    contentWrapper: {
-        flexDirection: 'column',
-        flex: 1
-    },
-    buttonRow: {
-        flexDirection: "row"
-    },
+
+const myStyles = StyleSheet.create({
     progressBar: {
         backgroundColor: "#333",
         width: 500
     },
-
-    uploads: {
-
-    },
-
-    uploadedItem: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "80%"
-    }
 });

@@ -63,7 +63,7 @@ export class Button extends Component {
         }
 
         return (
-            <Text style={[styles.textButton, buttonStyle,
+            <Text style={[styles.textButton, style,
                           active && activeTextStyles,
                           disabled && styles.disabledButton]}>
                 {children}

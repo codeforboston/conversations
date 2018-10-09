@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    AsyncStorage,
     BackHandler,
     CheckBox,
     FlatList,
@@ -15,10 +14,12 @@ import { NavigationActions } from 'react-navigation';
 import { Button } from "../component/Button.js";
 import styles, {
     BackgroundImage,
+    H1,
     H2,
     P,
     Strong,
 } from "../page/styles.js";
+import UploadManager from "./UploadManager.js";
 import { getLocalizedString } from ".././Languages/LanguageChooser";
 import { withSettings } from "../Settings.js";
 
@@ -34,40 +35,19 @@ function formatDate(when) {
 
 class UploadedFilesList extends React.Component {
   constructor(props) {
-
     super(props);
-    const {navigation} = this.props;
 
     this.state = {
-      uploadedVideos: navigation.getParam('uploadedVideos', [])
+        uploadedVideos: []
     }
-    this.onDelete = this.onDelete.bind(this);
+
+      props.navigation.addListener("willFocus", this.refresh);
   }
 
-  async getUploadedVideos() {
-      var videos = await AsyncStorage.getItem("Aashiyaan:uploaded");
-      if (videos) {
-          videos = JSON.parse(videos);
-          return Object.keys(videos).map(k => videos[k]);
-      } else {
-          return [];
-      }
-  }
-
-
-  componentWillMount() {
-      var that = this;
-      BackHandler.addEventListener('hardwareBackPress', handler = function () {
-            const {goBack} = that.props.navigation;
-            BackHandler.removeEventListener('hardwareBackpress', handler);
-            const navigateAction = NavigationActions.navigate({
-                routeName: 'ShareStory',
-                params: {uploadedVideos: that.state.uploadedVideos, 'ReachedViaNavigation': true}
-              }); 
-            that.props.navigation.dispatch(navigateAction); 
-            return true;       
-      });
-  }
+    refresh = async () => {
+        const uploadedVideos = await UploadManager.getUploadedVideos();
+        this.setState({ uploadedVideos });
+    }
 
   onDelete = (video) => {
       let {name, date} = video;
@@ -76,38 +56,27 @@ class UploadedFilesList extends React.Component {
           videoDate: date
       }).then(_ => {
           video.deletionRequested = true;
-          return this.saveVideoInfo(video);
+          return UploadManager.saveVideoInfo(video);
       }).then(videos => this.setState({ uploadedVideos: videos }));
   }
 
-  saveVideoInfo(video) {
-      var date = video.date || new Date().toISOString();
-      if (typeof date !== "string")
-          date = date.toISOString();
-
-      return AsyncStorage.mergeItem("Aashiyaan:uploaded",
-                                    JSON.stringify({
-                                        [date]: video
-                                    }))
-                         .then(() => this.getUploadedVideos());
-  }
-
   render () {
-    let videos = this.state.uploadedVideos || [];
+    const {uploadedVideos} = this.state;
     let localizedStrMap = getLocalizedString(this.props.settings.language);
 
     return (
         <BackgroundImage>
+            <H1 style={[styles.insetArea, mystyles.header]}>Uploaded</H1>
             <FlatList
                 contentContainerStyle={{justifyContent: "center"}}
-                data={videos}
+                data={uploadedVideos}
 
                 renderItem={({item, index}) => (
                     <View style={[styles.insetArea, mystyles.uploadedItem]}
                                 key={item.date}>
                         <Text>
                             <Strong>{item.name}</Strong>{"\n"}
-                            {localizedStrMap["uploadedNotification"] + formatDate(item.date)}
+                            {localizedStrMap["uploadedNotification"] + " " + formatDate(item.date)}
                         </Text>
                         <Button buttonStyle={{ backgroundColor: "red", color: "white"}}
                                             style={{alignSelf: "flex-end"}}
@@ -127,6 +96,12 @@ class UploadedFilesList extends React.Component {
 export default withSettings(UploadedFilesList);
 
 const mystyles = StyleSheet.create({
+    header: {
+        marginTop: 20,
+        marginBottom: 0,
+        paddingBottom: 10,
+        paddingTop: 15
+    },
     uploadedItem: {
         backgroundColor: "white",
         flex: 1,

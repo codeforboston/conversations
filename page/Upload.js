@@ -20,7 +20,7 @@ const UploadStack = createStackNavigator({
         screen: UploadedFilesList
     }
 }, {
-    initialRouteName: 'UploadVideo',
+    initialRouteName: 'ShareStory',
     headerMode: 'none',
     headerBackTitleVisible: false,
 });

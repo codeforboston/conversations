@@ -17,66 +17,15 @@ import { Button } from "../component/Button.js";
 import { withSettings, ENGLISH, HINDI } from "../Settings.js";
 import { getLocalizedString } from ".././Languages/LanguageChooser";
 
-import UploadVideoScreen from './UploadVideoScreen.js';
-import UploadProgress from './UploadProgress.js';
-import UploadedFilesList from "./UploadedFilesList.js";
 
 
 const bottomScrollerMarginFactor = 0.18;
 
 const ShareStoryScreen = withSettings(class extends Component {
-    constructor (props) {
-      super(props);
-      this.state = {
-        uploadedVideos: []
-      }
-      this._onStart = this._onStart.bind(this);
-      this._onViewUploaded = this._onViewUploaded.bind(this);
-    }
-
-    componentDidMount () {
-      this.getUploadedVideos().then(videos => {this.setState({'uploadedVideos': videos})});
-    }
-
-    _onStart (event) {
-        this.props.navigation.navigate('UploadVideo');
-    }
-
-    async getUploadedVideos() {
-        var videos = await AsyncStorage.getItem("Aashiyaan:uploaded");
-        if (videos) {
-            videos = JSON.parse(videos);
-            return Object.keys(videos).map(k => videos[k]);
-        } else {
-            return [];
-        }
-    }
-
-    _onViewUploaded (event) {
-        let uploadedVideos = this.state.uploadedVideos;
-        const {navigation} = this.props;
-
-        // In stackNavigator, none of the screens get unloaded. So do not rely on state for uploaded videos, get this from
-        // navigator instead to send uploadedVideos back to the screen. 
-
-        if (navigation.getParam("ReachedViaNavigation")) {
-          uploadedVideos = navigation.getParam("uploadedVideos",[]);
-        }
-        this.props.navigation.navigate('UploadedFiles', {uploadedVideos: uploadedVideos});
-    }
-
     render () {
-        let {navigation, settings} = this.props,
-            {width, height} = this.state;
+        let {navigation, settings} = this.props;
 
-      let viewUploadedDisabled = this.state.uploadedVideos.length < 1;
-      // In stackNavigator, none of the screens get unloaded. So do not rely on state for uploaded videos, get this from
-      // navigator instead to control disabling of the UploadedVideos button. 
-
-      if (navigation.getParam("ReachedViaNavigation")) {
-        viewUploadedDisabled = navigation.getParam("uploadedVideos",[]).length < 1;
-      }
-      let uploadedViewColor = viewUploadedDisabled ? 'rgba(43,35,103,0.5)' : 'rgb(43,35,103)';
+      let viewUploadedDisabled = false;
       let localizedStrMap = getLocalizedString(settings.language);
 
       return (
@@ -101,10 +50,10 @@ const ShareStoryScreen = withSettings(class extends Component {
                       ))
                   }
                 <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
-                    <Button onPress={this._onStart}>
+                    <Button onPress={() => navigation.navigate("UploadVideo")}>
                                 {localizedStrMap["startUploadButton"]}
                     </Button>
-                    <Button onPress={this._onViewUploaded}
+                    <Button onPress={() => navigation.navigate("UploadedFiles")}
                             disabled={viewUploadedDisabled}>
                         {localizedStrMap["viewUploadedButton"]}
                     </Button>
