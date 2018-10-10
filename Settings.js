@@ -11,7 +11,7 @@ export const HINDI = 'hindi';
 
 
 const defaults = { language: ENGLISH };
-const startupDefaults = { watchedVideos: [] };
+const startupDefaults = { watchedVideos: [], remnantsVisited: false };
 function initSettings(settings) {
     return Object.assign(settings, startupDefaults);
 }

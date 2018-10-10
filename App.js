@@ -14,6 +14,8 @@ import Player from "./page/Player.js";
 import HelpPage from "./page/Help.js";
 import SettingsPage from "./page/SettingsPage";
 
+import ImpatientImage from "./component/ImpatientImage.js";
+
 import Settings from "./Settings.js";
 
 const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY";
@@ -60,8 +62,15 @@ const MainNavigator = createBottomTabNavigator({
     initialRouteName: "Chooser",
     navigationOptions: ({navigation, screenProps}) => {
         const {routeName} = navigation.state,
-              remnantsDisabled = (routeName === "Remnants" &&
-                                  screenProps.settings.watchedVideos.length < 2);
+              {settings} = screenProps;
+        let remnantsDisabled = false, remnantsBounce = false;
+
+        if (routeName === "Remnants") {
+            let watchedCount = settings.watchedVideos.length;
+            remnantsDisabled = watchedCount < 2;
+            remnantsBounce = !settings.remnantsVisited && watchedCount === 2;
+        }
+
         return {
             tabBarIcon: ({ focused, tintColor }) => {
                 if (remnantsDisabled)
@@ -69,12 +78,17 @@ const MainNavigator = createBottomTabNavigator({
 
                 let finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
 
-                return <Image source={finishedIcon} />;
+                return remnantsBounce ?
+                       <ImpatientImage source={finishedIcon} /> :
+                       <Image source={finishedIcon} />;
             },
             tabBarButtonComponent: (
                 (remnantsDisabled) ? View : null
             ),
             tabBarOnPress: (screen) => {
+                if (routeName === "Remnants") {
+                    screenProps.settings.storeSetting("remnantsVisited", true);
+                }
                 screen._lastRoute = navigation.state.key;
                 screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
             },
