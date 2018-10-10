@@ -7,7 +7,6 @@ import {
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 
 import { updatedObjectPages } from './config';
-import { withDimensions } from "./component/responsive.js";
 
 import { Button } from "./component/Button.js";
 
@@ -24,13 +23,17 @@ function renderVideoWithNavigation(navigate, imgSize) {
     }
 }
 
-const ObjectChooser = withDimensions(class extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+export default class ObjectChooser extends Component {
+    state = {
         watchedVideos: [],
+        width: 0,
+        height: 0
+    };
+
+    onLayout = (e) => {
+        const {width, height} = e.nativeEvent.layout;
+        this.setState({ width, height });
     }
-  }
 
   renderPagerDotIndicator = () => {
       return <PagerDotIndicator pageCount={updatedObjectPages.length}/>
@@ -38,7 +41,7 @@ const ObjectChooser = withDimensions(class extends Component {
 
   render() {
       const {navigation, windowDimensions} = this.props,
-            {width, height} = windowDimensions;
+            {width, height} = this.state;
 
       const renderVideo = renderVideoWithNavigation((video) => {
           const watchedVideos = new Set(this.state.watchedVideos);
@@ -49,24 +52,25 @@ const ObjectChooser = withDimensions(class extends Component {
       }, width / 3);
 
     return (
-      <View style={{flex:1, flexDirection: 'column'}}>
-          <IndicatorViewPager style={{flex: 1}} indicator={this.renderPagerDotIndicator()}>
-              {updatedObjectPages.map((page, i) => (
-                  <View style={styles.objectPage} key={i}>
-                      <Image source={require('./assets/skyline_bg.png')}
-                             style={[styles.backgroundImage, {width, height}]} />
-                    <View style={styles.objectChooser}>
-                      {page.objects.map(renderVideo)}
-                    </View>
-                    <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
-                </View>))}
-          </IndicatorViewPager>
-      </View>
+        <View style={{ flex: 1, flexDirection: "column" }} onLayout={this.onLayout}>
+            <IndicatorViewPager
+                style={{flex: 1, width: width, height: height}}
+                indicator={this.renderPagerDotIndicator()}>
+                {updatedObjectPages.map((page, i) => (
+                    <View style={styles.objectPage} key={i}>
+                        <Image source={require('./assets/skyline_bg.png')}
+                               style={[styles.backgroundImage, {width, height}]} />
+                        <View style={styles.objectChooser}>
+                            {page.objects.map(renderVideo)}
+                        </View>
+                        <Image source={page.asset} style={{ flexDirection: 'column', flex: 2, width: 500 }} resizeMode="contain"/>
+                    </View>))}
+            </IndicatorViewPager>
+        </View>
     );
   }
-})
+}
 
-export default ObjectChooser;
 
 const styles = StyleSheet.create({
   objectChooser: {
