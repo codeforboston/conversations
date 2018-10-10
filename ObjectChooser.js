@@ -7,6 +7,7 @@ import {
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 
 import { updatedObjectPages } from './config';
+import { withSettings } from "./Settings.js";
 
 import { Button } from "./component/Button.js";
 
@@ -23,7 +24,7 @@ function renderVideoWithNavigation(navigate, imgSize) {
     }
 }
 
-export default class ObjectChooser extends Component {
+class ObjectChooser extends Component {
     state = {
         watchedVideos: [],
         width: 0,
@@ -39,15 +40,19 @@ export default class ObjectChooser extends Component {
       return <PagerDotIndicator pageCount={updatedObjectPages.length}/>
   }
 
+    markWatched = (videoId) => {
+        this.props.settings.storeSetting(
+            "watchedVideos",
+            watched => watched.indexOf(videoId) >= 0 ? watched : watched.concat([videoId]));
+    }
+
   render() {
-      const {navigation, windowDimensions} = this.props,
+      const {navigation, settings, windowDimensions} = this.props,
+            {watchedVideos} = settings,
             {width, height} = this.state;
 
       const renderVideo = renderVideoWithNavigation((video) => {
-          const watchedVideos = new Set(this.state.watchedVideos);
-          watchedVideos.add(video.youtubeVideoId);
-          this.setState({ watchedVideos: Array.from(watchedVideos) });
-          console.warn('videoId = ', video.youtubeVideoId);
+          this.markWatched(video.youtubeVideoId);
           navigation.navigate('Player', { videoId: video.youtubeVideoId });
       }, width / 3);
 
@@ -70,6 +75,8 @@ export default class ObjectChooser extends Component {
     );
   }
 }
+
+export default withSettings(ObjectChooser);
 
 
 const styles = StyleSheet.create({

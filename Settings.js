@@ -10,11 +10,17 @@ export const ENGLISH = 'english';
 export const HINDI = 'hindi';
 
 
-Settings.defaults = { language: ENGLISH };
+const defaults = { language: ENGLISH };
+const startupDefaults = { watchedVideos: [] };
+function initSettings(settings) {
+    return Object.assign(settings, startupDefaults);
+}
 
-Settings.getSettings = () => {
+
+Settings.getSettings = (init) => {
     return AsyncStorage.getItem("@Aashiyaan:settings")
-                       .then(settings => (settings ? JSON.parse(settings) : Settings.defaults));
+                       .then(settings => (settings ? JSON.parse(settings) : defaults))
+                       .then(settings => init ? initSettings(settings) : settings);
 }
 
 Settings.saveSettings = (settings) => {

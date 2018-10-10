@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Image,
+    View,
 } from 'react-native';
 import { createBottomTabNavigator, StackNavigator } from 'react-navigation';
 
@@ -57,24 +58,27 @@ const MainNavigator = createBottomTabNavigator({
     Help: HelpPage.navConfig
 }, {
     initialRouteName: "Chooser",
-    navigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused, tintColor }) => {
-            let { routeName, params  } = navigation.state;
+    navigationOptions: ({navigation, screenProps}) => {
+        const {routeName} = navigation.state,
+              remnantsDisabled = (routeName === "Remnants" &&
+                                  screenProps.settings.watchedVideos.length < 2);
+        return {
+            tabBarIcon: ({ focused, tintColor }) => {
+                if (remnantsDisabled)
+                    return;
 
-            if (routeName === "Remnants") {
-                // TODO Show the remnants button conditionally
-                return;
-            }
+                let finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
 
-            let finishedIcon = (focused ? SelectedTabIcons : TabIcons)[routeName];
-
-            return <Image source={finishedIcon} />;
-        },
-        tabBarOnPress: (screen) => {
-            console.log(navigation.state, screen, screen.navigation.state);
-            screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
-        },
-    }),
+                return <Image source={finishedIcon} />;
+            },
+            tabBarButtonComponent: (
+                (remnantsDisabled) ? View : null
+            ),
+            tabBarOnPress: (screen) => {
+                screen._lastRoute = navigation.state.key;
+                screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
+            },
+        }},
     tabBarOptions: {
         showLabel : false,
         style: {
@@ -114,7 +118,7 @@ export default class App extends Component {
     getSettings() {
         if (!this._settingsLoaded) {
             this._settingsLoaded = true;
-            Settings.getSettings().then(settings => {
+            Settings.getSettings(true).then(settings => {
                 console.log("loaded settings", settings)
                 this.setState({ settings });
             });
@@ -128,9 +132,9 @@ export default class App extends Component {
 
     setters = {
         storeSetting: (setting, value) => {
-            console.log("setting:", setting, "=>", value);
-            let {settings} = this.state,
-                newSettings = Object.assign({}, settings, {[setting]: value});
+            const {settings} = this.state;
+            value = typeof value === "function" ? value(settings[setting]) : value;
+            const newSettings = Object.assign({}, settings, {[setting]: value});
             this.setState({ settings: newSettings });
             Settings.saveSettings(newSettings)
                     .catch((err) => {
@@ -141,10 +145,10 @@ export default class App extends Component {
     }
 
     render() {
-        let settings = this.getSettings();
+        const settings = this.getSettings();
         return (
-            <Settings.Provider value={this.getSettings()}>
-                <MainNav/>
+            <Settings.Provider value={settings}>
+                <MainNav screenProps={{settings: settings}}/>
             </Settings.Provider>
         );
     }
