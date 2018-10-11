@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Image,
   StyleSheet,
@@ -11,10 +11,8 @@ import Sound from 'react-native-sound';
 import { remnants } from './config';
 import { withDimensions } from "./component/responsive.js";
 
-import { RemnantDisplay } from './Remnant';
 
-
-function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
+function imageTileWithNavigation(navigation, remnant, watchedRemnants, onWatch) {
   return (index) => {
     const myOpacity = watchedRemnants[index];
     const disabled = !watchedRemnants[index];
@@ -22,7 +20,7 @@ function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
     return (
        <TouchableWithoutFeedback 
         onPress={() => {
-          watchedRemnants[index] = 0; 
+                onWatch(index);
           navigation.navigate('RemnantDisplay', {
           picture: remnant[index].picture, 
           audio: remnant[index].audio
@@ -42,20 +40,20 @@ function imageTileWithNavigation(navigation, remnant, watchedRemnants) {
 
 
 const RemnantChooser = withDimensions(class extends Component {
-  constructor(props) {
-      super(props); 
-      this.state = {
-        remnants: remnants, 
-        watchedRemnants: Array(6).fill(1), 
-
+    state = {
+        remnants: remnants,
+        watchedRemnants: Array(6).fill(1),
     }
-  }
 
   render() {
       const {navigation, windowDimensions} = this.props,
             {width, height} = windowDimensions;
-    const watchedRemnants = this.state.watchedRemnants; 
-    const imageTile = imageTileWithNavigation(navigation, remnants, watchedRemnants); 
+      const {watchedRemnants} = this.state;
+      const imageTile = imageTileWithNavigation(navigation, remnants, watchedRemnants,
+                                                (idx) => {
+                                                    watchedRemnants[idx] = 0;
+                                                    this.setState({ watchedRemnants });
+                                                });
 
     return(
       <View style={[styles.container, {width, height}]}>
