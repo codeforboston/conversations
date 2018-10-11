@@ -106,14 +106,14 @@ class UploadProgress extends React.Component {
     }
 
     renderUploading(upload) {
-        const {total, transferred, name} = upload,
-              text = `${formatSize(transferred)}/${formatSize(total)} bytes uploaded`,
+        const {total, transferred, video} = upload,
+              text = `${formatSize(transferred)}/${formatSize(total)} uploaded`,
               localizedStrMap = getLocalizedString(this.props.settings.language);
 
         return (
             <Fragment>
                 <H1>
-                    {localizedStrMap["uploadingNotification"] + " " + name}
+                    {localizedStrMap["uploadingNotification"] + " " + video.name}
                 </H1>
                 <Progress current={transferred}
                         total={total}
