@@ -33,44 +33,21 @@ const SettingsPage = withSettings(class extends Component {
       this.props.settings.storeSetting("language", value);
   }
 
-    onScroll = () => {
-        this._userScrolled = true;
-    }
-
-  _scrollTo(name, animated=false) {
-    let child = this.refs[name]
-
-    if (child != null) {
-      let nodeHandle = ReactNative.findNodeHandle(this._scroller);
-      child.measureLayout(nodeHandle, (_x, y) => {
-        this._scroller.scrollTo({x: 0, y: y, animated: animated});
-          this._userScrolled = false;
-      }, (error) => {
-        console.log(error)
-      })
-    }
-  }
-
-  componentDidUpdate({state}) {
-      let {navigation} = this.props;
-      try {
-          let target = navigation.state.params && navigation.state.params.targetSection,
-              oldTarget = state.params && prevProps.state.params.targetSection;
-
-          if (target !== null && oldTarget !== target)
-              this._scrollTo(target);
-      } catch(_) { }
-  }
-
   render() {
-      let {language} = this.props.settings,
-          localizedStrMap = getLocalizedString(language),
-          AboutDescription = ProjectDescription[language];
-      console.log(`${language}`, AboutDescription);
+      const {navigation} = this.props;
+
+      // Rendering this page in the background causes the foremost view to
+      // "bounce".
+      if (!navigation.isFocused())
+          return null;
+
+      const {language} = this.props.settings,
+            localizedStrMap = getLocalizedString(language),
+            AboutDescription = ProjectDescription[language];
 
     return (
       <BackgroundImage>
-        <ScrollView ref={scroller => { this._scroller = scroller; }}>
+        <ScrollView>
             <View style={[styles.insetView, styles.insetArea]}>
                  <H1>{localizedStrMap["settingsTitle"]}</H1>
                  <H2>{localizedStrMap["chooseLanguageOption"]}</H2>
