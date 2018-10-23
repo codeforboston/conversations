@@ -300,26 +300,28 @@ const frames = [require("../assets/HelpTalk/help_talk_anim_0000_Layer-1.png"),
                 require("../assets/HelpTalk/help_talk_anim_0002_Layer-3.png")];
 
 export class SectionedScroller extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: {height: 500, width: 800},
-            soundKey: null,
-            soundPlaying: null,
-            soundLoading: null
-        };
+    state = {
+        soundKey: null,
+        soundPlaying: null,
+        soundLoading: null,
+        pageHeight: 350,
+    }
+    _headHeight = 75
+    _offsets = {}
+
+    _recordOffset(name, y) {
+        this._offsets[name] = y;
+        if (this._shouldScrollTo === name) {
+            this._scrollTo(name);
+            delete this._shouldScrollTo;
+        }
     }
 
     _scrollTo(name, animated=false) {
-        let child = this.refs[name];
-
-        if (child !== null) {
-            let nodeHandle = ReactNative.findNodeHandle(this._scroller);
-            child.measureLayout(nodeHandle, (_x, y) => {
-                this._scroller.scrollTo({x: 0, y: y-30, animated: animated});
-            }, (error) => {
-                console.log(error);
-            })
+        if (this._offsets[name]) {
+            this._scroller.scrollTo({x: 0, y: this._offsets[name]-this._headHeight-10, animated})
+        } else {
+            this._shouldScrollTo = name;
         }
     }
 
@@ -373,15 +375,23 @@ export class SectionedScroller extends Component {
     }
 
     onLayout = (e) => {
-        this.setState({ page: e.nativeEvent.layout });
+        this.setState({ pageHeight: e.nativeEvent.layout.height });
 
         if (this.props.selected)
             this._scrollTo(this.props.selected);
     }
 
+    onHeadLayout = (e) => {
+        this._headHeight = e.nativeEvent.layout.height;
+    }
+
+    onSectionLayout = (key, e) => {
+        this._recordOffset(key, e.nativeEvent.layout.y);
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.selected && prevProps.selected !== this.props.selected)
-            this._scrollTo(this.props.selected, true);
+            this._scrollTo(this.props.selected);
     }
 
     componentWillUnmount() {
@@ -390,8 +400,8 @@ export class SectionedScroller extends Component {
 
     render() {
         let {children, nav, language} = this.props,
-            {page, soundKey, soundLoading, soundPlaying} = this.state,
-            {height, width} = page;
+            {soundKey, soundLoading, soundPlaying} = this.state,
+            minSectionHeight = (this.state.pageHeight - this._headHeight);
 
         let localizedText = translations[language];
 
@@ -399,8 +409,9 @@ export class SectionedScroller extends Component {
             <BackgroundImage>
                 <ScrollView ref={scroller => { this._scroller = scroller; }}
                             onLayout={ this.onLayout }
-                            stickyHeaderIndices={children.map((_, i) => i*2)}>
-                    {React.Children.map(children, (section) => {
+                            stickyHeaderIndices={children.map((_, i) => i*2)}
+                >
+                    {React.Children.map(children, (section, i) => {
                          let {title} = section.props,
                              icon = HelpIcons[section.key],
                              iconComponent = icon ?
@@ -412,13 +423,14 @@ export class SectionedScroller extends Component {
 
                          return [
                              (<ScrollHeader key={`${section.key}-head`}
+                                            onLayout={i === 0 ? this.onHeadLayout : null}
                                             style={{
                                                 flex: 1,
-                                                flexDirection: "row", 
+                                                flexDirection: "row",
                                                 alignItems: "flex-start"
                                             }} >
                                  {iconComponent}
-                                 <H1 style={{marginTop: 10}}>
+                                 <H1 style={{marginTop: 10}} >
                                      { sectionTitle }
                                  </H1>
                                  <TouchableOpacity
@@ -434,8 +446,9 @@ export class SectionedScroller extends Component {
 
                                  </TouchableOpacity>
                              </ScrollHeader>),
-                             (<View ref={section.key}
-                                    style={styles.insetArea}
+                             (<View onLayout={(e) => this.onSectionLayout(section.key, e)}
+                                    style={[styles.insetArea,
+                                            {minHeight: minSectionHeight}]}
                                     key={`${section.key}-body`}>
                                  { sectionBody }
                              </View>)
@@ -453,23 +466,16 @@ const Section = ((props) => (<Text/>));
 
 const sectionLookup = ({
     Chooser: "home",
-    Player: 'share',
-    RemnantChooser: 'remnants',
-    RemnantDisplay: 'remnants',
+    Upload: 'share',
+    Remnants: 'remnants',
     About: 'resources',
     Settings: 'settings',
 });
 
 const HelpPage = localized(class extends Component {
-    componentDidUpdate(prevProps) {
-        let prevScreen = this.props.navigation.getParam('previousTabScreen', 'Home')
-        this.props.selected = sectionLookup[prevScreen]
-    }
-
     render() {
-        let {navigation, language} = this.props,
-            prevScreen = navigation.getParam('previousTabScreen', 'Home'),
-            section = sectionLookup[prevScreen],
+        let {navigation, language, screenProps} = this.props,
+            section = navigation.isFocused() && navigation.getParam("section", "home"),
             gotoSection = (section) => { navigation.setParams({ section: section })};
 
         let SLink = ({children, s}) => (
@@ -496,8 +502,8 @@ const HelpPage = localized(class extends Component {
 
 HelpPage.navigationOptions = ({screenProps}) => ({
     tabBarOnPress: (scene, jumpToIndex) => {
-        console.log('arriving at help page from', screenProps.previousTabScreen)
-        scene.navigation.navigate('Help',{previousTabScreen: screenProps.previousTabScreen})
+        const lastKey = screenProps.lastRoute && screenProps.lastRoute.key;
+        scene.navigation.navigate("Help", {section: sectionLookup[lastKey] || "home"});
     }
 })
 
