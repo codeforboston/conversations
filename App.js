@@ -160,18 +160,14 @@ const MainNav = createStackNavigator({
 });
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            settings: Settings.defaults
-        }
+    state = {
+        settings: Settings.defaults
     }
 
     getSettings() {
         if (!this._settingsLoaded) {
             this._settingsLoaded = true;
             Settings.getSettings(true).then(settings => {
-                console.log("loaded settings", settings)
                 this.setState({ settings });
             });
         }
