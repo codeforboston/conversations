@@ -3,7 +3,7 @@ import {
     Image,
     View,
 } from 'react-native';
-import { createBottomTabNavigator, StackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import UploadPage from './page/Upload.js';
 import ObjectChooser from './ObjectChooser';
@@ -52,7 +52,7 @@ const SelectedTabIcons = {
     Help: require('./assets/help/help-24px_selected.png')
 };
 
-const MainNavigator = createBottomTabNavigator({
+const TabbedPageNavigator = createBottomTabNavigator({
     Chooser: {screen: ObjectChooser},
     Settings: SettingsPage.navConfig,
     Remnants: {screen: RemnantChooser},
@@ -89,7 +89,6 @@ const MainNavigator = createBottomTabNavigator({
                 if (routeName === "Remnants") {
                     screenProps.settings.storeSetting("remnantsVisited", true);
                 }
-                screen._lastRoute = navigation.state.key;
                 screen.defaultHandler = screen.navigation.navigate(screen.navigation.state.routeName);
             },
         }},
@@ -103,7 +102,46 @@ const MainNavigator = createBottomTabNavigator({
 }
 );
 
-const MainNav = StackNavigator({
+class CustomNavigator extends React.Component {
+    static router = TabbedPageNavigator.router;
+
+    constructor(props) {
+        super(props);
+
+        const navState = props.navigation.state;
+        this.state = {
+            lastRoute: null,
+            loadedRoute: navState.routes[navState.index]
+        };
+    }
+
+    componentDidMount() {
+        const {state} = this.props.navigation;
+        this._loadedRoute = state.routes[state.index];
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const newState = props.navigation.state,
+              newRoute = newState.routes[newState.index];
+
+        if (state.loadedRoute && state.loadedRoute.index !== newState.index)
+            return {lastRoute: state.loadedRoute,
+                    loadedRoute: newRoute};
+    }
+
+    render() {
+        const {navigation} = this.props;
+
+        return (
+            <TabbedPageNavigator  navigation={navigation}
+                                  screenProps={{lastRoute: this.state.loadedRoute,
+                                                ...this.props.screenProps}}
+            />
+        );
+    }
+}
+
+const MainNav = createStackNavigator({
     Home: {
         screen: HomeScreen
     },
@@ -114,7 +152,7 @@ const MainNav = StackNavigator({
         screen: RemnantDisplay
     },
     Main: {
-        screen: MainNavigator
+        screen: CustomNavigator
     }
 }, {
     initialRouteName: "Home",
