@@ -16,9 +16,8 @@ import SettingsPage from "./page/SettingsPage";
 
 import ImpatientImage from "./component/ImpatientImage.js";
 
-import Settings from "./Settings.js";
-
-const youtubeApiKey = "AIzaSyDWgERNRbubs4t4Em7fOyQX2d-S6POo_aY";
+import { introVideoId } from "./config.js";
+import Settings, { withSettings } from "./Settings.js";
 
 console.disableYellowBox = true;
 
@@ -116,8 +115,19 @@ class CustomNavigator extends React.Component {
     }
 
     componentDidMount() {
-        const {state} = this.props.navigation;
-        this._loadedRoute = state.routes[state.index];
+        const {screenProps, navigation} = this.props,
+              {settings} = screenProps,
+              {language} = settings;
+        if (!settings.watchedIntro[language]) {
+            const videoId = introVideoId[language];
+            if (videoId) {
+                navigation.push("Player", { videoId });
+                settings.storeSetting("watchedIntro",
+                                      (intros => Object.assign(intros, {
+                                          [language]: true
+                                      })));
+            }
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -196,7 +206,7 @@ export default class App extends Component {
         const settings = this.getSettings();
         return (
             <Settings.Provider value={settings}>
-                <MainNav screenProps={{settings: settings}}/>
+                <MainNav screenProps={{settings}}/>
             </Settings.Provider>
         );
     }

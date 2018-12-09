@@ -196,3 +196,8 @@ export var homeScreenImage = require("./assets/SmallerBackgroundforAppLanding.pn
 
 export const ENGLISH = 'english';
 export const HINDI = 'hindi';
+
+export const introVideoId = {
+    [ENGLISH]: "VIb99T0TgDk",
+    [HINDI]: "BsG1QqkoYwg"
+};

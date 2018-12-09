@@ -8,9 +8,12 @@ const Settings = React.createContext({
     storeSetting: () => {}
 });
 
+// User defaults. If the user changes these, directly or indirectly, those
+// changes will persist.
+const defaults = { language: ENGLISH, watchedIntro: {} };
 
-
-const defaults = { language: ENGLISH };
+// Defaults at app startup time. Settings will reset to these values each time
+// the app is started.
 const startupDefaults = { watchedVideos: [], remnantsVisited: false };
 function initSettings(settings) {
     return Object.assign(settings, startupDefaults);
