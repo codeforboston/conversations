@@ -193,3 +193,6 @@ export const audio = [
 export default { updatedObjectPages };
 
 export var homeScreenImage = require("./assets/SmallerBackgroundforAppLanding.png");
+
+export const ENGLISH = 'english';
+export const HINDI = 'hindi';

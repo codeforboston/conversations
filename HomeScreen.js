@@ -8,9 +8,9 @@ import {
     TouchableHighlight,
 } from 'react-native';
 
-import { homeScreenImage } from './config';
+import { homeScreenImage, ENGLISH, HINDI } from './config';
 
-import Settings, {withSettings, ENGLISH, HINDI } from "./Settings.js";
+import Settings, { withSettings } from "./Settings.js";
 
 
 const HomeScreen = withSettings(class extends React.Component {

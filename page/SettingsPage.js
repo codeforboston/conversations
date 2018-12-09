@@ -15,7 +15,8 @@ import styles, {
 import {getLocalizedString} from ".././Languages/LanguageChooser";
 import {ProjectDescription, ProjectCredits} from "./AboutDescriptions";
 
-import Settings, { withSettings, ENGLISH, HINDI } from "../Settings.js";
+import Settings, { withSettings } from "../Settings.js";
+import { ENGLISH, HINDI } from "../config.js";
 
 
 const radioToLanguageMap = [ENGLISH, HINDI];

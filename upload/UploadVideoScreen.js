@@ -20,7 +20,8 @@ import Progress from "../component/Progress.js";
 import UploadProgress from "./UploadProgress.js";
 import UploadManager from "./UploadManager.js";
 
-import { withSettings, ENGLISH, HINDI } from "../Settings.js";
+import { ENGLISH, HINDI } from "../config.js";
+import { withSettings } from "../Settings.js";
 import { getLocalizedString } from ".././Languages/LanguageChooser";
 
 

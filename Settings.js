@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {AsyncStorage} from 'react-native';
 
+import {ENGLISH, HINDI} from './config';
+
 const Settings = React.createContext({
     language: "English",
     storeSetting: () => {}
 });
 
-export const ENGLISH = 'english';
-export const HINDI = 'hindi';
 
 
 const defaults = { language: ENGLISH };

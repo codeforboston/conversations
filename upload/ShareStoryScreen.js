@@ -14,7 +14,8 @@ import styles, {
     H3,
 } from ".././page/styles.js";
 import { Button } from "../component/Button.js";
-import { withSettings, ENGLISH, HINDI } from "../Settings.js";
+import { withSettings } from "../Settings.js";
+import { ENGLISH, HINDI } from "../config.js";
 import { getLocalizedString } from ".././Languages/LanguageChooser";
 
 

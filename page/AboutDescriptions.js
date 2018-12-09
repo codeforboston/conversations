@@ -9,7 +9,7 @@ import pageStyles, {
     P,
     Strong,
 } from "./styles.js";
-import { ENGLISH, HINDI } from "../Settings.js";
+import { ENGLISH, HINDI } from "../config.js";
 
 
 export const ProjectDescription = {

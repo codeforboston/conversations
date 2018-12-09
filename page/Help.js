@@ -8,7 +8,8 @@ import ReactNative, {
 } from 'react-native';
 import Sound from "react-native-sound";
 
-import Settings, { localized, ENGLISH, HINDI } from "../Settings.js";
+import Settings, { localized } from "../Settings.js";
+import {ENGLISH, HINDI} from "../config.js";
 
 import styles, {
     A,

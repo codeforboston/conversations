@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ENGLISH, HINDI } from "../Settings.js";
+import {ENGLISH, HINDI} from "../config.js";
 
 import HindiStrings from "./Hindi.js";
 import EnglishStrings from "./English.js";
