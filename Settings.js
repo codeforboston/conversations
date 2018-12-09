@@ -19,7 +19,7 @@ function initSettings(settings) {
 
 Settings.getSettings = (init) => {
     return AsyncStorage.getItem("@Aashiyaan:settings")
-                       .then(settings => (settings ? JSON.parse(settings) : defaults))
+                       .then(settings => Object.assign(defaults, settings ? JSON.parse(settings) : {}))
                        .then(settings => init ? initSettings(settings) : settings);
 }
 
