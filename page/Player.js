@@ -37,6 +37,16 @@ export default class PlayerPage extends Component {
         return true;
     }
 
+    onChangeState = (e) => {
+        const {navigation} = this.props;
+
+        if (e.state === 'ended') {
+            if (navigation.getParam('popOnEnd')) {
+                navigation.pop();
+            }
+        }
+    }
+
     restartYouTubePlayer(navigate) {
         return React.createElement(YouTube, {
                 apiKey: youtubeApiKey,
@@ -46,7 +56,7 @@ export default class PlayerPage extends Component {
                 showFullscreenButton: false,
                 onChangeFullscreen: e => e.isFullscreen || navigate.goBack(),
                 onReady: e => this.setState({ isReady: true }),
-                onChangeState: e => this.setState({ status: e.state }),
+                onChangeState: this.onChangeState,
                 onChangeQuality: e => this.setState({ quality: e.quality }),
                 onError: e => this.setState({ error: e.error }),
                 style: { alignSelf: 'stretch', height: 300 }

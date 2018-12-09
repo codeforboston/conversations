@@ -121,7 +121,7 @@ class CustomNavigator extends React.Component {
         if (!settings.watchedIntro[language]) {
             const videoId = introVideoId[language];
             if (videoId) {
-                navigation.push("Player", { videoId });
+                navigation.push("Player", { videoId, popOnEnd: true });
                 settings.storeSetting("watchedIntro",
                                       (intros => Object.assign(intros, {
                                           [language]: true
