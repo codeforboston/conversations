@@ -193,6 +193,7 @@ export const audio = [
 export default { updatedObjectPages };
 
 export var homeScreenImage = require("./assets/SmallerBackgroundforAppLanding.png");
+export const siteURL = 'http://www.aashiyaan.org';
 
 export const ENGLISH = 'english';
 export const HINDI = 'hindi';
