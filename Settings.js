@@ -14,9 +14,9 @@ const defaults = { language: ENGLISH, watchedIntro: {} };
 
 // Defaults at app startup time. Settings will reset to these values each time
 // the app is started.
-const startupDefaults = { watchedVideos: [], remnantsVisited: false };
+const startupDefaults = { watchedVideos: [], remnantsVisited: false, watchedIntro: {} };
 function initSettings(settings) {
-    return Object.assign(settings, startupDefaults);
+    return Object.assign(startupDefaults, settings);
 }
 
 
